@@ -1,3 +1,5 @@
+import 'package:cndv/src/pages/tabs_page.dart';
+import 'package:cndv/src/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -7,16 +9,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'CNDV App',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('CNDV App Bar'),
-        ),
-        body: Center(
-          child: Container(
-            child: Text('Vacina sim'),
-          ),
-        ),
-      ),
+      theme: cndvTheme,
+      debugShowCheckedModeBanner: false,
+      home: TabsPage()
     );
   }
 }
