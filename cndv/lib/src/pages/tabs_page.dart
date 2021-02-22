@@ -1,3 +1,4 @@
+import 'package:cndv/src/services/carteira_cidadao_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -24,8 +25,8 @@ class _Navigation extends StatelessWidget {
       currentIndex: navigationModel.currentPage,
       onTap: (i) => navigationModel.currentPage = i,
       items: [
-        BottomNavigationBarItem( icon: Icon( Icons.fingerprint), title: Text('Carteira Médica')),
-        BottomNavigationBarItem( icon: Icon( Icons.medical_services), title: Text('Campanhas'))
+        BottomNavigationBarItem( icon: Icon( Icons.fingerprint), label: 'Carteira Médica'),
+        BottomNavigationBarItem( icon: Icon( Icons.medical_services), label: 'Campanhas')
       ]
     );
   }
