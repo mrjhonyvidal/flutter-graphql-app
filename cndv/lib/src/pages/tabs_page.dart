@@ -1,25 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TabsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _Pages(),
-      bottomNavigationBar: _Navigation(),
+    return ChangeNotifierProvider(
+      create: (_) => new _NavegationModel(),
+      child: Scaffold(
+        body: _Pages(),
+        bottomNavigationBar: _Navigation(),
+      ),
     );
   }
 }
 
 class _Navigation extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
+
+    final navigationModel = Provider.of<_NavegationModel>(context);
+
     return BottomNavigationBar(
-      currentIndex: 0,
-        items: [
-          BottomNavigationBarItem( icon: Icon( Icons.fingerprint), title: Text('Carteira Médica')),
-          BottomNavigationBarItem( icon: Icon( Icons.medical_services), title: Text('Campanhas'))
-        ]
+      currentIndex: navigationModel.currentPage,
+      onTap: (i) => navigationModel.currentPage = i,
+      items: [
+        BottomNavigationBarItem( icon: Icon( Icons.fingerprint), title: Text('Carteira Médica')),
+        BottomNavigationBarItem( icon: Icon( Icons.medical_services), title: Text('Campanhas'))
+      ]
     );
   }
 }
@@ -28,7 +35,11 @@ class _Pages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final navigationModel = Provider.of<_NavegationModel>(context);
+
     return PageView(
+      controller: navigationModel.pageController,
       //physics: BouncingScrollPhysics(),
       physics: NeverScrollableScrollPhysics(),
       children: <Widget>[
@@ -36,9 +47,25 @@ class _Pages extends StatelessWidget {
           color: Colors.lightBlueAccent,
         ),
         Container(
-          color: Colors.greenAccent,
+          color: Colors.lightBlue,
         ),
       ],
     );
   }
+}
+
+/// Publish/Notifier pattern to notify all the widgets that are dependent of this widget
+class _NavegationModel with ChangeNotifier{
+  int _currentPage = 0;
+  PageController _pageController = new PageController();
+
+  int get currentPage => this._currentPage;
+
+  set currentPage( int index ) {
+    this._currentPage = index;
+    _pageController.animateToPage(index, duration: Duration(milliseconds: 250), curve: Curves.easeOut);
+    notifyListeners();
+  }
+
+  PageController get pageController => this._pageController;
 }
