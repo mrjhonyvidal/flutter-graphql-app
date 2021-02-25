@@ -1,5 +1,6 @@
 import 'package:cndv/src/pages/tabs_page.dart';
 import 'package:cndv/src/services/carteira_cidadao_service.dart';
+import 'package:cndv/src/services/noticias_service.dart';
 import 'package:cndv/src/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
           ChangeNotifierProvider(create: (_) => new CarteiraCidadaoService() ),
+          ChangeNotifierProvider(create: (_) => new NoticiasService() ),
         ],
         child:MaterialApp(
         title: 'CNDV App',

@@ -38,15 +38,16 @@ class _HeaderDrawingRounded extends CustomPainter {
       ]
     );
 
-    final painter = new Paint()..shader = gradient.createShader(rect);
+    final painter = new Paint();
+    //final painter = new Paint()..shader = gradient.createShader(rect);
 
-    painter.color = Color(0xFF03A9F4);
+    painter.color = Colors.lightBlue;
     painter.style = PaintingStyle.fill;
     painter.strokeWidth = 20;
 
     final path = new Path();
-    path.lineTo(0, size.height * 0.30);
-    path.quadraticBezierTo(size.width * 0.5, size.height * 0.20, size.width, size.height * 0.30);
+    path.lineTo(0, size.height * 0.40);
+    path.quadraticBezierTo(size.width * 0.5, size.height * 0.20, size.width, size.height * 0.40);
     path.lineTo(size.width, 0);
 
     canvas.drawPath(path, painter);
