@@ -1,5 +1,5 @@
 import 'package:cndv/src/services/noticias_service.dart';
-import 'package:cndv/src/widgets/headers.dart';
+import 'package:cndv/src/widgets/header.dart';
 import 'package:cndv/src/widgets/lista_noticias_vacinas.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,33 +18,21 @@ class TabCarteiraMedica extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              height:200.0,
-              decoration: BoxDecoration(
-                color: Color(0xFF03A9F4),
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(60),
-                    bottomRight: Radius.circular(60)
-                ),
-              ),
-            ),
+            Header(),
             Expanded(
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 30.0),
+                  padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 30.0),
                   child: Column(
                     children: <Widget>[
-                      Container(
-                        height: 200.0,
-                        alignment: Alignment.center,
-                        child: Text("Conteúdo"),
+                      TextField(
+                        decoration: InputDecoration(hintText: "Entrada de dados aqui"),
                       ),
                       Container(
                         height: 300.0,
+                        padding: EdgeInsets.symmetric(vertical: 30.0),
+                        margin: EdgeInsets.only(bottom: 10),
                         alignment: Alignment.center,
                         child: ListaNoticiasVacinas(noticiasServiceHeadlines),
-                      ),
-                      TextField(
-                        decoration: InputDecoration(hintText: "Entrada de dados aqui"),
                       ),
                     ],
                   ),

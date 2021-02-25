@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class HeadersCircleBorder extends StatelessWidget {
+class HeaderCircleBorder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
