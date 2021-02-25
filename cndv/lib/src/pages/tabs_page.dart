@@ -1,4 +1,7 @@
+import 'package:cndv/src/pages/tabCampanhaVacinas_page.dart';
+import 'package:cndv/src/pages/tabCarteiraMedica_page.dart';
 import 'package:cndv/src/services/carteira_cidadao_service.dart';
+import 'package:cndv/src/widgets/headers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,6 +11,9 @@ class TabsPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => new _NavegationModel(),
       child: Scaffold(
+        appBar: AppBar(
+          title: Text('CNDV'),
+        ),
         body: _Pages(),
         bottomNavigationBar: _Navigation(),
       ),
@@ -44,12 +50,8 @@ class _Pages extends StatelessWidget {
       //physics: BouncingScrollPhysics(),
       physics: NeverScrollableScrollPhysics(),
       children: <Widget>[
-        Container(
-          color: Colors.lightBlueAccent,
-        ),
-        Container(
-          color: Colors.lightBlue,
-        ),
+        TabCarteiraMedica(),
+        TabCampanhaVacinas()
       ],
     );
   }
