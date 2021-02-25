@@ -11,9 +11,6 @@ class TabsPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => new _NavegationModel(),
       child: Scaffold(
-        appBar: AppBar(
-          title: Text('CNDV'),
-        ),
         body: _Pages(),
         bottomNavigationBar: _Navigation(),
       ),
