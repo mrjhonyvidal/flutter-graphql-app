@@ -19,8 +19,6 @@ class TabCarteiraMedica extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             _Header(),
-
-
             Expanded(
                 child: SingleChildScrollView(
                   padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 30.0),

@@ -1,5 +1,5 @@
-import 'package:cndv/src/pages/tabCampanhaVacinas_page.dart';
-import 'package:cndv/src/pages/tabCarteiraMedica_page.dart';
+import 'package:cndv/src/pages/tabs/tabCampanhaVacinas_page.dart';
+import 'package:cndv/src/pages/tabs/tabCarteiraMedica_page.dart';
 import 'package:cndv/src/services/carteira_cidadao_service.dart';
 import 'package:cndv/src/widgets/header_circle_border.dart';
 import 'package:flutter/material.dart';

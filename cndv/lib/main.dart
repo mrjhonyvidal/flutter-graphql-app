@@ -1,4 +1,5 @@
-import 'package:cndv/src/pages/tabs_page.dart';
+import 'package:cndv/src/pages/tabs/tabs_page.dart';
+import 'package:cndv/src/routes/routes.dart';
 import 'package:cndv/src/services/carteira_cidadao_service.dart';
 import 'package:cndv/src/services/noticias_service.dart';
 import 'package:cndv/src/theme/theme.dart';
@@ -16,10 +17,11 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => new NoticiasService() ),
         ],
         child:MaterialApp(
-        title: 'CNDV App',
-        theme: cndvTheme,
-        debugShowCheckedModeBanner: false,
-        home: TabsPage()
+            debugShowCheckedModeBanner: false,
+            title: 'CNDV App',
+            theme: cndvTheme,
+            initialRoute: 'login',
+            routes: appRoutes,
       ),
     );
   }
