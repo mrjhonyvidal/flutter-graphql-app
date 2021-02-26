@@ -6,30 +6,47 @@ import 'package:cndv/src/services/noticias_service.dart';
 import 'package:cndv/src/widgets/lista_noticias_vacinas.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+// TODO this will be defined in our models
+class CampanhaModel {
+  final String texto;
+  CampanhaModel(this.texto);
+}
+
 class TabCampanhaVacinas extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    // TODO obter dados da API de Campanhas
+    // TODO obter campanhas a partir da API de Campanhas
+    final campanhas = <CampanhaModel>[
+      new CampanhaModel('Campanha 1'),
+      new CampanhaModel('Campanha 2'),
+      new CampanhaModel('Campanha 3'),
+      new CampanhaModel('Campanha 4'),
+      new CampanhaModel('Campanha 5'),
+      new CampanhaModel('Campanha 6'),
+    ];
+
+    List<Widget> campanhasMap = campanhas.map(
+        (campanha) => CardCampanha(
+            texto: campanha.texto,
+            onPress: () { print('Click Usuario Página de detalhes');},
+        )
+    ).toList();
 
     return Scaffold(
       body: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Header(
-                titulo: 'Bem-vindo usuario.nome',
-                subtitulo: 'Campanhas',
-                icon: FontAwesomeIcons.plus,
-                color1: Color(0xff526BF6),
-                color2:  Color(0xff67ACF2),
-              ),
+             _Header(),
               Expanded(
                 child: SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
                   padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 30.0),
                   child: Column(
                     children: <Widget>[
-                      CardCampanha()
+                      //SizedBox( height: 80,),
+                      ...campanhasMap
                     ],
                   ),
                 ),
@@ -38,6 +55,36 @@ class TabCampanhaVacinas extends StatelessWidget {
           )
       ),
       //child: HeadersCircleBorder(),
+    );
+  }
+}
+
+/// TODO extract this to common place as part of Header Layout as it's shared
+/// between vacinas and campanhas tabCarteiraMedica
+class _Header extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: <Widget>[
+          Header(
+          titulo: 'Bem-vindo usuario.nome',
+          subtitulo: 'Campanhas',
+          icon: FontAwesomeIcons.plus,
+          color1: Color(0xff526BF6),
+          color2:  Color(0xff67ACF2),
+        ),
+
+        Positioned(
+          right: 0,
+          top:15,
+          child: RawMaterialButton(
+            onPressed: (){},
+            shape: CircleBorder(),
+            padding: EdgeInsets.all(15.0),
+            child: FaIcon(FontAwesomeIcons.ellipsisV, color: Colors.white)
+          )
+        )
+      ],
     );
   }
 }

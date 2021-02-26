@@ -18,14 +18,9 @@ class TabCarteiraMedica extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Header(
-              titulo: 'Bem-vindo usuario.nome',
-              subtitulo: 'Carteira Nacional Digital de Vacinação',
-              username: 'JVO',
-              icon: FontAwesomeIcons.plus,
-              color1: Color(0xff526BF6),
-              color2:  Color(0xff67ACF2),
-            ),
+            _Header(),
+
+
             Expanded(
                 child: SingleChildScrollView(
                   padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 30.0),
@@ -50,3 +45,34 @@ class TabCarteiraMedica extends StatelessWidget {
       );
   }
 }
+
+/// TODO extract this to common place as part of Header Layout
+/// as it's shared between vacinas and campanhas tabCampanhaVacinas
+class _Header extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: <Widget>[
+        Header(
+          titulo: 'Bem-vindo usuario.nome',
+          subtitulo: 'Carteira Nacional Digital de Vacinação',
+          username: 'JVO',
+          icon: FontAwesomeIcons.plus,
+          color1: Color(0xff526BF6),
+          color2:  Color(0xff67ACF2),
+        ),
+        Positioned(
+            right: 0,
+            top:15,
+            child: RawMaterialButton(
+                onPressed: (){},
+                shape: CircleBorder(),
+                padding: EdgeInsets.all(15.0),
+                child: FaIcon(FontAwesomeIcons.ellipsisV, color: Colors.white)
+            )
+        )
+      ],
+    );
+  }
+}
+

@@ -3,23 +3,35 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CardCampanha extends StatelessWidget {
 
+  @required final String texto;
+  @required final Function onPress;
+
+  const CardCampanha({
+    Key key,
+    this.texto = '',
+    this.onPress,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Stack (
-      children: <Widget>[
-        _CardCampanhaBackground(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SizedBox( height: 140, width: 40),
-            Expanded(
-              child: Text('Campanha 1', style: TextStyle( color: Colors.white, fontSize: 18), ),
-            ),
-            FaIcon(FontAwesomeIcons.chevronRight, color: Colors.white),
-            SizedBox(width: 40),
-          ],
-        )
-      ],
+    return GestureDetector(
+        onTap: onPress,
+        child: Stack (
+        children: <Widget>[
+          _CardCampanhaBackground(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SizedBox( height: 140, width: 40),
+              Expanded(
+                child: Text(this.texto, style: TextStyle( color: Colors.white, fontSize: 18), ),
+              ),
+              FaIcon(FontAwesomeIcons.chevronRight, color: Colors.white),
+              SizedBox(width: 40),
+            ],
+          )
+        ],
+      ),
     );
   }
 }
