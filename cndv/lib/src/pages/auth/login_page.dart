@@ -21,7 +21,7 @@ class Login extends StatelessWidget {
                Form(),
                Labels(
                    message: 'Termos de uso e condições de uso.',
-                   callToActionText: 'Entrar na minha CNDV',
+                   callToActionText: 'Criar minha CNDV',
                    route: 'cadastro'
                )
               ],
@@ -65,7 +65,7 @@ class _FormState extends State<Form> {
               isPassword: true,
           ),
 
-          BlueButton(text: 'Cadastrar-se', onPressed: (){
+          BlueButton(text: 'Entrar', onPressed: (){
               print(emailCtrl.text);
               print(passCtrl.text);
           },)

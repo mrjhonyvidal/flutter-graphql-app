@@ -19,12 +19,10 @@ class Labels extends StatelessWidget {
       child: Column(
           children: <Widget>[
             SizedBox( height: 20 ),
-            Text(this.message, style: TextStyle(fontWeight: FontWeight.w200 )),
-            SizedBox( height: 10 ),
-            Text('Ainda não está cadastrado?', style: TextStyle( color: Colors.black54, fontSize: 15, fontWeight: FontWeight.w300 ), ),
+            Text(this.message, style: TextStyle( color: Colors.black54, fontSize: 15, fontWeight: FontWeight.w300 ), ),
             SizedBox( height: 5 ),
             GestureDetector(
-              child: Text( 'Fazer cadastro', style: TextStyle(color: Colors.blue[600], fontSize: 18, fontWeight: FontWeight.bold )),
+              child: Text(this.callToActionText, style: TextStyle(color: Colors.blue[600], fontSize: 18, fontWeight: FontWeight.bold )),
               onTap: () {
                 Navigator.pushReplacementNamed(context, this.route);
               }

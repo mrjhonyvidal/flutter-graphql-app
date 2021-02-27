@@ -1,4 +1,3 @@
-import 'package:cndv/src/pages/tabs/tabs_page.dart';
 import 'package:cndv/src/routes/routes.dart';
 import 'package:cndv/src/services/carteira_cidadao_service.dart';
 import 'package:cndv/src/services/noticias_service.dart';
