@@ -80,8 +80,7 @@ class _FormState extends State<Form> {
             ),
 
             BlueButton(text: 'Cadastrar-se', onPressed: (){
-              print(emailCtrl.text);
-              print(passCtrl.text);
+              Navigator.pushReplacementNamed(context, 'tabs');
             },)
           ],
         ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cndv/src/widgets/header.dart';
-import 'package:cndv/src/services/noticias_service.dart';
+import 'package:cndv/src/services/rest/noticias_service.dart';
 import 'package:cndv/src/widgets/lista_noticias_vacinas.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -11,9 +11,11 @@ class TabCarteiraMedica extends StatelessWidget {
 
     // TODO obter dados da API de Dados Pessoais e Histórico de Vacinação do cidadão
     // A modo de exemplo, estamos consumindo a API de Noticias
-    final noticiasServiceHeadlines = Provider.of<NoticiasService>(context).headlines;
+    //final noticiasServiceHeadlines = Provider.of<NoticiasService>(context).headlines;
+    //child: ListaNoticiasVacinas(noticiasServiceHeadlines),
 
     return Scaffold(
+      backgroundColor: Color(0xffF2F2F2),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -24,13 +26,12 @@ class TabCarteiraMedica extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 30.0),
                   child: Column(
                     children: <Widget>[
-
                       Container(
                         height: 300.0,
                         padding: EdgeInsets.symmetric(vertical: 30.0),
                         margin: EdgeInsets.only(bottom: 10),
                         alignment: Alignment.center,
-                        child: ListaNoticiasVacinas(noticiasServiceHeadlines),
+                        child: Text('Seu histórico de vacinas está sendo atualizado!')
                       ),
                     ],
                   ),
@@ -52,7 +53,7 @@ class _Header extends StatelessWidget {
     return Stack(
       children: <Widget>[
         Header(
-          titulo: 'Bem-vindo usuario.nome',
+          titulo: 'Bem-vindo,',
           subtitulo: 'Carteira Nacional Digital de Vacinação',
           username: 'JVO',
           icon: FontAwesomeIcons.plus,
@@ -63,10 +64,10 @@ class _Header extends StatelessWidget {
             right: 0,
             top:15,
             child: RawMaterialButton(
-                onPressed: (){},
                 shape: CircleBorder(),
                 padding: EdgeInsets.all(15.0),
-                child: FaIcon(FontAwesomeIcons.ellipsisV, color: Colors.white)
+                child: FaIcon(FontAwesomeIcons.search, color: Colors.white),
+              onPressed: (){}
             )
         )
       ],

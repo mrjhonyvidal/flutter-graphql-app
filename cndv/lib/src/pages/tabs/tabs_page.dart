@@ -1,8 +1,9 @@
 import 'package:cndv/src/pages/tabs/tabCampanhaVacinas_page.dart';
 import 'package:cndv/src/pages/tabs/tabCarteiraMedica_page.dart';
-import 'package:cndv/src/services/carteira_cidadao_service.dart';
+import 'package:cndv/src/services/graphql/carteira_cidadao_service.dart';
 import 'package:cndv/src/widgets/header_circle_border.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class TabsPage extends StatelessWidget {
@@ -11,9 +12,64 @@ class TabsPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => new _NavegationModel(),
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color(0xff526BF6),
+          title: Text('CNDV'),
+        ),
         body: _Pages(),
+        drawer: _MainMenu(),
         bottomNavigationBar: _Navigation(),
       ),
+    );
+  }
+}
+
+class _MainMenu extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+        child: Container(
+          child: Column(
+            children: <Widget>[
+              SafeArea(
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                  width: double.infinity,
+                  height: 150,
+                  child: CircleAvatar(
+                    backgroundColor: Colors.blue,
+                    child: Text('JV', style: TextStyle(fontSize: 50),),
+                  )
+                ),
+              ),
+              Expanded(
+                  child: _ListSidebarMenuOptions()
+              )
+
+            ],
+          )
+        ),
+    );
+  }
+}
+
+class _ListSidebarMenuOptions extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ListView.separated(
+      physics: BouncingScrollPhysics(),
+      separatorBuilder: ( context, i) => Divider(
+        color: Colors.blue,
+      ),
+      itemCount: 5,
+      itemBuilder: (context, i) => ListTile(
+        leading: FaIcon( FontAwesomeIcons.slideshare, color: Colors.blue, ),
+        title: Text('Text'),
+        trailing: Icon(Icons.chevron_right, color: Colors.blue),
+        onTap: () {
+
+        }
+      )
     );
   }
 }

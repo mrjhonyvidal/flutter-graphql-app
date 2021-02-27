@@ -41,9 +41,9 @@ class Header extends StatelessWidget {
             SizedBox(height: 80, width: double.infinity),
             Text(this.titulo, style: TextStyle(fontSize: 20, color: whiteColor)),
             SizedBox(height: 20),
-            Text(this.subtitulo, style: TextStyle(fontSize: 20, color: whiteColor, fontWeight: FontWeight.bold)),
-            SizedBox(height: 20),
-            FaIcon(this.username.isEmpty ? FontAwesomeIcons.calendarAlt : FontAwesomeIcons.idCard, size: 60, color: Colors.white)
+            ///Text(this.subtitulo, style: TextStyle(fontSize: 20, color: whiteColor, fontWeight: FontWeight.bold)),
+            SizedBox(height: 0),
+            FaIcon(this.username.isEmpty ? FontAwesomeIcons.calendarAlt : FontAwesomeIcons.userCircle, size: 60, color: Colors.white.withOpacity(0.6))
           ],
         )
       ],
@@ -69,7 +69,7 @@ class _IconHeaderBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 250,
+      height: 200,
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only( bottomLeft: Radius.circular(80)),

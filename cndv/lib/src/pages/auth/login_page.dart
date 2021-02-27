@@ -1,9 +1,11 @@
+import 'package:cndv/src/services/graphql/auth_services.dart';
 import 'package:cndv/src/widgets/blue_button.dart';
 import 'package:cndv/src/widgets/custom_input.dart';
 import 'package:cndv/src/widgets/labels.dart';
 import 'package:cndv/src/widgets/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class Login extends StatelessWidget {
   @override
@@ -40,7 +42,7 @@ class Form extends StatefulWidget {
 
 class _FormState extends State<Form> {
 
-  final emailCtrl = TextEditingController();
+  final cpfCtrl = TextEditingController();
   final passCtrl  =  TextEditingController();
 
   @override
@@ -53,9 +55,9 @@ class _FormState extends State<Form> {
         children: <Widget>[
           CustomInput(
               icon: Icons.mail_outline,
-              placeholder: 'Email',
+              placeholder: 'CPF',
               keyboardType: TextInputType.emailAddress,
-              textController: emailCtrl
+              textController: cpfCtrl
           ),
           CustomInput(
               icon: Icons.lock_outline,
@@ -66,8 +68,10 @@ class _FormState extends State<Form> {
           ),
 
           BlueButton(text: 'Entrar', onPressed: (){
-              print(emailCtrl.text);
-              print(passCtrl.text);
+              FocusScope.of(context).unfocus();
+              //final authService = Provider.of<AuthService>(context, listen: false);
+              //authService.GetToken(cpfCtrl.text, passCtrl.text);
+              Navigator.pushReplacementNamed(context, 'tabs');
           },)
         ],
       ),
