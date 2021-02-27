@@ -1,5 +1,6 @@
 import 'package:cndv/src/pages/tabs/tabCampanhaVacinas_page.dart';
 import 'package:cndv/src/pages/tabs/tabCarteiraMedica_page.dart';
+import 'package:cndv/src/routes/sidebar_menu_routes.dart';
 import 'package:cndv/src/services/graphql/carteira_cidadao_service.dart';
 import 'package:cndv/src/widgets/header_circle_border.dart';
 import 'package:flutter/material.dart';
@@ -17,14 +18,14 @@ class TabsPage extends StatelessWidget {
           title: Text('CNDV'),
         ),
         body: _Pages(),
-        drawer: _MainMenu(),
+        drawer: _MainSidebarMenu(),
         bottomNavigationBar: _Navigation(),
       ),
     );
   }
 }
 
-class _MainMenu extends StatelessWidget {
+class _MainSidebarMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -56,20 +57,21 @@ class _MainMenu extends StatelessWidget {
 class _ListSidebarMenuOptions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     return ListView.separated(
       physics: BouncingScrollPhysics(),
       separatorBuilder: ( context, i) => Divider(
         color: Colors.blue,
       ),
-      itemCount: 5,
+      itemCount: sidebarMenuRoutes.length,
       itemBuilder: (context, i) => ListTile(
-        leading: FaIcon( FontAwesomeIcons.slideshare, color: Colors.blue, ),
-        title: Text('Text'),
+        leading: FaIcon( sidebarMenuRoutes[i].icon, color: Colors.blue, ),
+        title: Text(sidebarMenuRoutes[i].titulo),
         trailing: Icon(Icons.chevron_right, color: Colors.blue),
         onTap: () {
-
+          Navigator.push(context, MaterialPageRoute(builder: (context) => sidebarMenuRoutes[i].page));
         }
-      )
+      ),
     );
   }
 }

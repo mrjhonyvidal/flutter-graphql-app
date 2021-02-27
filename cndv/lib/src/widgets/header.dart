@@ -1,24 +1,31 @@
 import 'dart:ui';
 
+import 'package:cndv/src/pages/perfil/editar_dados_pessoais_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Header extends StatelessWidget {
 
-  final IconData icon;
-  final String username; // TODO this should be an instance of Usuario/Cidadao
+  final IconData iconHeader;
+  final String username; // TODO this should be an instance of Usuario/Cidadao not String
   final String titulo;
   final String subtitulo;
   final Color color1;
   final Color color2;
+  final bool hasLink;
+  final Widget urlRoute;
+  final IconData iconCenter;
 
   const Header({
     @required this.titulo,
     @required this.subtitulo,
-    this.icon = FontAwesomeIcons.plus,
+    @required this.hasLink,
+    this.iconHeader = FontAwesomeIcons.plus,
     this.username = '',
     this.color1 = Colors.grey,
-    this.color2 = Colors.blueGrey
+    this.color2 = Colors.blueGrey,
+    this.urlRoute,
+    this.iconCenter
   });
 
   @override
@@ -34,7 +41,7 @@ class Header extends StatelessWidget {
         Positioned(
             top: -50,
             left: -70,
-            child: FaIcon(this.icon, size: 250, color: Colors.white.withOpacity(0.2))
+            child: FaIcon(this.iconHeader, size: 250, color: Colors.white.withOpacity(0.2))
         ),
         Column(
           children: <Widget>[
@@ -43,7 +50,12 @@ class Header extends StatelessWidget {
             SizedBox(height: 20),
             ///Text(this.subtitulo, style: TextStyle(fontSize: 20, color: whiteColor, fontWeight: FontWeight.bold)),
             SizedBox(height: 0),
-            FaIcon(this.username.isEmpty ? FontAwesomeIcons.calendarAlt : FontAwesomeIcons.userCircle, size: 60, color: Colors.white.withOpacity(0.6))
+            RawMaterialButton(
+                shape: CircleBorder(),
+                padding: EdgeInsets.all(0),
+                child: FaIcon(this.iconCenter, color: Colors.white, size: 50),
+                onPressed: () => (this.hasLink) ? Navigator.push(context, MaterialPageRoute(builder: (context) => EditarDadosPessoais())) : {}
+            ),
           ],
         )
       ],

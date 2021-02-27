@@ -1,3 +1,5 @@
+import 'package:cndv/src/pages/campanhas/campanha_detalhe_page.dart';
+import 'package:cndv/src/pages/searchs/buscar_campanhas_page.dart';
 import 'package:cndv/src/widgets/card_campanhas.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +31,9 @@ class TabCampanhaVacinas extends StatelessWidget {
     List<Widget> campanhasMap = campanhas.map(
         (campanha) => CardCampanha(
             texto: campanha.texto,
-            onPress: () { print('Click Usuario Página de detalhes');},
+            onPress: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => CampanhaDetalhe()));
+            },
         )
     ).toList();
 
@@ -70,19 +74,23 @@ class _Header extends StatelessWidget {
           Header(
           titulo: 'Bem-vindo,',
           subtitulo: 'Campanhas',
-          icon: FontAwesomeIcons.plus,
+          iconHeader: FontAwesomeIcons.plus,
           color1: Color(0xff526BF6),
           color2:  Color(0xff67ACF2),
+          hasLink: false,
+          iconCenter: FontAwesomeIcons.calendarAlt
         ),
 
         Positioned(
           right: 0,
           top:15,
           child: RawMaterialButton(
-            onPressed: (){},
             shape: CircleBorder(),
             padding: EdgeInsets.all(15.0),
-            child: FaIcon(FontAwesomeIcons.ellipsisV, color: Colors.white)
+            child: FaIcon(FontAwesomeIcons.search, color: Colors.white),
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => BuscarCampanhasPage()));
+            }
           )
         )
       ],

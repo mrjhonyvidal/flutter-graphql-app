@@ -1,3 +1,5 @@
+import 'package:cndv/src/pages/mensagens/mensagem_notificacoes_page.dart';
+import 'package:cndv/src/pages/perfil/editar_dados_pessoais_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cndv/src/widgets/header.dart';
@@ -56,18 +58,23 @@ class _Header extends StatelessWidget {
           titulo: 'Bem-vindo,',
           subtitulo: 'Carteira Nacional Digital de Vacinação',
           username: 'JVO',
-          icon: FontAwesomeIcons.plus,
+          iconHeader: FontAwesomeIcons.plus,
           color1: Color(0xff526BF6),
           color2:  Color(0xff67ACF2),
+          hasLink: true,
+          urlRoute: EditarDadosPessoais(),
+          iconCenter: Icons.account_box
         ),
         Positioned(
             right: 0,
             top:15,
             child: RawMaterialButton(
                 shape: CircleBorder(),
-                padding: EdgeInsets.all(15.0),
-                child: FaIcon(FontAwesomeIcons.search, color: Colors.white),
-              onPressed: (){}
+                padding: EdgeInsets.all(10.0),
+                child: FaIcon(Icons.message, color: Colors.white, size: 30),
+                 onPressed: (){
+                   Navigator.push(context, MaterialPageRoute(builder: (context) => MensagensNotificacoes()));
+                 }
             )
         )
       ],
