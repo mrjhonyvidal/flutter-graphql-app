@@ -1,6 +1,8 @@
+import 'package:cndv/src/data/tipo_vacina_fetch.dart';
 import 'package:cndv/src/pages/mensagens/mensagem_notificacoes_page.dart';
 import 'package:cndv/src/pages/perfil/editar_dados_pessoais_page.dart';
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:cndv/src/widgets/header.dart';
 import 'package:cndv/src/services/rest/noticias_service.dart';
@@ -33,7 +35,29 @@ class TabCarteiraMedica extends StatelessWidget {
                         padding: EdgeInsets.symmetric(vertical: 30.0),
                         margin: EdgeInsets.only(bottom: 10),
                         alignment: Alignment.center,
-                        child: Text('Seu histórico de vacinas está sendo atualizado!')
+                        child: Query(
+                          options: QueryOptions(
+                            document: gql(TipoVacinaFetch.fetchAll),
+                          ),
+                          builder: (QueryResult result, { VoidCallback refetch, FetchMore fetchMore}) {
+                            if (result.hasException) {
+                              return Text(result.exception.toString());
+                            }
+
+                            if (result.isLoading) {
+                              return Text('Loading...');
+                            }
+
+                            final List<Object> tmpDataStructure = result.data['getCarteiraTipoVacinas'] as List<Object>;
+
+                            return ListView.builder(
+                                itemCount: tmpDataStructure.length,
+                                itemBuilder: (context, index) {
+                                  dynamic uniqueTmpDataStructure = tmpDataStructure[index];
+                                  return Text(uniqueTmpDataStructure['descricao']);
+                                });
+                          },
+                        )
                       ),
                     ],
                   ),
