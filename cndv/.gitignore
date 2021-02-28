@@ -10,6 +10,7 @@
 .svn/
 
 *jks
+android/app/release/*
 
 # IntelliJ related
 *.iml
