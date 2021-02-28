@@ -11,6 +11,7 @@
 
 *jks
 android/app/release/*
+build/
 
 # IntelliJ related
 *.iml
