@@ -1,9 +1,11 @@
+import 'package:cndv/src/services/graphql/mutations/auth_token_registration_usuario.dart';
 import 'package:cndv/src/widgets/blue_button.dart';
 import 'package:cndv/src/widgets/custom_input.dart';
 import 'package:cndv/src/widgets/labels.dart';
 import 'package:cndv/src/widgets/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 
 class Cadastro extends StatelessWidget {
   @override
@@ -78,10 +80,29 @@ class _FormState extends State<Form> {
               textController: passCtrl,
               isPassword: true,
             ),
-
-            BlueButton(text: 'Cadastrar-se', onPressed: (){
-              Navigator.pushReplacementNamed(context, 'tabs');
-            },)
+            Mutation(
+              options: MutationOptions(
+                document: gql(authTokenRegistrationUsuario.registerNewUser),
+                update: (GraphQLDataProxy cache, QueryResult result) {
+                  return cache;
+                },
+                onCompleted: (dynamic resultData) {
+                  print(resultData);
+                }
+              ),
+              builder: (
+                RunMutation runMutation,
+                QueryResult result
+              ) {
+                    return BlueButton(text: 'Cadastrar-se', onPressed: () => runMutation({
+                        'cpf':    cpfCtrl.text,
+                        'nome':   nomeCtrl.text,
+                        'senha':  passCtrl.text,
+                        'email':  emailCtrl.text
+                    }),
+                  );
+                }
+            )
           ],
         ),
     );

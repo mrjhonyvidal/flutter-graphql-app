@@ -1,6 +1,6 @@
-import 'package:cndv/src/data/tipo_vacina_fetch.dart';
 import 'package:cndv/src/pages/mensagens/mensagem_notificacoes_page.dart';
 import 'package:cndv/src/pages/perfil/editar_dados_pessoais_page.dart';
+import 'package:cndv/src/services/graphql/queries/tipo_vacina_fetch.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
@@ -37,9 +37,10 @@ class TabCarteiraMedica extends StatelessWidget {
                         alignment: Alignment.center,
                         child: Query(
                           options: QueryOptions(
-                            document: gql(TipoVacinaFetch.fetchAll),
+                            document: gql(TipoVacina.fetchAll),
                           ),
                           builder: (QueryResult result, { VoidCallback refetch, FetchMore fetchMore}) {
+                            /// TODO check the use of refetch refetchQuery = refetch;
                             if (result.hasException) {
                               return Text(result.exception.toString());
                             }

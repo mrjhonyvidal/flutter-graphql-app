@@ -1,6 +1,5 @@
 import 'package:cndv/src/config/graphql_url_client.dart';
 import 'package:cndv/src/routes/routes.dart';
-import 'package:cndv/src/services/graphql/auth_services.dart';
 import 'package:cndv/src/services/graphql/carteira_cidadao_service.dart';
 import 'package:cndv/src/services/rest/noticias_service.dart';
 import 'package:cndv/src/theme/theme.dart';
@@ -18,7 +17,6 @@ class MyApp extends StatelessWidget {
       child: MultiProvider(
         providers: [
             ChangeNotifierProvider(create: (_) => new CarteiraCidadaoService() ),
-            ChangeNotifierProvider(create: (_) => new AuthService() ),
             ChangeNotifierProvider(create: (_) => new NoticiasService() ),
           ],
           child:MaterialApp(
