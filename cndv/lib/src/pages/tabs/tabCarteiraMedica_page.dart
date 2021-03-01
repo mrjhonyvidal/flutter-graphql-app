@@ -45,16 +45,16 @@ class TabCarteiraMedica extends StatelessWidget {
                             }
 
                             if (result.isLoading) {
-                              return Text('Loading...');
+                              return new CircularProgressIndicator();
                             }
 
-                            final List<Object> tmpDataStructure = result.data['getCarteiraTipoVacinas'] as List<Object>;
+                            final List<dynamic> completeHistoryVaccines = result.data['getCarteiraTipoVacinas'] as List<dynamic>;
 
                             return ListView.builder(
-                                itemCount: tmpDataStructure.length,
+                                itemCount: completeHistoryVaccines.length,
                                 itemBuilder: (context, index) {
-                                  dynamic uniqueTmpDataStructure = tmpDataStructure[index];
-                                  return Text(uniqueTmpDataStructure['descricao']);
+                                  final uniqueEntryHistory = completeHistoryVaccines[index];
+                                  return Text(uniqueEntryHistory['descricao']);
                                 });
                           },
                         )
