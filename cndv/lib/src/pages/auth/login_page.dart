@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cndv/src/helpers/show_validations_alert_msg.dart';
 import 'package:cndv/src/models/response_authenticate_user.dart';
 import 'package:cndv/src/services/graphql/mutations/auth_token_registration_usuario.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:cndv/src/storage/cndv_secure_storage.dart';
 import 'package:cndv/src/widgets/blue_button.dart';
 import 'package:cndv/src/widgets/custom_input.dart';
@@ -62,13 +63,16 @@ class _FormState extends State<Form> {
               icon: Icons.mail_outline,
               placeholder: 'CPF',
               keyboardType: TextInputType.emailAddress,
-              textController: cpfCtrl
+              textController: cpfCtrl,
+              textInputFormatter: MaskTextInputFormatter(mask: "###.###.###-##")
           ),
           CustomInput(
               icon: Icons.lock_outline,
               placeholder: 'Senha',
               keyboardType: TextInputType.emailAddress,
               textController: passCtrl,
+              textInputFormatter: MaskTextInputFormatter(mask: ""),
+              textLength: 16,
               isPassword: true,
           ),
           Mutation(
@@ -80,6 +84,8 @@ class _FormState extends State<Form> {
                 onCompleted: (dynamic resultData) {
                   ///print(cpfCtrl.text);
                   ///print(passCtrl.text);
+                  ///maskFormatter.getUnmaskedText()
+                  ///maskFormatter.getMaskedText()
                   ///print(resultData);
                   if(resultData != null){
                     ///print(resultData['autenticarUsuario']);

@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+
 
 class CustomInput extends StatelessWidget {
 
   final IconData icon;
   final String placeholder;
   final TextEditingController textController;
+  final MaskTextInputFormatter textInputFormatter;
   final TextInputType keyboardType;
   final bool isPassword;
+  final int textLength;
 
   const CustomInput({
       Key key,
       @required this.icon,
       @required this.placeholder,
       @required this.textController,
+      this.textInputFormatter,
+      this.textLength = 100,
       this.keyboardType = TextInputType.text,
       this.isPassword = false
   }) : super(key: key);
@@ -36,6 +43,10 @@ class CustomInput extends StatelessWidget {
       child: TextField(
         controller: this.textController,
         autocorrect: false,
+        inputFormatters: <TextInputFormatter>[
+          LengthLimitingTextInputFormatter(this.textLength),
+          this.textInputFormatter,
+        ],
         keyboardType: this.keyboardType,
         obscureText: this.isPassword,
         decoration: InputDecoration(
