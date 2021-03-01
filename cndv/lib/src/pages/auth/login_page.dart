@@ -1,4 +1,9 @@
+import 'dart:convert';
+
+import 'package:cndv/src/helpers/show_validations_alert_msg.dart';
+import 'package:cndv/src/models/response_authenticate_user.dart';
 import 'package:cndv/src/services/graphql/mutations/auth_token_registration_usuario.dart';
+import 'package:cndv/src/storage/cndv_secure_storage.dart';
 import 'package:cndv/src/widgets/blue_button.dart';
 import 'package:cndv/src/widgets/custom_input.dart';
 import 'package:cndv/src/widgets/labels.dart';
@@ -72,18 +77,31 @@ class _FormState extends State<Form> {
                 update: (GraphQLDataProxy cache, QueryResult result) {
                   return cache;
                 },
-                onCompleted: (dynamic resultData){
-                  print(resultData);
+                onCompleted: (dynamic resultData) {
+                  ///print(cpfCtrl.text);
+                  ///print(passCtrl.text);
+                  ///print(resultData);
+                  if(resultData != null){
+                    ///print(resultData['autenticarUsuario']);
+                    final UsuarioAcesso usuarioAcesso = usuarioAcessoFromJson(jsonEncode(resultData));
+                    CNDVSecureStorage.saveToken(usuarioAcesso.autenticarUsuario.token);
+                    Navigator.pushReplacementNamed(context, 'tabs');
+                  } else {
+                      showValidationsAlertMsg(context, 'Dados de acesso incorretos', 'Por favor revise se o CPF ou a senha são corretos e tente novamente.');
+                  }
                 }
               ),
               builder: (
                 RunMutation runMutation,
                 QueryResult result
               ) {
-                return BlueButton(text: 'Entrar', onPressed: () => runMutation({
-                    'cpf':    cpfCtrl.text,
-                    'senha':  passCtrl.text
-                  }),
+                return BlueButton(text: 'Entrar', onPressed: () {
+                  FocusScope.of(context).unfocus();
+                  runMutation({
+                    'cpf': cpfCtrl.text.trim(),
+                    'senha': passCtrl.text.trim()
+                  });
+                 }
                 );
               }
           )

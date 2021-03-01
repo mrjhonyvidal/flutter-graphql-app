@@ -1,37 +1,21 @@
 // To parse this JSON data, do
 //
-//     final responseAuthenticateUser = responseAuthenticateUserFromJson(jsonString);
+//     final usuarioAcesso = usuarioAcessoFromJson(jsonString);
 
 import 'dart:convert';
 
-ResponseAuthenticateUser responseAuthenticateUserFromJson(String str) => ResponseAuthenticateUser.fromJson(json.decode(str));
+UsuarioAcesso usuarioAcessoFromJson(String str) => UsuarioAcesso.fromJson(json.decode(str));
 
-String responseAuthenticateUserToJson(ResponseAuthenticateUser data) => json.encode(data.toJson());
+String usuarioAcessoToJson(UsuarioAcesso data) => json.encode(data.toJson());
 
-class ResponseAuthenticateUser {
-  ResponseAuthenticateUser({
-    this.data,
-  });
-
-  Data data;
-
-  factory ResponseAuthenticateUser.fromJson(Map<String, dynamic> json) => ResponseAuthenticateUser(
-    data: Data.fromJson(json["data"]),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "data": data.toJson(),
-  };
-}
-
-class Data {
-  Data({
+class UsuarioAcesso {
+  UsuarioAcesso({
     this.autenticarUsuario,
   });
 
   AutenticarUsuario autenticarUsuario;
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory UsuarioAcesso.fromJson(Map<String, dynamic> json) => UsuarioAcesso(
     autenticarUsuario: AutenticarUsuario.fromJson(json["autenticarUsuario"]),
   );
 

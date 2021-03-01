@@ -2,6 +2,7 @@ import 'package:cndv/src/config/graphql_url_client.dart';
 import 'package:cndv/src/routes/routes.dart';
 import 'package:cndv/src/services/graphql/carteira_cidadao_service.dart';
 import 'package:cndv/src/services/rest/noticias_service.dart';
+import 'package:cndv/src/storage/cndv_secure_storage.dart';
 import 'package:cndv/src/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
       child: MultiProvider(
         providers: [
             ChangeNotifierProvider(create: (_) => new CarteiraCidadaoService() ),
+            ChangeNotifierProvider(create: (_) => new CNDVSecureStorage() ),
             ChangeNotifierProvider(create: (_) => new NoticiasService() ),
           ],
           child:MaterialApp(
