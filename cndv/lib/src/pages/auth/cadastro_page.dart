@@ -1,3 +1,4 @@
+import 'package:cndv/src/helpers/show_validations_alert_msg.dart';
 import 'package:cndv/src/services/graphql/mutations/auth_token_registration_usuario.dart';
 import 'package:cndv/src/widgets/blue_button.dart';
 import 'package:cndv/src/widgets/custom_input.dart';
@@ -6,6 +7,7 @@ import 'package:cndv/src/widgets/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class Cadastro extends StatelessWidget {
   @override
@@ -59,25 +61,32 @@ class _FormState extends State<Form> {
                 icon: Icons.perm_contact_cal_outlined,
                 placeholder: 'CPF',
                 keyboardType: TextInputType.number,
-                textController: cpfCtrl
+                textController: cpfCtrl,
+                textInputFormatter: MaskTextInputFormatter(mask: "###.###.###-##")
             ),
             CustomInput(
                 icon: Icons.person,
                 placeholder: 'Nome',
                 keyboardType: TextInputType.text,
-                textController: nomeCtrl
+                textController: nomeCtrl,
+                textInputFormatter: MaskTextInputFormatter(mask: ""),
+                textLength: 50,
             ),
             CustomInput(
                 icon: Icons.mail_outline,
                 placeholder: 'Email',
                 keyboardType: TextInputType.emailAddress,
-                textController: emailCtrl
+                textController: emailCtrl,
+                textInputFormatter: MaskTextInputFormatter(mask: ""),
+                textLength: 100,
             ),
             CustomInput(
               icon: Icons.lock_outline,
               placeholder: 'Senha',
               keyboardType: TextInputType.text,
               textController: passCtrl,
+              textInputFormatter: MaskTextInputFormatter(mask: ""),
+              textLength: 16,
               isPassword: true,
             ),
             Mutation(
@@ -87,7 +96,11 @@ class _FormState extends State<Form> {
                   return cache;
                 },
                 onCompleted: (dynamic resultData) {
-                  print(resultData);
+                  if (resultData != null) {
+                   Navigator.pushReplacementNamed(context, 'login');
+                  } else {
+                    showValidationsAlertMsg(context, 'Dados de cadastrao incorretos!', 'Por favor revise e complete todos os campos antes de tentar novamente.');
+                  }
                 }
               ),
               builder: (

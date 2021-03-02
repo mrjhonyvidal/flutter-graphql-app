@@ -1,3 +1,4 @@
+import 'package:cndv/src/config/environment.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
@@ -5,7 +6,7 @@ class GraphQLCNDVClient{
 
   // TODO take URL from parameter local or qa
   ///static final HttpLink httpLink = HttpLink('http://localhost:4000/graphql');
-  static final HttpLink httpLink = HttpLink('https://blooming-wildwood-50755.herokuapp.com');
+  static final HttpLink httpLink = HttpLink('${Environment.apiGrapqlQA}');
   static String _token;
 
   static ValueNotifier<GraphQLClient> inititializeClient() {

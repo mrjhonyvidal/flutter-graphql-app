@@ -6,8 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 final sidebarMenuRoutes = <_Route>[
   _Route( FontAwesomeIcons.qrcode,      'QR CNDV', CarteiraQR()),
-  _Route( FontAwesomeIcons.userCircle,  'Dados pessoais', EditarDadosPessoais()),
-  _Route( FontAwesomeIcons.doorOpen,    'Sair', Login()),
+  _Route( FontAwesomeIcons.userCircle,  'Dados pessoais', EditarDadosPessoais())
 ];
 
 class _Route {
@@ -17,3 +16,4 @@ class _Route {
 
   _Route(this.icon, this.titulo, this.page);
 }
+

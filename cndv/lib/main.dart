@@ -18,14 +18,14 @@ class MyApp extends StatelessWidget {
       child: MultiProvider(
         providers: [
             ChangeNotifierProvider(create: (_) => new CarteiraCidadaoService() ),
-            ChangeNotifierProvider(create: (_) => new CNDVSecureStorage() ),
+            ChangeNotifierProvider(create: (_) => new CNDVAuthSecureStorage() ),
             ChangeNotifierProvider(create: (_) => new NoticiasService() ),
           ],
           child:MaterialApp(
               debugShowCheckedModeBanner: false,
               title: 'CNDV App',
               theme: cndvTheme,
-              initialRoute: 'login',
+              initialRoute: 'loading',
               routes: appRoutes,
         ),
       ),

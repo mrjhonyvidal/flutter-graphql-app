@@ -2,6 +2,8 @@ import 'package:cndv/src/pages/tabs/tabCampanhaVacinas_page.dart';
 import 'package:cndv/src/pages/tabs/tabCarteiraMedica_page.dart';
 import 'package:cndv/src/routes/sidebar_menu_routes.dart';
 import 'package:cndv/src/services/graphql/carteira_cidadao_service.dart';
+import 'package:cndv/src/services/graphql/mutations/auth_token_registration_usuario.dart';
+import 'package:cndv/src/storage/cndv_secure_storage.dart';
 import 'package:cndv/src/widgets/header_circle_border.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,6 +12,7 @@ import 'package:provider/provider.dart';
 class TabsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     return ChangeNotifierProvider(
       create: (_) => new _NavegationModel(),
       child: Scaffold(
@@ -28,6 +31,9 @@ class TabsPage extends StatelessWidget {
 class _MainSidebarMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final cndvAuthSecureStorage = Provider.of<CNDVAuthSecureStorage>(context);
+    final usuario = cndvAuthSecureStorage.usuarioAcesso;
+
     return Drawer(
         child: Container(
           child: Column(
@@ -39,12 +45,22 @@ class _MainSidebarMenu extends StatelessWidget {
                   height: 150,
                   child: CircleAvatar(
                     backgroundColor: Colors.blue,
-                    child: Text('JV', style: TextStyle(fontSize: 50),),
+                    child: Text('IMG', style: TextStyle(fontSize: 40),),
                   )
                 ),
               ),
+              Text(usuario.autenticarUsuario.nome, style: TextStyle(fontSize: 16),),
               Expanded(
                   child: _ListSidebarMenuOptions()
+              ),
+
+              ListTile(
+                leading: Icon(FontAwesomeIcons.doorOpen, color: Colors.blue),
+                title: Text('Sair'),
+                onTap: (){
+                    CNDVAuthSecureStorage.deleteToken();
+                    Navigator.pushReplacementNamed(context, 'login');
+                },
               )
 
             ],

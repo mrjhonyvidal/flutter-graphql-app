@@ -12,6 +12,7 @@ import 'package:cndv/src/widgets/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:provider/provider.dart';
 
 class Login extends StatelessWidget {
   @override
@@ -82,15 +83,16 @@ class _FormState extends State<Form> {
                   return cache;
                 },
                 onCompleted: (dynamic resultData) {
-                  ///print(cpfCtrl.text);
-                  ///print(passCtrl.text);
-                  ///maskFormatter.getUnmaskedText()
-                  ///maskFormatter.getMaskedText()
-                  ///print(resultData);
+                  ///print(cpfCtrl.text); .getUnmaskedText()
+                  ///print(passCtrl.text); .getMaskedText()
                   if(resultData != null){
                     ///print(resultData['autenticarUsuario']);
                     final UsuarioAcesso usuarioAcesso = usuarioAcessoFromJson(jsonEncode(resultData));
-                    CNDVSecureStorage.saveToken(usuarioAcesso.autenticarUsuario.token);
+
+                    final cndvAuthSecureProvider = Provider.of<CNDVAuthSecureStorage>(context, listen: false);
+                    cndvAuthSecureProvider.usuario_accesso = usuarioAcesso;
+
+                    CNDVAuthSecureStorage.saveToken(usuarioAcesso.autenticarUsuario.token);
                     Navigator.pushReplacementNamed(context, 'tabs');
                   } else {
                       showValidationsAlertMsg(context, 'Dados de acesso incorretos', 'Por favor revise se o CPF ou a senha são corretos e tente novamente.');
