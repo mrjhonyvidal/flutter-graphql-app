@@ -31,8 +31,8 @@ class TabsPage extends StatelessWidget {
 class _MainSidebarMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final cndvAuthSecureStorage = Provider.of<CNDVAuthSecureStorage>(context);
-    final usuario = cndvAuthSecureStorage.usuarioAcesso;
+
+    final cndvAuthSecureProvider = Provider.of<CNDVAuthSecureStorage>(context, listen: false);
 
     return Drawer(
         child: Container(
@@ -49,7 +49,7 @@ class _MainSidebarMenu extends StatelessWidget {
                   )
                 ),
               ),
-              Text(usuario.autenticarUsuario.nome, style: TextStyle(fontSize: 16),),
+              Text(cndvAuthSecureProvider.usuarioAcesso.nome, style: TextStyle(fontSize: 16),),
               Expanded(
                   child: _ListSidebarMenuOptions()
               ),

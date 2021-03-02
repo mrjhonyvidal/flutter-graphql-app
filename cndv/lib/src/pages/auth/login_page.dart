@@ -90,9 +90,13 @@ class _FormState extends State<Form> {
                     final UsuarioAcesso usuarioAcesso = usuarioAcessoFromJson(jsonEncode(resultData));
 
                     final cndvAuthSecureProvider = Provider.of<CNDVAuthSecureStorage>(context, listen: false);
-                    cndvAuthSecureProvider.usuario_accesso = usuarioAcesso;
+                    cndvAuthSecureProvider.usuario_accesso = usuarioAcesso.autenticarUsuario;
 
-                    CNDVAuthSecureStorage.saveToken(usuarioAcesso.autenticarUsuario.token);
+                    CNDVAuthSecureStorage.saveTokenAndInfo(
+                        usuarioAcesso.autenticarUsuario.cpf,
+                        usuarioAcesso.autenticarUsuario.nome,
+                        usuarioAcesso.autenticarUsuario.token
+                    );
                     Navigator.pushReplacementNamed(context, 'tabs');
                   } else {
                       showValidationsAlertMsg(context, 'Dados de acesso incorretos', 'Por favor revise se o CPF ou a senha são corretos e tente novamente.');

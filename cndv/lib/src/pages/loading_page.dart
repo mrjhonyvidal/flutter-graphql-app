@@ -2,6 +2,7 @@ import 'package:cndv/src/pages/auth/login_page.dart';
 import 'package:cndv/src/pages/tabs/tabs_page.dart';
 import 'package:cndv/src/storage/cndv_secure_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Loading extends StatelessWidget {
   @override
@@ -20,6 +21,10 @@ class Loading extends StatelessWidget {
 
   Future checkingLoginState(BuildContext context ) async {
     final isAuthenticated = await CNDVAuthSecureStorage.isUserLoggedIn();
+
+    final usuarioAutenticado = await CNDVAuthSecureStorage.getUsuarioFromLocalStorage();
+    final cndvAuthSecureProvider = Provider.of<CNDVAuthSecureStorage>(context, listen: false);
+    cndvAuthSecureProvider.usuario_accesso = usuarioAutenticado;
 
     if (isAuthenticated) {
       ///Navigator.pushReplacementNamed(context, 'tabs');
