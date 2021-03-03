@@ -19,6 +19,7 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffF2F2F2),
+      //backgroundColor: Colors.black12,
       body: SafeArea(
         child: SingleChildScrollView(
           physics: BouncingScrollPhysics(),

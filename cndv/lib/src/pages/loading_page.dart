@@ -21,12 +21,14 @@ class Loading extends StatelessWidget {
 
   Future checkingLoginState(BuildContext context ) async {
     final isAuthenticated = await CNDVAuthSecureStorage.isUserLoggedIn();
-
     final usuarioAutenticado = await CNDVAuthSecureStorage.getUsuarioFromLocalStorage();
+
     final cndvAuthSecureProvider = Provider.of<CNDVAuthSecureStorage>(context, listen: false);
     cndvAuthSecureProvider.usuario_accesso = usuarioAutenticado;
 
-    if (isAuthenticated) {
+    /// TODO check to ensure that usuario_accesso is not null in our login validation
+
+    if (isAuthenticated && cndvAuthSecureProvider.usuarioAcesso != null) {
       ///Navigator.pushReplacementNamed(context, 'tabs');
       Navigator.pushReplacement(
           context,

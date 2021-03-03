@@ -20,9 +20,9 @@ class Logo extends StatelessWidget {
           children: <Widget>[
             Image( image: AssetImage('assets/img/cndv_logo.png'),),
             SizedBox(height: 20),
-            Text('CNDV', style: TextStyle(fontSize: 30)),
+            Text('CNDV', style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600 )),
             SizedBox(height: 20),
-            Text('Carteira Nacional', style: TextStyle(fontSize: 20)),
+            Text('Carteira Nacional', style: TextStyle(fontSize: 20,)),
             Text('Digital de Vacinação', style: TextStyle(fontSize: 20)),
           ],
         ),

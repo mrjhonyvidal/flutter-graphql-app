@@ -1,10 +1,7 @@
 import 'package:cndv/src/pages/tabs/tabCampanhaVacinas_page.dart';
 import 'package:cndv/src/pages/tabs/tabCarteiraMedica_page.dart';
 import 'package:cndv/src/routes/sidebar_menu_routes.dart';
-import 'package:cndv/src/services/graphql/carteira_cidadao_service.dart';
-import 'package:cndv/src/services/graphql/mutations/auth_token_registration_usuario.dart';
 import 'package:cndv/src/storage/cndv_secure_storage.dart';
-import 'package:cndv/src/widgets/header_circle_border.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +9,6 @@ import 'package:provider/provider.dart';
 class TabsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     return ChangeNotifierProvider(
       create: (_) => new _NavegationModel(),
       child: Scaffold(
@@ -50,10 +46,10 @@ class _MainSidebarMenu extends StatelessWidget {
                 ),
               ),
               Text(cndvAuthSecureProvider.usuarioAcesso.nome, style: TextStyle(fontSize: 16),),
+              Text(cndvAuthSecureProvider.usuarioAcesso.cpf, style: TextStyle(fontSize: 14),),
               Expanded(
                   child: _ListSidebarMenuOptions()
               ),
-
               ListTile(
                 leading: Icon(FontAwesomeIcons.doorOpen, color: Colors.blue),
                 title: Text('Sair'),
@@ -62,7 +58,6 @@ class _MainSidebarMenu extends StatelessWidget {
                     Navigator.pushReplacementNamed(context, 'login');
                 },
               )
-
             ],
           )
         ),
@@ -73,7 +68,6 @@ class _MainSidebarMenu extends StatelessWidget {
 class _ListSidebarMenuOptions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     return ListView.separated(
       physics: BouncingScrollPhysics(),
       separatorBuilder: ( context, i) => Divider(
@@ -95,12 +89,13 @@ class _ListSidebarMenuOptions extends StatelessWidget {
 class _Navigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     final navigationModel = Provider.of<_NavegationModel>(context);
 
     return BottomNavigationBar(
       currentIndex: navigationModel.currentPage,
       onTap: (i) => navigationModel.currentPage = i,
+      ///selectedItemColor: Colors.black,
+      ///unselectedItemColor: Colors.white,
       items: [
         BottomNavigationBarItem( icon: Icon( Icons.fingerprint), label: 'Carteira Médica'),
         BottomNavigationBarItem( icon: Icon( Icons.medical_services), label: 'Campanhas')
@@ -110,7 +105,6 @@ class _Navigation extends StatelessWidget {
 }
 
 class _Pages extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
 
@@ -140,6 +134,5 @@ class _NavegationModel with ChangeNotifier{
     _pageController.animateToPage(index, duration: Duration(milliseconds: 250), curve: Curves.easeOut);
     notifyListeners();
   }
-
   PageController get pageController => this._pageController;
 }

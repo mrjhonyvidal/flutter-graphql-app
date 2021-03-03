@@ -43,6 +43,7 @@ class CustomInput extends StatelessWidget {
       child: TextField(
         controller: this.textController,
         autocorrect: false,
+        style: TextStyle(color: Colors.black54),
         inputFormatters: <TextInputFormatter>[
           LengthLimitingTextInputFormatter(this.textLength),
           this.textInputFormatter,
