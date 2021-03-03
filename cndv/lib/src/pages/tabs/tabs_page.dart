@@ -28,7 +28,7 @@ class _MainSidebarMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final cndvAuthSecureProvider = Provider.of<CNDVAuthSecureStorage>(context, listen: false);
+    final cndvAuthSecureProvider = Provider.of<CNDVAuthSecureStorage>(context, listen: true);
 
     return Drawer(
         child: Container(

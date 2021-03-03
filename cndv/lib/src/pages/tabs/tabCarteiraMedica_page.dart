@@ -1,3 +1,4 @@
+import 'package:cndv/src/models/response_authenticate_user.dart';
 import 'package:cndv/src/pages/mensagens/mensagem_notificacoes_page.dart';
 import 'package:cndv/src/pages/perfil/editar_dados_pessoais_page.dart';
 import 'package:cndv/src/services/graphql/queries/historico_vacina.dart';
@@ -24,7 +25,7 @@ class TabCarteiraMedica extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            _Header(),
+            _Header(usuarioNome: cndvAuthSecureProvider.usuarioAcesso.nome),
             Expanded(
                 child: SafeArea(
                   child: SingleChildScrollView(
@@ -116,9 +117,9 @@ Widget _buildCard(medicalEntry) => SafeArea(
             ),
           ),
           ListTile(
-            title: Text('Data da aplicação: ${DateFormat.yMd().format(DateTime.parse(medicalEntry['dt_aplicacao']))}'),
+            title: Text('Data da aplicação: ${DateFormat('dd/MM/yyyy').format(DateTime.parse(medicalEntry['dt_aplicacao']))}'),
             leading: Icon(
-              Icons.medical_services,
+              Icons.date_range,
               color: Colors.blue[500],
             ),
           ),
@@ -152,12 +153,17 @@ Widget _buildCard(medicalEntry) => SafeArea(
 /// TODO extract this to common place as part of Header Layout
 /// as it's shared between vacinas and campanhas tabCampanhaVacinas
 class _Header extends StatelessWidget {
+
+  final String usuarioNome;
+
+  const _Header({Key key, this.usuarioNome}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
         Header(
-          titulo: 'Bem-vindo,',
+          titulo: 'Bem-vindo ${this.usuarioNome},',
           subtitulo: 'Carteira Nacional Digital de Vacinação',
           username: 'JVO',
           iconHeader: FontAwesomeIcons.plus,

@@ -72,7 +72,7 @@ class _Header extends StatelessWidget {
     return Stack(
       children: <Widget>[
           Header(
-          titulo: 'Bem-vindo,',
+          titulo: 'Próximas campanhas',
           subtitulo: 'Campanhas',
           iconHeader: FontAwesomeIcons.plus,
           color1: Color(0xff526BF6),
