@@ -1,8 +1,10 @@
 import 'package:cndv/src/models/response_authenticate_user.dart';
+import 'package:cndv/src/pages/campanhas/campanha_detalhe_page.dart';
 import 'package:cndv/src/pages/mensagens/mensagem_notificacoes_page.dart';
 import 'package:cndv/src/pages/perfil/editar_dados_pessoais_page.dart';
 import 'package:cndv/src/services/graphql/queries/historico_vacina.dart';
 import 'package:cndv/src/storage/cndv_secure_storage.dart';
+import 'package:cndv/src/widgets/card_historico_vacina.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +22,7 @@ class TabCarteiraMedica extends StatelessWidget {
     //final noticiasServiceHeadlines = Provider.of<NoticiasService>(context).headlines;
     //child: ListaNoticiasVacinas(noticiasServiceHeadlines),
     return Scaffold(
-      backgroundColor: Color(0xffF2F2F2),
+      backgroundColor: Color(0xffFFFFFF),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -33,8 +35,7 @@ class TabCarteiraMedica extends StatelessWidget {
                     child: Column(
                       children: <Widget>[
                         Container(
-                          height: 500,
-                          padding: EdgeInsets.symmetric(vertical: 30.0),
+                          padding: EdgeInsets.symmetric(vertical: 0.0),
                           margin: EdgeInsets.only(bottom: 10),
                           alignment: Alignment.center,
                           child: Query(
@@ -62,14 +63,44 @@ class TabCarteiraMedica extends StatelessWidget {
 
                               final List<dynamic> completeHistoryVaccines = result.data['obtenerHistoricoVacinacao'] as List<dynamic>;
 
+                             /* List<dynamic> historicoVacinaMap = completeHistoryVaccines.map(
+                                (historico) => CardHistoricoVacina(
+                                      tipo_vacina: historico['tipo_vacina_descricao'],
+                                      onPress: () {
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => CampanhaDetalhe()));
+                                      },
+                                  )
+                              ).toList();*/
+
                               if (completeHistoryVaccines.length > 0) {
                                 return ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
                                     itemCount: completeHistoryVaccines.length,
                                     itemBuilder: (context, index) {
-                                       final uniqueEntryHistory = completeHistoryVaccines[index];
-                                       return _buildCard(uniqueEntryHistory);
-                                        }
-                                    );
+                                      final uniqueEntryHistory = completeHistoryVaccines[index];
+                                      return _buildCard(uniqueEntryHistory);
+                                    }
+                                );
+                                /*return SafeArea(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: SingleChildScrollView(
+                                            physics: BouncingScrollPhysics(),
+                                            padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
+                                            child: Column(
+                                              children: <Widget>[
+                                                //SizedBox( height: 80,),
+                                                ...historicoVacinaMap
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                );*/
                               }else{
                                 return Center(
                                   child: Container(
@@ -101,11 +132,11 @@ class TabCarteiraMedica extends StatelessWidget {
   }
 }
 
-Widget _buildCard(medicalEntry) => SafeArea(
-  child: SizedBox(
-    height: 320,
+Widget _buildCard(medicalEntry) => SizedBox(
+    height: 350,
     child: Card(
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           ListTile(
             title: Text('Tipo: ${medicalEntry['tipo_vacina_descricao']}',
@@ -147,7 +178,6 @@ Widget _buildCard(medicalEntry) => SafeArea(
         ],
       ),
     ),
-  ),
 );
 
 /// TODO extract this to common place as part of Header Layout

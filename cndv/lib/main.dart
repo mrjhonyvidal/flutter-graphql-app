@@ -24,7 +24,6 @@ class MyApp extends StatelessWidget {
           child:MaterialApp(
               debugShowCheckedModeBanner: false,
               title: 'CNDV App',
-              theme: cndvTheme,
               initialRoute: 'loading',
               routes: appRoutes,
         ),

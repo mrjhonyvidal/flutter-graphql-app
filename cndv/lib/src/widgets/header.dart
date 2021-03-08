@@ -46,16 +46,16 @@ class Header extends StatelessWidget {
         Column(
           children: <Widget>[
             SizedBox(height: 80, width: double.infinity),
-            Text(this.titulo, style: TextStyle(fontSize: 20, color: whiteColor)),
+            Text(this.titulo, style: TextStyle(fontSize: 18, color: whiteColor)),
             SizedBox(height: 20),
             ///Text(this.subtitulo, style: TextStyle(fontSize: 20, color: whiteColor, fontWeight: FontWeight.bold)),
             SizedBox(height: 0),
-            RawMaterialButton(
+           /* RawMaterialButton(
                 shape: CircleBorder(),
                 padding: EdgeInsets.all(0),
                 child: FaIcon(this.iconCenter, color: Colors.white, size: 50),
                 onPressed: () => (this.hasLink) ? Navigator.push(context, MaterialPageRoute(builder: (context) => EditarDadosPessoais())) : {}
-            ),
+            ),*/
           ],
         )
       ],
@@ -81,10 +81,10 @@ class _IconHeaderBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200,
+      height: 150,
       width: double.infinity,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only( bottomLeft: Radius.circular(80)),
+        borderRadius: BorderRadius.only( bottomLeft: Radius.circular(40), bottomRight: Radius.circular(40)),
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,

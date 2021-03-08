@@ -19,8 +19,8 @@ class Labels extends StatelessWidget {
       child: Column(
           children: <Widget>[
             SizedBox( height: 40 ),
-            Text(this.message, style: TextStyle( color: Colors.white, fontSize: 15, fontWeight: FontWeight.w300 ), ),
-            SizedBox( height: 5 ),
+            Text(this.message, style: TextStyle( color: Colors.black54, fontSize: 15, fontWeight: FontWeight.w300 ), ),
+            SizedBox( height: 15 ),
             GestureDetector(
               child: Text(this.callToActionText, style: TextStyle(color: Colors.blue[600], fontSize: 18, fontWeight: FontWeight.bold )),
               onTap: () {

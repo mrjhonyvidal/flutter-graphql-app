@@ -38,16 +38,31 @@ class TabCampanhaVacinas extends StatelessWidget {
     ).toList();
 
     return Scaffold(
-      backgroundColor: Color(0xffF2F2F2),
+      backgroundColor: Color(0xffFFFFFF),
       body: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
              _Header(),
+              Card(
+                child: InkWell(
+                  splashColor: Colors.blue.withAlpha(30),
+                  onTap: () {
+                    print('Card tapped.');
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    height: 100,
+                    color: Color(0xffF2F2F2),
+                    child: Text('Sua próxima vacinação está agendada para o dia 25 de Março entre 14:00 e 15:00 no posto de saúde UBS Benedito de Oliveira Crudo, R. Carlos de Campos, 82.'),
+                    padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 25.0),
+                  ),
+                ),
+              ),
               Expanded(
                 child: SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
-                  padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 30.0),
+                  padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
                   child: Column(
                     children: <Widget>[
                       //SizedBox( height: 80,),
