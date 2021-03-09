@@ -1,10 +1,7 @@
-import 'package:cndv/src/models/response_authenticate_user.dart';
-import 'package:cndv/src/pages/campanhas/campanha_detalhe_page.dart';
 import 'package:cndv/src/pages/mensagens/mensagem_notificacoes_page.dart';
 import 'package:cndv/src/pages/perfil/editar_dados_pessoais_page.dart';
 import 'package:cndv/src/services/graphql/queries/historico_vacina.dart';
 import 'package:cndv/src/storage/cndv_secure_storage.dart';
-import 'package:cndv/src/widgets/card_historico_vacina.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
@@ -27,7 +24,10 @@ class TabCarteiraMedica extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            _Header(usuarioNome: cndvAuthSecureProvider.usuarioAcesso.nome),
+            _Header(
+                usuarioNome: cndvAuthSecureProvider.usuarioAcesso.nome,
+                parentContext: context
+            ),
             Expanded(
                 child: SafeArea(
                   child: SingleChildScrollView(
@@ -61,61 +61,39 @@ class TabCarteiraMedica extends StatelessWidget {
                                 return new CircularProgressIndicator();
                               }
 
-                              final List<dynamic> completeHistoryVaccines = result.data['obtenerHistoricoVacinacao'] as List<dynamic>;
+                              if (result.data != null ) {
+                                final List<dynamic> completeHistoryVaccines = result.data['obtenerHistoricoVacinacao'] as List<dynamic>;
 
-                             /* List<dynamic> historicoVacinaMap = completeHistoryVaccines.map(
-                                (historico) => CardHistoricoVacina(
-                                      tipo_vacina: historico['tipo_vacina_descricao'],
-                                      onPress: () {
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => CampanhaDetalhe()));
-                                      },
-                                  )
-                              ).toList();*/
-
-                              if (completeHistoryVaccines.length > 0) {
-                                return ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemCount: completeHistoryVaccines.length,
-                                    itemBuilder: (context, index) {
-                                      final uniqueEntryHistory = completeHistoryVaccines[index];
-                                      return _buildCard(uniqueEntryHistory);
-                                    }
-                                );
-                                /*return SafeArea(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                                      children: <Widget>[
-                                        Expanded(
-                                          child: SingleChildScrollView(
-                                            physics: BouncingScrollPhysics(),
-                                            padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
-                                            child: Column(
-                                              children: <Widget>[
-                                                //SizedBox( height: 80,),
-                                                ...historicoVacinaMap
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                );*/
-                              }else{
-                                return Center(
-                                  child: Container(
-                                    width: 250,
-                                    margin: EdgeInsets.only( top: 100),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Image( image: AssetImage('assets/img/medical-report-blue.png'), width: 80,),
-                                        SizedBox(height: 10),
-                                        Text('Nenhuma vacina tomada.', style: TextStyle(fontSize: 18, color: Colors.black54)),
-                                      ],
+                                if (completeHistoryVaccines != null && completeHistoryVaccines.length > 0) {
+                                  return ListView.builder(
+                                      shrinkWrap: true,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      itemCount: completeHistoryVaccines.length,
+                                      itemBuilder: (context, index) {
+                                        final uniqueEntryHistory = completeHistoryVaccines[index];
+                                        return _buildCard(uniqueEntryHistory);
+                                      }
+                                  );
+                                }else{
+                                  return Center(
+                                    child: Container(
+                                      width: 250,
+                                      margin: EdgeInsets.only( top: 100),
+                                      child: Column(
+                                        children: <Widget>[
+                                          Image( image: AssetImage('assets/img/medical-report-blue.png'), width: 80,),
+                                          SizedBox(height: 10),
+                                          Text('Nenhuma vacina tomada.', style: TextStyle(fontSize: 18, color: Colors.black54)),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                );
-                              };
+                                  );
+                                }
+                              }
+
+                              return Text('Histórico de vacinação vazio.');
+
+
                             },
                           )
                         ),
@@ -185,8 +163,9 @@ Widget _buildCard(medicalEntry) => SizedBox(
 class _Header extends StatelessWidget {
 
   final String usuarioNome;
+  final BuildContext parentContext;
 
-  const _Header({Key key, this.usuarioNome}) : super(key: key);
+  const _Header({Key key, this.usuarioNome, this.parentContext}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -197,11 +176,25 @@ class _Header extends StatelessWidget {
           subtitulo: 'Carteira Nacional Digital de Vacinação',
           username: 'JVO',
           iconHeader: FontAwesomeIcons.plus,
-          color1: Color(0xff526BF6),
-          color2:  Color(0xff67ACF2),
+          color1: Colors.blue,
+          color2:  Colors.blueAccent,
           hasLink: true,
           urlRoute: EditarDadosPessoais(),
           iconCenter: Icons.account_box
+        ),
+        Positioned(
+          left: 30,
+          top: 30,
+          child: InkWell(
+            onTap: (){
+              Scaffold.of(this.parentContext).openDrawer();
+            },
+            child: Icon(
+                FontAwesomeIcons.user,
+                color: Colors.white,
+                size: 20,
+            ),
+          ),
         ),
         Positioned(
             right: 0,
@@ -209,7 +202,7 @@ class _Header extends StatelessWidget {
             child: RawMaterialButton(
                 shape: CircleBorder(),
                 padding: EdgeInsets.all(10.0),
-                child: FaIcon(Icons.message, color: Colors.white, size: 30),
+                child: FaIcon(FontAwesomeIcons.bell, color: Colors.white, size: 20),
                  onPressed: (){
                    Navigator.push(context, MaterialPageRoute(builder: (context) => MensagensNotificacoes()));
                  }

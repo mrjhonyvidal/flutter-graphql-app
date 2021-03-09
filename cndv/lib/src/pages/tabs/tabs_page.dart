@@ -12,10 +12,6 @@ class TabsPage extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => new _NavegationModel(),
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color(0xff526BF6),
-          title: Text('CNDV'),
-        ),
         body: _Pages(),
         drawer: _MainSidebarMenu(),
         bottomNavigationBar: _Navigation(),

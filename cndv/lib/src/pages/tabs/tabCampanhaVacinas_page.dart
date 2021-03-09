@@ -2,10 +2,7 @@ import 'package:cndv/src/pages/campanhas/campanha_detalhe_page.dart';
 import 'package:cndv/src/pages/searchs/buscar_campanhas_page.dart';
 import 'package:cndv/src/widgets/card_campanhas.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:cndv/src/widgets/header.dart';
-import 'package:cndv/src/services/rest/noticias_service.dart';
-import 'package:cndv/src/widgets/lista_noticias_vacinas.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 // TODO this will be defined in our models
@@ -43,7 +40,7 @@ class TabCampanhaVacinas extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-             _Header(),
+             _Header( parentContext: context ),
               Card(
                 child: InkWell(
                   splashColor: Colors.blue.withAlpha(30),
@@ -82,6 +79,11 @@ class TabCampanhaVacinas extends StatelessWidget {
 /// TODO extract this to common place as part of Header Layout as it's shared
 /// between vacinas and campanhas tabCarteiraMedica
 class _Header extends StatelessWidget {
+
+  final BuildContext parentContext;
+
+  const _Header({Key key, this.parentContext}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -90,19 +92,32 @@ class _Header extends StatelessWidget {
           titulo: 'Próximas campanhas',
           subtitulo: 'Campanhas',
           iconHeader: FontAwesomeIcons.plus,
-          color1: Color(0xff526BF6),
-          color2:  Color(0xff67ACF2),
+          color1: Colors.blueAccent,
+          color2:  Colors.blue,
           hasLink: false,
           iconCenter: FontAwesomeIcons.calendarAlt
         ),
-
+        Positioned(
+          left: 30,
+          top: 30,
+          child: InkWell(
+            onTap: (){
+              Scaffold.of(this.parentContext).openDrawer();
+            },
+            child: Icon(
+              FontAwesomeIcons.user,
+              color: Colors.white,
+              size: 20,
+            ),
+          ),
+        ),
         Positioned(
           right: 0,
           top:15,
           child: RawMaterialButton(
             shape: CircleBorder(),
             padding: EdgeInsets.all(15.0),
-            child: FaIcon(FontAwesomeIcons.search, color: Colors.white),
+            child: FaIcon(FontAwesomeIcons.search, color: Colors.white, size: 20),
             onPressed: (){
               Navigator.push(context, MaterialPageRoute(builder: (context) => BuscarCampanhasPage()));
             }
