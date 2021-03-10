@@ -4,7 +4,8 @@
 
 import 'dart:convert';
 
-CampanhasModel campanhasModelFromJson(String str) => CampanhasModel.fromJson(json.decode(str));
+CampanhasModel campanhasModelFromJson(String str) =>
+    CampanhasModel.fromJson(json.decode(str));
 
 String campanhasModelToJson(CampanhasModel data) => json.encode(data.toJson());
 
@@ -16,12 +17,12 @@ class CampanhasModel {
   Data data;
 
   factory CampanhasModel.fromJson(Map<String, dynamic> json) => CampanhasModel(
-    data: Data.fromJson(json["data"]),
-  );
+        data: Data.fromJson(json["data"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "data": data.toJson(),
-  };
+        "data": data.toJson(),
+      };
 }
 
 class Data {
@@ -32,12 +33,14 @@ class Data {
   List<ObtenerCampanha> obtenerCampanhas;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    obtenerCampanhas: List<ObtenerCampanha>.from(json["obtenerCampanhas"].map((x) => ObtenerCampanha.fromJson(x))),
-  );
+        obtenerCampanhas: List<ObtenerCampanha>.from(
+            json["obtenerCampanhas"].map((x) => ObtenerCampanha.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "obtenerCampanhas": List<dynamic>.from(obtenerCampanhas.map((x) => x.toJson())),
-  };
+        "obtenerCampanhas":
+            List<dynamic>.from(obtenerCampanhas.map((x) => x.toJson())),
+      };
 }
 
 class ObtenerCampanha {
@@ -57,21 +60,22 @@ class ObtenerCampanha {
   String municipio;
   String uf;
 
-  factory ObtenerCampanha.fromJson(Map<String, dynamic> json) => ObtenerCampanha(
-    id: json["id"],
-    nome: json["nome"],
-    idadeInicio: json["idade_inicio"],
-    idadeFinal: json["idade_final"],
-    municipio: json["municipio"],
-    uf: json["uf"],
-  );
+  factory ObtenerCampanha.fromJson(Map<String, dynamic> json) =>
+      ObtenerCampanha(
+        id: json["id"],
+        nome: json["nome"],
+        idadeInicio: json["idade_inicio"],
+        idadeFinal: json["idade_final"],
+        municipio: json["municipio"],
+        uf: json["uf"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "nome": nome,
-    "idade_inicio": idadeInicio,
-    "idade_final": idadeFinal,
-    "municipio": municipio,
-    "uf": uf,
-  };
+        "id": id,
+        "nome": nome,
+        "idade_inicio": idadeInicio,
+        "idade_final": idadeFinal,
+        "municipio": municipio,
+        "uf": uf,
+      };
 }

@@ -5,8 +5,8 @@ import 'package:cndv/src/pages/cidadao/carteira_qr_page.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 final sidebarMenuRoutes = <_Route>[
-  _Route( FontAwesomeIcons.qrcode,      'QR CNDV', 'carteira_qr'),
-  _Route( FontAwesomeIcons.userCircle,  'Dados pessoais', 'editar_dados_pessoais')
+  _Route(FontAwesomeIcons.qrcode, 'QR CNDV', 'carteira_qr'),
+  _Route(FontAwesomeIcons.userCircle, 'Dados pessoais', 'editar_dados_pessoais')
 ];
 
 class _Route {
@@ -16,4 +16,3 @@ class _Route {
 
   _Route(this.icon, this.titulo, this.page);
 }
-

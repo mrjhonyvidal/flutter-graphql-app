@@ -1,5 +1,6 @@
 class DadosPessoais {
-  static String getDadosPessoaisByCPF = """query obtenerDadosPessoais(\$cpf: String!){
+  static String getDadosPessoaisByCPF =
+      """query obtenerDadosPessoais(\$cpf: String!){
   obtenerDadosPessoais(cpf: \$cpf){
           cpf
           rg

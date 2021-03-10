@@ -23,46 +23,52 @@ class TabsPage extends StatelessWidget {
 class _MainSidebarMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
-    final cndvAuthSecureProvider = Provider.of<CNDVAuthSecureStorage>(context, listen: true);
+    final cndvAuthSecureProvider =
+        Provider.of<CNDVAuthSecureStorage>(context, listen: true);
 
     return Drawer(
-        child: Container(
+      child: Container(
           child: Column(
-            children: <Widget>[
-              SafeArea(
-                child: Container(
-                  padding: EdgeInsets.all(20),
-                  width: double.infinity,
-                  height: 150,
-                  child: CircleAvatar(
-                    backgroundColor: Colors.blue,
-                    child: Text('IMG', style: TextStyle(fontSize: 40),),
-                  )
-                ),
-              ),
-              Text(cndvAuthSecureProvider.usuarioAcesso.nome, style: TextStyle(fontSize: 16),),
-              Text(cndvAuthSecureProvider.usuarioAcesso.cpf, style: TextStyle(fontSize: 14),),
-              Expanded(
-                  child: _ListSidebarMenuOptions(cpfCidadao: cndvAuthSecureProvider.usuarioAcesso.cpf)
-              ),
-              ListTile(
-                leading: Icon(FontAwesomeIcons.doorOpen, color: Colors.blue),
-                title: Text('Sair'),
-                onTap: (){
-                    CNDVAuthSecureStorage.deleteToken();
-                    Navigator.pushReplacementNamed(context, 'login');
-                },
-              )
-            ],
-          )
+        children: <Widget>[
+          SafeArea(
+            child: Container(
+                padding: EdgeInsets.all(20),
+                width: double.infinity,
+                height: 150,
+                child: CircleAvatar(
+                  backgroundColor: Colors.blue,
+                  child: Text(
+                    'IMG',
+                    style: TextStyle(fontSize: 40),
+                  ),
+                )),
           ),
+          Text(
+            cndvAuthSecureProvider.usuarioAcesso.nome,
+            style: TextStyle(fontSize: 16),
+          ),
+          Text(
+            cndvAuthSecureProvider.usuarioAcesso.cpf,
+            style: TextStyle(fontSize: 14),
+          ),
+          Expanded(
+              child: _ListSidebarMenuOptions(
+                  cpfCidadao: cndvAuthSecureProvider.usuarioAcesso.cpf)),
+          ListTile(
+            leading: Icon(FontAwesomeIcons.doorOpen, color: Colors.blue),
+            title: Text('Sair'),
+            onTap: () {
+              CNDVAuthSecureStorage.deleteToken();
+              Navigator.pushReplacementNamed(context, 'login');
+            },
+          )
+        ],
+      )),
     );
   }
 }
 
 class _ListSidebarMenuOptions extends StatelessWidget {
-
   final String cpfCidadao;
 
   const _ListSidebarMenuOptions({Key key, this.cpfCidadao}) : super(key: key);
@@ -71,18 +77,20 @@ class _ListSidebarMenuOptions extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
       physics: BouncingScrollPhysics(),
-      separatorBuilder: ( context, i) => Divider(
+      separatorBuilder: (context, i) => Divider(
         color: Colors.blue,
       ),
       itemCount: sidebarMenuRoutes.length,
       itemBuilder: (context, i) => ListTile(
-        leading: FaIcon( sidebarMenuRoutes[i].icon, color: Colors.blue, ),
-        title: Text(sidebarMenuRoutes[i].titulo),
-        trailing: Icon(Icons.chevron_right, color: Colors.blue),
-        onTap: () => Navigator.of(context).pushNamed(sidebarMenuRoutes[i].page, arguments: {
-          'cpf': this.cpfCidadao
-        })
-      ),
+          leading: FaIcon(
+            sidebarMenuRoutes[i].icon,
+            color: Colors.blue,
+          ),
+          title: Text(sidebarMenuRoutes[i].titulo),
+          trailing: Icon(Icons.chevron_right, color: Colors.blue),
+          onTap: () => Navigator.of(context).pushNamed(
+              sidebarMenuRoutes[i].page,
+              arguments: {'cpf': this.cpfCidadao})),
     );
   }
 }
@@ -93,47 +101,47 @@ class _Navigation extends StatelessWidget {
     final navigationModel = Provider.of<_NavegationModel>(context);
 
     return BottomNavigationBar(
-      currentIndex: navigationModel.currentPage,
-      onTap: (i) => navigationModel.currentPage = i,
-      ///selectedItemColor: Colors.black,
-      ///unselectedItemColor: Colors.white,
-      items: [
-        BottomNavigationBarItem( icon: Icon( Icons.fingerprint), label: 'Carteira Médica'),
-        BottomNavigationBarItem( icon: Icon( Icons.medical_services), label: 'Campanhas')
-      ]
-    );
+        currentIndex: navigationModel.currentPage,
+        onTap: (i) => navigationModel.currentPage = i,
+
+        ///selectedItemColor: Colors.black,
+        ///unselectedItemColor: Colors.white,
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.fingerprint), label: 'Carteira Médica'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.medical_services), label: 'Campanhas')
+        ]);
   }
 }
 
 class _Pages extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     final navigationModel = Provider.of<_NavegationModel>(context);
 
     return PageView(
       controller: navigationModel.pageController,
       //physics: BouncingScrollPhysics(),
       physics: NeverScrollableScrollPhysics(),
-      children: <Widget>[
-        TabCarteiraMedica(),
-        TabCampanhaVacinas()
-      ],
+      children: <Widget>[TabCarteiraMedica(), TabCampanhaVacinas()],
     );
   }
 }
 
 /// Publish/Notifier pattern to notify all the widgets that are dependent of this widget
-class _NavegationModel with ChangeNotifier{
+class _NavegationModel with ChangeNotifier {
   int _currentPage = 0;
   PageController _pageController = new PageController();
 
   int get currentPage => this._currentPage;
 
-  set currentPage( int index ) {
+  set currentPage(int index) {
     this._currentPage = index;
-    _pageController.animateToPage(index, duration: Duration(milliseconds: 250), curve: Curves.easeOut);
+    _pageController.animateToPage(index,
+        duration: Duration(milliseconds: 250), curve: Curves.easeOut);
     notifyListeners();
   }
+
   PageController get pageController => this._pageController;
 }

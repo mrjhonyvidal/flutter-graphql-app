@@ -17,15 +17,15 @@ class MyApp extends StatelessWidget {
       client: GraphQLCNDVClient.inititializeClient(),
       child: MultiProvider(
         providers: [
-            ChangeNotifierProvider(create: (_) => new CarteiraCidadaoService() ),
-            ChangeNotifierProvider(create: (_) => new CNDVAuthSecureStorage() ),
-            ChangeNotifierProvider(create: (_) => new NoticiasService() ),
-          ],
-          child:MaterialApp(
-              debugShowCheckedModeBanner: false,
-              title: 'CNDV App',
-              initialRoute: 'loading',
-              routes: appRoutes,
+          ChangeNotifierProvider(create: (_) => new CarteiraCidadaoService()),
+          ChangeNotifierProvider(create: (_) => new CNDVAuthSecureStorage()),
+          ChangeNotifierProvider(create: (_) => new NoticiasService()),
+        ],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'CNDV App',
+          initialRoute: 'loading',
+          routes: appRoutes,
         ),
       ),
     );

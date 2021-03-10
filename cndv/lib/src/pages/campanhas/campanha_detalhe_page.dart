@@ -5,8 +5,8 @@ class CampanhaDetalhe extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Color(0xff526BF6),
-          title: Text('Detalhes da Campanha'),
+        backgroundColor: Color(0xff526BF6),
+        title: Text('Detalhes da Campanha'),
       ),
       body: Center(
         child: Text('Informação do lugar, horário, tipo vacina, info extra'),

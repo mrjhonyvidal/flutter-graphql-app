@@ -11,14 +11,14 @@ import 'package:cndv/src/pages/tabs/tabs_page.dart';
 import 'package:flutter/cupertino.dart';
 
 final Map<String, Widget Function(BuildContext)> appRoutes = {
-  'tabs': ( _ ) => TabsPage(),
-  'login': ( _ ) => Login(),
-  'loading': ( _ ) => Loading(),
-  'cadastro': ( _ ) => Cadastro(),
-  'recuperar_acesso': ( _ ) => RecuperarAcesso(),
-  'campanha_detalhe': ( _ ) => CampanhaDetalhe(),
-  'mensagem_notificacoes': ( _ ) => MensagensNotificacoes(),
-  'editar_dados_pessoais': ( _ ) => EditarDadosPessoais(),
-  'buscar_campanhas': ( _ ) => BuscarCampanhasPage(),
-  'carteira_qr': ( _ ) => CarteiraQR(),
+  'tabs': (_) => TabsPage(),
+  'login': (_) => Login(),
+  'loading': (_) => Loading(),
+  'cadastro': (_) => Cadastro(),
+  'recuperar_acesso': (_) => RecuperarAcesso(),
+  'campanha_detalhe': (_) => CampanhaDetalhe(),
+  'mensagem_notificacoes': (_) => MensagensNotificacoes(),
+  'editar_dados_pessoais': (_) => EditarDadosPessoais(),
+  'buscar_campanhas': (_) => BuscarCampanhasPage(),
+  'carteira_qr': (_) => CarteiraQR(),
 };

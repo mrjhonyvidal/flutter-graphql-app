@@ -4,9 +4,11 @@
 
 import 'dart:convert';
 
-CidadaoDadosPessoaisModel cidadaoDadosPessoaisModelFromJson(String str) => CidadaoDadosPessoaisModel.fromJson(json.decode(str));
+CidadaoDadosPessoaisModel cidadaoDadosPessoaisModelFromJson(String str) =>
+    CidadaoDadosPessoaisModel.fromJson(json.decode(str));
 
-String cidadaoDadosPessoaisModelToJson(CidadaoDadosPessoaisModel data) => json.encode(data.toJson());
+String cidadaoDadosPessoaisModelToJson(CidadaoDadosPessoaisModel data) =>
+    json.encode(data.toJson());
 
 class CidadaoDadosPessoaisModel {
   CidadaoDadosPessoaisModel({
@@ -15,13 +17,14 @@ class CidadaoDadosPessoaisModel {
 
   Data data;
 
-  factory CidadaoDadosPessoaisModel.fromJson(Map<String, dynamic> json) => CidadaoDadosPessoaisModel(
-    data: Data.fromJson(json["data"]),
-  );
+  factory CidadaoDadosPessoaisModel.fromJson(Map<String, dynamic> json) =>
+      CidadaoDadosPessoaisModel(
+        data: Data.fromJson(json["data"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "data": data.toJson(),
-  };
+        "data": data.toJson(),
+      };
 }
 
 class Data {
@@ -32,12 +35,13 @@ class Data {
   ObtenerDadosPessoais obtenerDadosPessoais;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    obtenerDadosPessoais: ObtenerDadosPessoais.fromJson(json["obtenerDadosPessoais"]),
-  );
+        obtenerDadosPessoais:
+            ObtenerDadosPessoais.fromJson(json["obtenerDadosPessoais"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "obtenerDadosPessoais": obtenerDadosPessoais.toJson(),
-  };
+        "obtenerDadosPessoais": obtenerDadosPessoais.toJson(),
+      };
 }
 
 class ObtenerDadosPessoais {
@@ -77,41 +81,42 @@ class ObtenerDadosPessoais {
   String pais;
   String cep;
 
-  factory ObtenerDadosPessoais.fromJson(Map<String, dynamic> json) => ObtenerDadosPessoais(
-    cpf: json["cpf"],
-    rg: json["rg"],
-    nome: json["nome"],
-    dtNascimento: DateTime.parse(json["dt_nascimento"]),
-    email: json["email"],
-    contato: json["contato"],
-    idTipoSanguineo: json["id_tipo_sanguineo"],
-    doador: json["doador"],
-    endereco: json["endereco"],
-    numero: json["numero"],
-    complemento: json["complemento"],
-    bairro: json["bairro"],
-    cidade: json["cidade"],
-    uf: json["uf"],
-    pais: json["pais"],
-    cep: json["cep"],
-  );
+  factory ObtenerDadosPessoais.fromJson(Map<String, dynamic> json) =>
+      ObtenerDadosPessoais(
+        cpf: json["cpf"],
+        rg: json["rg"],
+        nome: json["nome"],
+        dtNascimento: DateTime.parse(json["dt_nascimento"]),
+        email: json["email"],
+        contato: json["contato"],
+        idTipoSanguineo: json["id_tipo_sanguineo"],
+        doador: json["doador"],
+        endereco: json["endereco"],
+        numero: json["numero"],
+        complemento: json["complemento"],
+        bairro: json["bairro"],
+        cidade: json["cidade"],
+        uf: json["uf"],
+        pais: json["pais"],
+        cep: json["cep"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "cpf": cpf,
-    "rg": rg,
-    "nome": nome,
-    "dt_nascimento": dtNascimento.toIso8601String(),
-    "email": email,
-    "contato": contato,
-    "id_tipo_sanguineo": idTipoSanguineo,
-    "doador": doador,
-    "endereco": endereco,
-    "numero": numero,
-    "complemento": complemento,
-    "bairro": bairro,
-    "cidade": cidade,
-    "uf": uf,
-    "pais": pais,
-    "cep": cep,
-  };
+        "cpf": cpf,
+        "rg": rg,
+        "nome": nome,
+        "dt_nascimento": dtNascimento.toIso8601String(),
+        "email": email,
+        "contato": contato,
+        "id_tipo_sanguineo": idTipoSanguineo,
+        "doador": doador,
+        "endereco": endereco,
+        "numero": numero,
+        "complemento": complemento,
+        "bairro": bairro,
+        "cidade": cidade,
+        "uf": uf,
+        "pais": pais,
+        "cep": cep,
+      };
 }

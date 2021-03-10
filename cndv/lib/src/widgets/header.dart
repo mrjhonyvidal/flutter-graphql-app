@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Header extends StatelessWidget {
-
   final IconData iconHeader;
-  final String username; // TODO this should be an instance of Usuario/Cidadao not String
+  final String
+      username; // TODO this should be an instance of Usuario/Cidadao not String
   final String titulo;
   final String subtitulo;
   final Color color1;
@@ -16,17 +16,16 @@ class Header extends StatelessWidget {
   final Widget urlRoute;
   final IconData iconCenter;
 
-  const Header({
-    @required this.titulo,
-    @required this.subtitulo,
-    @required this.hasLink,
-    this.iconHeader = FontAwesomeIcons.plus,
-    this.username = '',
-    this.color1 = Colors.grey,
-    this.color2 = Colors.blueGrey,
-    this.urlRoute,
-    this.iconCenter
-  });
+  const Header(
+      {@required this.titulo,
+      @required this.subtitulo,
+      @required this.hasLink,
+      this.iconHeader = FontAwesomeIcons.plus,
+      this.username = '',
+      this.color1 = Colors.grey,
+      this.color2 = Colors.blueGrey,
+      this.urlRoute,
+      this.iconCenter});
 
   @override
   Widget build(BuildContext context) {
@@ -41,16 +40,18 @@ class Header extends StatelessWidget {
         Positioned(
             top: -50,
             left: -70,
-            child: FaIcon(this.iconHeader, size: 250, color: Colors.white.withOpacity(0.2))
-        ),
+            child: FaIcon(this.iconHeader,
+                size: 250, color: Colors.white.withOpacity(0.2))),
         Column(
           children: <Widget>[
             SizedBox(height: 80, width: double.infinity),
-            Text(this.titulo, style: TextStyle(fontSize: 18, color: whiteColor)),
+            Text(this.titulo,
+                style: TextStyle(fontSize: 18, color: whiteColor)),
             SizedBox(height: 20),
+
             ///Text(this.subtitulo, style: TextStyle(fontSize: 20, color: whiteColor, fontWeight: FontWeight.bold)),
             SizedBox(height: 0),
-           /* RawMaterialButton(
+            /* RawMaterialButton(
                 shape: CircleBorder(),
                 padding: EdgeInsets.all(0),
                 child: FaIcon(this.iconCenter, color: Colors.white, size: 50),
@@ -61,11 +62,9 @@ class Header extends StatelessWidget {
       ],
     );
   }
-
 }
 
 class _IconHeaderBackground extends StatelessWidget {
-
   final Color color1;
   final Color color2;
 
@@ -84,16 +83,13 @@ class _IconHeaderBackground extends StatelessWidget {
       height: 140,
       width: double.infinity,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only( bottomLeft: Radius.circular(60), bottomRight: Radius.circular(60)),
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: <Color>[
-            this.color1,
-            this.color2
-          ]
-        )
-      ),
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(60),
+              bottomRight: Radius.circular(60)),
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: <Color>[this.color1, this.color2])),
     );
   }
 }

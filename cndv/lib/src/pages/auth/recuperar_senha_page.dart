@@ -5,7 +5,8 @@ class RecuperarAcesso extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('Recuperar acesso somente com o cpf perguntando se mandar no email terminado em ****dal@gmail.com ou telefone terminado em ***605'),
+        child: Text(
+            'Recuperar acesso somente com o cpf perguntando se mandar no email terminado em ****dal@gmail.com ou telefone terminado em ***605'),
       ),
     );
   }

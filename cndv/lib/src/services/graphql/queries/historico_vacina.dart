@@ -1,5 +1,6 @@
 class HistoricoVacina {
-  static String getCidadaoHistoricoVacinacao = """query obtenerHistoricoVacinacao(\$cpf: String!) {
+  static String getCidadaoHistoricoVacinacao =
+      """query obtenerHistoricoVacinacao(\$cpf: String!) {
     obtenerHistoricoVacinacao(cpf: \$cpf) {
        id
        cpf

@@ -1,4 +1,4 @@
-class authTokenRegistrationUsuario{
+class authTokenRegistrationUsuario {
   static String authUser = """
     mutation autenticarUsuario(\$cpf: String!, \$senha: String!) {
       autenticarUsuario(input: {cpf: \$cpf, senha: \$senha}) {

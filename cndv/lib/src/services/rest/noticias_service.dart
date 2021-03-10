@@ -6,7 +6,6 @@ final _URL_NOTICIAS = 'https://newsapi.org/v2/';
 final _API_KEY = 'f49f2e8ac07047eb887cef27c938857b';
 
 class NoticiasService with ChangeNotifier {
-
   List<Article> headlines = [];
 
   NoticiasService() {
@@ -14,7 +13,8 @@ class NoticiasService with ChangeNotifier {
   }
 
   getTopHeadlines() async {
-    final url = '$_URL_NOTICIAS/top-headlines?apiKey=$_API_KEY&country=br&q=vacina&category=health';
+    final url =
+        '$_URL_NOTICIAS/top-headlines?apiKey=$_API_KEY&country=br&q=vacina&category=health';
     final resp = await http.get(url);
 
     final noticiasVacinas = noticiasVacinasFromJson(resp.body);

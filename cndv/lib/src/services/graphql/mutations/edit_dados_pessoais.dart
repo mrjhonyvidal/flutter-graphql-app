@@ -1,5 +1,6 @@
 class DadosPessoaisMutations {
-  static String editarDadosPessoaisByCPF = """mutation atualizarDadosPessoais(\$cpf: String!, \$input: DadosPessoaisInput) {
+  static String editarDadosPessoaisByCPF =
+      """mutation atualizarDadosPessoais(\$cpf: String!, \$input: DadosPessoaisInput) {
     atualizarDadosPessoais(cpf: \$cpf, input: \$input) {
       cpf
       rg
