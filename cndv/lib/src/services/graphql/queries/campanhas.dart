@@ -1,12 +1,12 @@
 class Campanhas {
   static String getAllCampanhas = """query obtenerCampanhas{
-  obtenerCampanhas{
-    id
-    nome
-    idade_inicio
-    idade_final
-    municipio
-    uf
-  }
+    obtenerCampanhas{
+      id
+      nome
+      idade_inicio
+      idade_final
+      municipio
+      uf
+    }
 }""";
 }

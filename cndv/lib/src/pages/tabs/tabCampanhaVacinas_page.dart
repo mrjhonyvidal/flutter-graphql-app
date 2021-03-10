@@ -1,38 +1,27 @@
 import 'package:cndv/src/pages/campanhas/campanha_detalhe_page.dart';
 import 'package:cndv/src/pages/searchs/buscar_campanhas_page.dart';
+import 'package:cndv/src/services/graphql/queries/campanhas.dart';
 import 'package:cndv/src/widgets/card_campanhas.dart';
 import 'package:flutter/material.dart';
 import 'package:cndv/src/widgets/header.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 
-// TODO this will be defined in our models
-class CampanhaModel {
-  final String texto;
-  CampanhaModel(this.texto);
+
+class TabCampanhaVacinas extends StatefulWidget {
+
+  TabCampanhaVacinas({ Key key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _TabCampanhaVacinas();
 }
 
-class TabCampanhaVacinas extends StatelessWidget {
+class _TabCampanhaVacinas extends State<TabCampanhaVacinas> {
+
+  VoidCallback refetchQuery;
+
   @override
   Widget build(BuildContext context) {
-
-    // TODO obter campanhas a partir da API de Campanhas
-    final campanhas = <CampanhaModel>[
-      new CampanhaModel('Campanha 1'),
-      new CampanhaModel('Campanha 2'),
-      new CampanhaModel('Campanha 3'),
-      new CampanhaModel('Campanha 4'),
-      new CampanhaModel('Campanha 5'),
-      new CampanhaModel('Campanha 6'),
-    ];
-
-    List<Widget> campanhasMap = campanhas.map(
-        (campanha) => CardCampanha(
-            texto: campanha.texto,
-            onPress: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => CampanhaDetalhe()));
-            },
-        )
-    ).toList();
 
     return Scaffold(
       backgroundColor: Color(0xffFFFFFF),
@@ -45,7 +34,7 @@ class TabCampanhaVacinas extends StatelessWidget {
                 child: InkWell(
                   splashColor: Colors.blue.withAlpha(30),
                   onTap: () {
-                    print('Card tapped.');
+                    print('Navigator.push Mostrar detalhe do agendamento com opção para compartilhar por email our whatsapp.');
                   },
                   child: Container(
                     width: double.infinity,
@@ -60,11 +49,62 @@ class TabCampanhaVacinas extends StatelessWidget {
                 child: SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
                   padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
-                  child: Column(
-                    children: <Widget>[
-                      //SizedBox( height: 80,),
-                      ...campanhasMap
-                    ],
+                  child: Query(
+                    options: QueryOptions(
+                      document: gql(Campanhas.getAllCampanhas),
+                    ),
+                    builder: (QueryResult result, { VoidCallback refetch, FetchMore fetchMore}) {
+                      refetchQuery = refetch;
+                      if (result.hasException){
+                        return Text(
+                          result.exception.toString(),
+                          style: TextStyle(
+                              color: Colors.black54,
+                              fontWeight: FontWeight.w600
+                          ),
+                        );
+                      }
+                      if ( result.isLoading) {
+                        return Center(
+                            child: CircularProgressIndicator()
+                        );
+                      }
+
+                      final List<dynamic> completeCampanhas = result.data['obtenerCampanhas'] as List<dynamic>;
+
+                      if (completeCampanhas != null && completeCampanhas.length > 0) {
+
+                        List<Widget> campanhasMap = completeCampanhas.map(
+                                (campanha) => CardCampanha(
+                              texto: campanha['nome'],
+                              onPress: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => CampanhaDetalhe()));
+                              },
+                            )
+                        ).toList();
+
+                        return Column(
+                          children: <Widget>[
+                          //SizedBox( height: 80,),
+                          ...campanhasMap
+                          ],
+                        );
+                      }else{
+                        return Center (
+                          child: Container(
+                            width: 250,
+                            margin: EdgeInsets.only( top: 100 ),
+                            child: Column(
+                              children: <Widget>[
+                                Image( image: AssetImage('assets/img/medical-report-blue.png'), width: 80,),
+                                SizedBox(height: 10),
+                                Text('Nenhuma vacina tomada.', style: TextStyle(fontSize: 18, color: Colors.black54)),
+                              ]
+                            )
+                          )
+                        );
+                      }
+                    }
                   ),
                 ),
               ),

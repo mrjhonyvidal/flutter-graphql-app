@@ -9,15 +9,22 @@ import 'package:cndv/src/widgets/header.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
-class TabCarteiraMedica extends StatelessWidget {
+class TabCarteiraMedica extends StatefulWidget {
+
+  TabCarteiraMedica({ Key key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _TabCarteiraMedica();
+}
+
+class _TabCarteiraMedica extends State<TabCarteiraMedica> {
+
+  VoidCallback refetchQuery;
+
   @override
   Widget build(BuildContext context) {
     final cndvAuthSecureProvider = Provider.of<CNDVAuthSecureStorage>(context, listen: false);
 
-    // TODO obter dados da API de Dados Pessoais e Histórico de Vacinação do cidadão
-    // A modo de exemplo, estamos consumindo a API de Noticias
-    //final noticiasServiceHeadlines = Provider.of<NoticiasService>(context).headlines;
-    //child: ListaNoticiasVacinas(noticiasServiceHeadlines),
     return Scaffold(
       backgroundColor: Color(0xffFFFFFF),
       body: SafeArea(
@@ -46,8 +53,8 @@ class TabCarteiraMedica extends StatelessWidget {
                               }
                             ),
                             builder: (QueryResult result, { VoidCallback refetch, FetchMore fetchMore}) {
-                              /// TODO check the use of refetch refetchQuery = refetch;
-                              /*    if (result.hasException) {
+                              refetchQuery = refetch;
+                             if (result.hasException) {
                                 return Text(
                                     result.exception.toString(),
                                     style: TextStyle(
@@ -55,45 +62,39 @@ class TabCarteiraMedica extends StatelessWidget {
                                         fontWeight: FontWeight.w600
                                     ),
                                 );
-                              }*/
+                              }
 
                               if (result.isLoading) {
                                 return new CircularProgressIndicator();
                               }
 
-                              if (result.data != null ) {
-                                final List<dynamic> completeHistoryVaccines = result.data['obtenerHistoricoVacinacao'] as List<dynamic>;
+                              final List<dynamic> completeHistoryVaccines = result.data['obtenerHistoricoVacinacao'] as List<dynamic>;
 
-                                if (completeHistoryVaccines != null && completeHistoryVaccines.length > 0) {
-                                  return ListView.builder(
-                                      shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      itemCount: completeHistoryVaccines.length,
-                                      itemBuilder: (context, index) {
-                                        final uniqueEntryHistory = completeHistoryVaccines[index];
-                                        return _buildCard(uniqueEntryHistory);
-                                      }
-                                  );
-                                }else{
-                                  return Center(
-                                    child: Container(
-                                      width: 250,
-                                      margin: EdgeInsets.only( top: 100),
-                                      child: Column(
-                                        children: <Widget>[
-                                          Image( image: AssetImage('assets/img/medical-report-blue.png'), width: 80,),
-                                          SizedBox(height: 10),
-                                          Text('Nenhuma vacina tomada.', style: TextStyle(fontSize: 18, color: Colors.black54)),
-                                        ],
-                                      ),
+                              if (completeHistoryVaccines != null && completeHistoryVaccines.length > 0) {
+                                return ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemCount: completeHistoryVaccines.length,
+                                    itemBuilder: (context, index) {
+                                      final uniqueEntryHistory = completeHistoryVaccines[index];
+                                      return _buildCard(uniqueEntryHistory);
+                                    }
+                                );
+                              }else{
+                                return Center(
+                                  child: Container(
+                                    width: 250,
+                                    margin: EdgeInsets.only( top: 100),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Image( image: AssetImage('assets/img/medical-report-blue.png'), width: 80,),
+                                        SizedBox(height: 10),
+                                        Text('Nenhuma vacina tomada.', style: TextStyle(fontSize: 18, color: Colors.black54)),
+                                      ],
                                     ),
-                                  );
-                                }
+                                  ),
+                                );
                               }
-
-                              return Text('Histórico de vacinação vazio.');
-
-
                             },
                           )
                         ),

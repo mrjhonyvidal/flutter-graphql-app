@@ -1,6 +1,7 @@
+import 'package:cndv/src/services/graphql/queries/dados_pessoais.dart';
 import 'package:flutter/material.dart';
 import 'package:cndv/src/models/cidadao_dados_pessoais_models.dart';
-
+import 'package:graphql_flutter/graphql_flutter.dart';
 
 class EditarDadosPessoais extends StatefulWidget {
   @override
@@ -10,12 +11,13 @@ class EditarDadosPessoais extends StatefulWidget {
 class _EditarDadosPessoais extends State<EditarDadosPessoais> {
 
   final formKey = GlobalKey<FormState>();
-  ObtenerDadosPessoais cidadao = new ObtenerDadosPessoais();
+  ObtenerDadosPessoais cidadao;
+  VoidCallback refetchQuery;
 
   @override
   Widget build(BuildContext context) {
 
-    final CidadaoDadosPessoaisModel cidadaoModel = ModalRoute.of(context).settings.arguments;
+    final Map cidadaoCPF = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
       appBar: AppBar(
@@ -35,26 +37,61 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.all(15.0),
-          child: Form(
-            child: Column(
-              children: <Widget>[
-                _inputNome(),
-         /*       _inputRG(),
-                _inputDataNascimento(),
-                _inputEmail(),
-                _inputTelefoneContato(),
-                _inputTipoSanguineo(),
-                _inputDoador(),
-                _inputCep(),
-                _inputEndereco(),
-                _inputNumero(),
-                _inputBairro(),
-                _inputCidade(),
-                _inputUF(),
-                _inputPais(),*/
-                _submitButton(),
-              ],
-            )
+          child: Query(
+              options: QueryOptions(
+                  document: gql(DadosPessoais.getDadosPessoaisByCPF),
+                  variables: {
+                    'cpf': cidadaoCPF['cpf']
+                  }
+              ),
+              builder: (QueryResult result, { VoidCallback refetch, FetchMore fetchMore}) {
+                refetchQuery = refetch;
+
+                if (result.hasException) {
+                  return Text(
+                    result.exception.toString(),
+                    style: TextStyle(
+                        color: Colors.black54,
+                        fontWeight: FontWeight.w600
+                    ),
+                  );
+                }
+
+                if (result.isLoading) {
+                  return Center(
+                      child: CircularProgressIndicator()
+                  );
+                }
+
+                if (result.data != null) {
+                  cidadao= ObtenerDadosPessoais.fromJson(result.data['obtenerDadosPessoais']);
+
+                  return Form(
+                      key: formKey,
+                      child: Column(
+                        children: <Widget>[
+                          _inputNome(),
+                          _inputRG(),
+                          _inputDataNascimento(),
+                        _inputEmail(),
+                        _inputTelefoneContato(),
+                        _inputTipoSanguineo(),
+                        _inputDoador(),
+                        _inputCep(),
+                        _inputEndereco(),
+                        _inputNumero(),
+                        _inputBairro(),
+                        _inputCidade(),
+                        _inputUF(),
+                        _inputPais(),
+                          _submitButton(),
+                        ],
+                      )
+                  );
+                } else {
+                  return null;
+                }
+              }
           )
         )
       ),
@@ -91,7 +128,6 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
       ),
     );
   }
-
   Widget _inputDataNascimento(){
     return TextFormField(
       initialValue: cidadao.dtNascimento.toString(),

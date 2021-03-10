@@ -2,6 +2,7 @@ import 'package:cndv/src/pages/auth/cadastro_page.dart';
 import 'package:cndv/src/pages/auth/login_page.dart';
 import 'package:cndv/src/pages/auth/recuperar_senha_page.dart';
 import 'package:cndv/src/pages/campanhas/campanha_detalhe_page.dart';
+import 'package:cndv/src/pages/cidadao/carteira_qr_page.dart';
 import 'package:cndv/src/pages/loading_page.dart';
 import 'package:cndv/src/pages/mensagens/mensagem_notificacoes_page.dart';
 import 'package:cndv/src/pages/perfil/editar_dados_pessoais_page.dart';
@@ -19,4 +20,5 @@ final Map<String, Widget Function(BuildContext)> appRoutes = {
   'mensagem_notificacoes': ( _ ) => MensagensNotificacoes(),
   'editar_dados_pessoais': ( _ ) => EditarDadosPessoais(),
   'buscar_campanhas': ( _ ) => BuscarCampanhasPage(),
+  'carteira_qr': ( _ ) => CarteiraQR(),
 };

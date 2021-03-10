@@ -44,7 +44,7 @@ class _MainSidebarMenu extends StatelessWidget {
               Text(cndvAuthSecureProvider.usuarioAcesso.nome, style: TextStyle(fontSize: 16),),
               Text(cndvAuthSecureProvider.usuarioAcesso.cpf, style: TextStyle(fontSize: 14),),
               Expanded(
-                  child: _ListSidebarMenuOptions()
+                  child: _ListSidebarMenuOptions(cpfCidadao: cndvAuthSecureProvider.usuarioAcesso.cpf)
               ),
               ListTile(
                 leading: Icon(FontAwesomeIcons.doorOpen, color: Colors.blue),
@@ -56,12 +56,17 @@ class _MainSidebarMenu extends StatelessWidget {
               )
             ],
           )
-        ),
+          ),
     );
   }
 }
 
 class _ListSidebarMenuOptions extends StatelessWidget {
+
+  final String cpfCidadao;
+
+  const _ListSidebarMenuOptions({Key key, this.cpfCidadao}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
@@ -74,9 +79,9 @@ class _ListSidebarMenuOptions extends StatelessWidget {
         leading: FaIcon( sidebarMenuRoutes[i].icon, color: Colors.blue, ),
         title: Text(sidebarMenuRoutes[i].titulo),
         trailing: Icon(Icons.chevron_right, color: Colors.blue),
-        onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => sidebarMenuRoutes[i].page));
-        }
+        onTap: () => Navigator.of(context).pushNamed(sidebarMenuRoutes[i].page, arguments: {
+          'cpf': this.cpfCidadao
+        })
       ),
     );
   }
