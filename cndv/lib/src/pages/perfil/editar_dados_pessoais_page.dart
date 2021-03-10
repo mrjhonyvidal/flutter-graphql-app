@@ -1,3 +1,5 @@
+import 'package:cndv/src/helpers/show_validations_alert_msg.dart';
+import 'package:cndv/src/services/graphql/mutations/edit_dados_pessoais.dart';
 import 'package:cndv/src/services/graphql/queries/dados_pessoais.dart';
 import 'package:flutter/material.dart';
 import 'package:cndv/src/models/cidadao_dados_pessoais_models.dart';
@@ -73,17 +75,17 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
                           _inputNome(),
                           _inputRG(),
                           _inputDataNascimento(),
-                        _inputEmail(),
-                        _inputTelefoneContato(),
-                        _inputTipoSanguineo(),
-                        _inputDoador(),
-                        _inputCep(),
-                        _inputEndereco(),
-                        _inputNumero(),
-                        _inputBairro(),
-                        _inputCidade(),
-                        _inputUF(),
-                        _inputPais(),
+                          _inputEmail(),
+                          _inputTelefoneContato(),
+                          _inputTipoSanguineo(),
+                          _inputDoador(),
+                          _inputCep(),
+                          _inputEndereco(),
+                          _inputNumero(),
+                          _inputBairro(),
+                          _inputCidade(),
+                          _inputUF(),
+                          _inputPais(),
                           _submitButton(),
                         ],
                       )
@@ -97,8 +99,6 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
       ),
     );
   }
-
-
 
   Widget _inputNome(){
     return TextFormField(
@@ -261,22 +261,51 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
   }
 
   Widget _submitButton(){
-    return RaisedButton.icon(
-      label: Text('Modificar'),
-      icon: Icon( Icons.save),
-      color: Colors.blue,
-      textColor: Colors.white,
-      onPressed: _submit,
-    );
-  }
-
-  void _submit() {
-    if (!formKey.currentState.validate()) return;
-
-    formKey.currentState.save();
-
-    print(cidadao.nome);
-  }
-
-
+    return Mutation(
+        options: MutationOptions(
+            document: gql(DadosPessoaisMutations.editarDadosPessoaisByCPF),
+            update: (GraphQLDataProxy cache, QueryResult result) {
+              return cache;
+            },
+            onCompleted: (dynamic resultData) {
+              print(resultData);
+              if (resultData != null) {
+                Navigator.pushReplacementNamed(context, 'tabs');
+              } else {
+                showValidationsAlertMsg(context, 'Dados incorretos!', 'Revise por favor que todos os campos sejam completados.');
+              }
+            }
+        ),
+        builder: (
+            RunMutation runMutation,
+            QueryResult result
+            ) {
+            return RaisedButton.icon(
+              label: Text('Modificar'),
+              icon: Icon( Icons.save),
+              color: Colors.blue,
+              textColor: Colors.white,
+              onPressed: () => runMutation({
+                  "cpf": cidadao.cpf,
+                  "input": {
+                    "rg": cidadao.rg,
+                    "nome": cidadao.nome,
+                    "dt_nascimento": "2018-01-01",
+                    "email": cidadao.email,
+                    "contato": cidadao.contato,
+                    "id_tipo_sanguineo": cidadao.idTipoSanguineo,
+                    "doador": cidadao.doador,
+                    "numero": cidadao.numero,
+                    "complemento": cidadao.complemento,
+                    "bairro": cidadao.bairro,
+                    "cidade": cidadao.cidade,
+                    "uf": cidadao.uf,
+                    "pais": cidadao.pais,
+                    "cep": cidadao.cep
+                  }
+                }),
+             );
+          }
+        );
+    }
 }
