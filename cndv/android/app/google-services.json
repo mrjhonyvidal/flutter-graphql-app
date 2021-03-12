@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "765471783499",
+    "project_id": "cndvqa",
+    "storage_bucket": "cndvqa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:765471783499:android:ca1a22dbd467b89a0f2bce",
+        "android_client_info": {
+          "package_name": "com.gpfgv.cndv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "765471783499-jfl35o67dprfmbo7ame93kv7fd7n48hc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gpfgv.cndv",
+            "certificate_hash": "cb17888235e31ceae6294e36df2385742e8047c6"
+          }
+        },
+        {
+          "client_id": "765471783499-lhlp4d9ddog71uiobc1489nebfo2drka.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOAPZA2DsTW3fBFkmLCU6coPoJpt3ag-M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "765471783499-lhlp4d9ddog71uiobc1489nebfo2drka.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
