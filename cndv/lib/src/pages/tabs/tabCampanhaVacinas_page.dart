@@ -101,7 +101,7 @@ class _TabCampanhaVacinas extends State<TabCampanhaVacinas> {
                                   width: 80,
                                 ),
                                 SizedBox(height: 10),
-                                Text('Nenhuma vacina tomada.',
+                                Text('Nenhuma campanha ativa no momento.',
                                     style: TextStyle(
                                         fontSize: 18, color: Colors.black54)),
                               ])));

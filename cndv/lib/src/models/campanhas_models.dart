@@ -49,7 +49,7 @@ class ObtenerCampanha {
     this.nome,
     this.idadeInicio,
     this.idadeFinal,
-    this.municipio,
+    this.cidade,
     this.uf,
   });
 
@@ -57,7 +57,7 @@ class ObtenerCampanha {
   String nome;
   int idadeInicio;
   int idadeFinal;
-  String municipio;
+  String cidade;
   String uf;
 
   factory ObtenerCampanha.fromJson(Map<String, dynamic> json) =>
@@ -66,7 +66,7 @@ class ObtenerCampanha {
         nome: json["nome"],
         idadeInicio: json["idade_inicio"],
         idadeFinal: json["idade_final"],
-        municipio: json["municipio"],
+        cidade: json["cidade"],
         uf: json["uf"],
       );
 
@@ -75,7 +75,7 @@ class ObtenerCampanha {
         "nome": nome,
         "idade_inicio": idadeInicio,
         "idade_final": idadeFinal,
-        "municipio": municipio,
+        "cidade": cidade,
         "uf": uf,
       };
 }

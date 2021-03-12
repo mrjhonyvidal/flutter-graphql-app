@@ -5,7 +5,7 @@ class Campanhas {
       nome
       idade_inicio
       idade_final
-      municipio
+      cidade
       uf
     }
 }""";
