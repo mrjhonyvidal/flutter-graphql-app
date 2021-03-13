@@ -12,10 +12,11 @@ class NoticiasService with ChangeNotifier {
     this.getTopHeadlines();
   }
 
+  /// TODO check if this REST endpoint will be used in our app
   getTopHeadlines() async {
     final url =
         '$_URL_NOTICIAS/top-headlines?apiKey=$_API_KEY&country=br&q=vacina&category=health';
-    final resp = await http.get(url);
+    final resp = await http.get(Uri.parse(url));
 
     final noticiasVacinas = noticiasVacinasFromJson(resp.body);
 
