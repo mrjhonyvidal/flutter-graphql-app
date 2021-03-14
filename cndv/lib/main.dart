@@ -1,4 +1,5 @@
 import 'package:cndv/src/config/graphql_url_client.dart';
+import 'package:cndv/src/providers/push_notifications_provider.dart';
 import 'package:cndv/src/routes/routes.dart';
 import 'package:cndv/src/services/graphql/carteira_cidadao_service.dart';
 import 'package:cndv/src/services/rest/noticias_service.dart';
@@ -9,7 +10,20 @@ import 'package:provider/provider.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp>{
+
+  @override
+  void initState(){
+    super.initState();
+    final pushNotificationProvider = new PushNotificationsProvider();
+    pushNotificationProvider.initNotifications();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GraphQLProvider(
