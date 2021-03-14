@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class CarteiraQR extends StatelessWidget {
   @override
@@ -6,16 +7,20 @@ class CarteiraQR extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff526BF6),
-        title: Text('QR'),
+        title: Text('CNDV QR'),
       ),
       body: Center(
           child: Column(children: <Widget>[
-        QrImage(
-          data: "Sts",
-          backgroundColor: Colors.blue,
-          size: 200,
-        )
-      ])),
+            SizedBox( height: 10),
+            Padding(
+              padding: EdgeInsets.all(50.0),
+              child: Text('Escanei o código abaixo para mostrar seus dados pessoais e seu controle de vacinação.', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
+            ),
+            QrImage(
+              data: "Sts",
+              size: 250,
+            ),
+          ])),
     );
   }
 }

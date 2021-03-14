@@ -6,6 +6,7 @@ import 'package:cndv/src/services/rest/noticias_service.dart';
 import 'package:cndv/src/storage/cndv_secure_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 
 import 'src/services/graphql/carteira_cidadao_service.dart';
