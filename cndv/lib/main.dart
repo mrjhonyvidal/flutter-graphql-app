@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
 
+import 'src/services/graphql/carteira_cidadao_service.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
@@ -15,10 +17,9 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp>{
-
+class _MyAppState extends State<MyApp> {
   @override
-  void initState(){
+  void initState() {
     super.initState();
     final pushNotificationProvider = new PushNotificationsProvider();
     pushNotificationProvider.initNotifications();
@@ -34,11 +35,13 @@ class _MyAppState extends State<MyApp>{
           ChangeNotifierProvider(create: (_) => new CNDVAuthSecureStorage()),
           ChangeNotifierProvider(create: (_) => new NoticiasService()),
         ],
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'CNDV App',
-          initialRoute: 'loading',
-          routes: appRoutes,
+        child: OverlaySupport(
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'CNDV App',
+            initialRoute: 'loading',
+            routes: appRoutes,
+          ),
         ),
       ),
     );

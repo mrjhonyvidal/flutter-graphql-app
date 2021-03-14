@@ -2,12 +2,12 @@ import 'package:cndv/src/pages/mensagens/mensagem_notificacoes_page.dart';
 import 'package:cndv/src/pages/perfil/editar_dados_pessoais_page.dart';
 import 'package:cndv/src/services/graphql/queries/historico_vacina.dart';
 import 'package:cndv/src/storage/cndv_secure_storage.dart';
-import 'package:flutter/material.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:cndv/src/widgets/header.dart';
+import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class TabCarteiraMedica extends StatefulWidget {
   TabCarteiraMedica({Key key}) : super(key: key);

@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:cndv/src/models/noticias_vacinas_model.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 final _URL_NOTICIAS = 'https://newsapi.org/v2/';

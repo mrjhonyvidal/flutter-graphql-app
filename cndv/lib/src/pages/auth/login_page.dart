@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:cndv/src/helpers/show_validations_alert_msg.dart';
 import 'package:cndv/src/models/response_authenticate_user.dart';
 import 'package:cndv/src/services/graphql/mutations/auth_token_registration_usuario.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:cndv/src/storage/cndv_secure_storage.dart';
 import 'package:cndv/src/widgets/blue_button.dart';
 import 'package:cndv/src/widgets/custom_input.dart';
@@ -12,6 +11,7 @@ import 'package:cndv/src/widgets/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 
 class Login extends StatelessWidget {

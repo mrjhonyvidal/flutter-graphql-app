@@ -1,8 +1,8 @@
 import 'package:cndv/src/helpers/show_validations_alert_msg.dart';
+import 'package:cndv/src/models/cidadao_dados_pessoais_models.dart';
 import 'package:cndv/src/services/graphql/mutations/edit_dados_pessoais.dart';
 import 'package:cndv/src/services/graphql/queries/dados_pessoais.dart';
 import 'package:flutter/material.dart';
-import 'package:cndv/src/models/cidadao_dados_pessoais_models.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 class EditarDadosPessoais extends StatefulWidget {

@@ -2,8 +2,8 @@ import 'package:cndv/src/pages/campanhas/campanha_detalhe_page.dart';
 import 'package:cndv/src/pages/searchs/buscar_campanhas_page.dart';
 import 'package:cndv/src/services/graphql/queries/campanhas.dart';
 import 'package:cndv/src/widgets/card_campanhas.dart';
-import 'package:flutter/material.dart';
 import 'package:cndv/src/widgets/header.dart';
+import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
