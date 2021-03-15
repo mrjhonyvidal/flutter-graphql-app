@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:cndv/src/models/push_notification_model.dart';
@@ -9,6 +10,10 @@ import 'package:overlay_support/overlay_support.dart';
 /// Class Responsible for interacting with Firebase Cloud Messaging(FCM) REST API
 class PushNotificationsProvider {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  final _messagePushNotificationStreamController = StreamController<String>.broadcast();
+  int totalNotifications = 0;
+
+  Stream<String> get messagesStream => _messagePushNotificationStreamController.stream;
 
   /// For handle background notifications we need to define a static or Top-Level function (Outside of any class)
   /// and define the onBackgroundMessage property inside the _firebaseMessaging.configure method
@@ -31,6 +36,8 @@ class PushNotificationsProvider {
   }
 
   initNotifications() async {
+
+    PushNotification _notificationInfo;
 
     // Request user the permission to receive Push Notification (only required for iOS)
     if(Platform.isIOS) {
@@ -56,31 +63,40 @@ class PushNotificationsProvider {
   }
 
   Future<dynamic> onMessage(Map<String, dynamic> message) {
-    print('======== onMessage ========= ');
-    print('message: $message');
+    //print('message: $message');
 
     PushNotification notification = PushNotification.fromJson(message);
 
     showSimpleNotification(
       Text(notification.title),
-      subtitle: Text('Go go go test'),
+      subtitle: Text('Vacina sim!'),
       background: Colors.blueAccent,
-      duration: Duration(seconds: 2),
+      duration: Duration(seconds: 7),
     );
+
+    // Increment the total of messages received
+    totalNotifications++;
+
+    final argumento = message['data']['body'] ?? 'no-data';
+    _messagePushNotificationStreamController.sink.add(argumento);
   }
 
   Future<dynamic> onBackgroundMessage(Map<String, dynamic> message) {
-    print('======== onMessage ========= ');
-    print('message: $message');
+    final argumento = message['data']['body'] ?? 'no-data';
+    print('Argumento body $argumento');
   }
 
   Future<dynamic> onLaunch(Map<String, dynamic> message) {
-    print('======== onMessage ========= ');
-    print('message: $message');
+    final argumento = message['data']['body'] ?? 'no-data';
+    _messagePushNotificationStreamController.sink.add(argumento);
   }
 
   Future<dynamic> onResume(Map<String, dynamic> message) {
-    print('======== onMessage ========= ');
-    print('message: $message');
+    final argumento = message['data']['body'] ?? 'no-data';
+    _messagePushNotificationStreamController.sink.add(argumento);
+  }
+
+  dispose() {
+    _messagePushNotificationStreamController?.close();
   }
 }

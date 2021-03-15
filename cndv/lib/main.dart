@@ -19,11 +19,18 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
+  final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+
   @override
   void initState() {
     super.initState();
     final pushNotificationProvider = new PushNotificationsProvider();
     pushNotificationProvider.initNotifications();
+
+    pushNotificationProvider.messagesStream.listen( ( data ) {
+        navigatorKey.currentState.pushNamed('mensagem_notificacoes', arguments: data);
+      });
   }
 
   @override
@@ -39,6 +46,7 @@ class _MyAppState extends State<MyApp> {
         child: OverlaySupport(
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
+            navigatorKey: navigatorKey,
             title: 'CNDV App',
             initialRoute: 'loading',
             routes: appRoutes,

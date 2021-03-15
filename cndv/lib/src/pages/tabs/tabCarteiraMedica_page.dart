@@ -204,19 +204,66 @@ class _Header extends StatelessWidget {
           ),
         ),
         Positioned(
-            right: 0,
-            top: 15,
-            child: RawMaterialButton(
-                shape: CircleBorder(),
-                padding: EdgeInsets.all(10.0),
-                child: FaIcon(FontAwesomeIcons.bell,
-                    color: Colors.white, size: 20),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => MensagensNotificacoes()));
-                }))
+            right: 30,
+            top: 20,
+
+            child: new Container(
+                height: 150.0,
+                width: 30.0,
+                child: new GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                        new MaterialPageRoute(
+                            builder:(BuildContext context) =>
+                            MensagensNotificacoes()
+                        )
+                    );
+                  },
+
+                  child: new Stack(
+                    children: <Widget>[
+                      RawMaterialButton(
+                      shape: CircleBorder(),
+                        padding: EdgeInsets.all(10.0),
+                        child: FaIcon(FontAwesomeIcons.bell,
+                            color: Colors.white, size: 20),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MensagensNotificacoes()));
+                        }),
+                      [1].length == 0 ? new Container() :
+                      new Positioned(
+
+                          child: new Stack(
+                            children: <Widget>[
+                              new Icon(
+                                  Icons.brightness_1,
+                                  size: 20.0, color: Colors.deepPurpleAccent),
+                              new Positioned(
+                                  top: 4.0,
+                                  right: 6.0,
+                                  child: new Center(
+                                    child: new Text(
+                                      [1].length.toString(),
+                                      style: new TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 11.0,
+                                          fontWeight: FontWeight.w500
+                                      ),
+                                    ),
+                                  )),
+
+
+                            ],
+                          )),
+
+                    ],
+                  ),
+                )
+            ),
+        ),
       ],
     );
   }
