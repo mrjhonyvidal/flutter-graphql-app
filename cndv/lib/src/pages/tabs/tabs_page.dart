@@ -36,10 +36,11 @@ class _MainSidebarMenu extends StatelessWidget {
                 width: double.infinity,
                 height: 150,
                 child: CircleAvatar(
-                  backgroundColor: Colors.blue,
-                  child: Text(
-                    'IMG',
-                    style: TextStyle(fontSize: 40),
+                  backgroundColor: Colors.blueAccent,
+                  child:  IconButton(
+                    padding: EdgeInsets.all(0),
+                    icon: Icon(Icons.camera_enhance, color: Colors.white, size: 40.0),
+                    onPressed: () {},
                   ),
                 )),
           ),

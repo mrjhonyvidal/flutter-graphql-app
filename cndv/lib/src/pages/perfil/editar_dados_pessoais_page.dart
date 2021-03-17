@@ -23,16 +23,7 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
       appBar: AppBar(
           backgroundColor: Color(0xff526BF6),
           title: Text('Dados Pessoais'),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.photo_size_select_actual),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: Icon(Icons.camera_alt),
-              onPressed: () {},
-            )
-          ]),
+          actions: <Widget>[]),
       body: SingleChildScrollView(
           child: Container(
               padding: EdgeInsets.all(15.0),
@@ -41,7 +32,7 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
                       document: gql(DadosPessoais.getDadosPessoaisByCPF),
                       variables: {'cpf': cidadaoCPF['cpf']}),
                   builder: (QueryResult result,
-                      {VoidCallback refetch, FetchMore fetchMore}) {
+                    {VoidCallback refetch, FetchMore fetchMore}) {
                     refetchQuery = refetch;
 
                     if (result.hasException) {

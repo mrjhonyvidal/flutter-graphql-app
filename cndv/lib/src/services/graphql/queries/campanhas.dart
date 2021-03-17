@@ -7,6 +7,7 @@ class Campanhas {
       idade_final
       cidade
       uf
+      descricao
     }
 }""";
 }

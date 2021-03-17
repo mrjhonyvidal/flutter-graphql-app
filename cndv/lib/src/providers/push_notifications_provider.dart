@@ -54,8 +54,9 @@ class PushNotificationsProvider {
     // User Mobile Phone Token
     final token = await _firebaseMessaging.getToken();
     print('=====FCM Token=====');
-    print(token);
-    /// TODO save to DB
+    ///print(token);
+    /// TODO save to DB with user cpf
+
 
     _firebaseMessaging.configure(
         onMessage: onMessage,

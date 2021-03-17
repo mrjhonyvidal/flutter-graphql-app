@@ -9,6 +9,7 @@ class CampanhaDetalhe extends StatelessWidget {
   Widget build(BuildContext context) {
     final levelIndicator = Container(
       child: Container(
+        padding: const EdgeInsets.all(5.0),
         child: LinearProgressIndicator(
             backgroundColor: Color.fromRGBO(209, 224, 224, 0.2),
             value: 0.5,
@@ -16,25 +17,11 @@ class CampanhaDetalhe extends StatelessWidget {
       ),
     );
 
-    final idadeInicio = Container(
+    final faixaEtaria = Container(
       padding: const EdgeInsets.all(5.0),
-      decoration: new BoxDecoration(
-          border: new Border.all(color: Colors.white),
-          borderRadius: BorderRadius.circular(5.0)),
       child: new Text(
-        campanha.idadeInicio.toString(),
-        style: TextStyle(color: Colors.white),
-      ),
-    );
-
-    final idadeFinal = Container(
-      padding: const EdgeInsets.all(5.0),
-      decoration: new BoxDecoration(
-          border: new Border.all(color: Colors.white),
-          borderRadius: BorderRadius.circular(5.0)),
-      child: new Text(
-        campanha.idadeFinal.toString(),
-        style: TextStyle(color: Colors.white),
+        'Idades: ' + campanha.idadeInicio.toString() + ' a ' + campanha.idadeFinal.toString(),
+        style: TextStyle(color: Colors.white, fontSize: 20.0),
       ),
     );
 
@@ -69,8 +56,7 @@ class CampanhaDetalhe extends StatelessWidget {
                       campanha.cidade,
                       style: TextStyle(color: Colors.white),
                     ))),*/
-            Expanded(flex: 1, child: idadeInicio),
-            Expanded(flex: 1, child: idadeFinal)
+            Expanded(flex: 2, child: faixaEtaria),
           ],
         ),
       ],
@@ -110,8 +96,8 @@ class CampanhaDetalhe extends StatelessWidget {
     );
 
     final bottomContentText = Text(
-      campanha.nome,
-      style: TextStyle(fontSize: 18.0),
+      campanha.descricao,
+      style: TextStyle(fontSize: 18.0, color: Colors.black),
     );
     final readButton = Container(
         padding: EdgeInsets.symmetric(vertical: 16.0),

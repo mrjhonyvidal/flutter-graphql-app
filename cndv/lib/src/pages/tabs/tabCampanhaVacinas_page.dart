@@ -130,9 +130,11 @@ class _ListPageState extends State<ListPage> {
                   List campanhasList = completeCampanhas.map((campanha) => new ObtenerCampanha(
                     id: campanha['id'],
                     nome: campanha['nome'],
-                    idadeInicio: campanha['idadeInicio'],
-                    idadeFinal: campanha['idadeFinal'],
-                    uf: campanha['uf']
+                    idadeInicio: campanha['idade_inicio'],
+                    idadeFinal: campanha['idade_final'],
+                    cidade: campanha['cidade'],
+                    uf: campanha['uf'],
+                    descricao: (campanha['descricao'] != null ) ? campanha['descricao'] : 'Nenhuma informação extra.'
                   )).toList();
                   //List campanhas = campanhasList.toJson()
 

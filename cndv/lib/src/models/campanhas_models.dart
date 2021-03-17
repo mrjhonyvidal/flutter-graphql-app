@@ -51,6 +51,7 @@ class ObtenerCampanha {
     this.idadeFinal,
     this.cidade,
     this.uf,
+    this.descricao
   });
 
   String id;
@@ -59,6 +60,7 @@ class ObtenerCampanha {
   int idadeFinal;
   String cidade;
   String uf;
+  String descricao;
 
   factory ObtenerCampanha.fromJson(Map<String, dynamic> json) =>
       ObtenerCampanha(
@@ -68,6 +70,7 @@ class ObtenerCampanha {
         idadeFinal: json["idade_final"],
         cidade: json["cidade"],
         uf: json["uf"],
+        descricao: json["descricao"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -77,5 +80,6 @@ class ObtenerCampanha {
         "idade_final": idadeFinal,
         "cidade": cidade,
         "uf": uf,
+        "descricao": descricao,
       };
 }

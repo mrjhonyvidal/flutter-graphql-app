@@ -233,6 +233,7 @@ class _Header extends StatelessWidget {
                               MaterialPageRoute(
                                   builder: (context) => MensagensNotificacoes()));
                         }),
+                      /// TODO [1] hardcode number of messages
                       [1].length == 0 ? new Container() :
                       new Positioned(
 
@@ -246,6 +247,7 @@ class _Header extends StatelessWidget {
                                   right: 6.0,
                                   child: new Center(
                                     child: new Text(
+                                      /// TODO [1] hardcode number of messages
                                       [1].length.toString(),
                                       style: new TextStyle(
                                           color: Colors.white,
@@ -253,9 +255,7 @@ class _Header extends StatelessWidget {
                                           fontWeight: FontWeight.w500
                                       ),
                                     ),
-                                  )),
-
-
+                                  ))
                             ],
                           )),
 
