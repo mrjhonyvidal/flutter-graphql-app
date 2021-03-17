@@ -55,8 +55,7 @@ class _TabCampanhaVacinas extends State<TabCampanhaVacinas> {
                       return Center(child: CircularProgressIndicator());
                     }
 
-                    final List<dynamic> completeCampanhas =
-                        result.data['obtenerCampanhas'] as List<dynamic>;
+                    final List<dynamic> completeCampanhas = result.data['obtenerCampanhas'] as List<dynamic>;
 
                     if (completeCampanhas != null &&
                         completeCampanhas.length > 0) {

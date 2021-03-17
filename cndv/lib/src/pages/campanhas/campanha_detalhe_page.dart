@@ -1,17 +1,17 @@
-import 'package:cndv/src/models/example_model.dart';
+import 'package:cndv/src/models/campanhas_models.dart';
 import 'package:flutter/material.dart';
 
 class CampanhaDetalhe extends StatelessWidget {
-  final ExampleModel lesson;
+  final ObtenerCampanha campanha;
 
-  CampanhaDetalhe({Key key, this.lesson}) : super(key: key);
+  CampanhaDetalhe({Key key, this.campanha}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final levelIndicator = Container(
       child: Container(
         child: LinearProgressIndicator(
             backgroundColor: Color.fromRGBO(209, 224, 224, 0.2),
-            value: lesson.indicatorValue,
+            value: 0.5,
             valueColor: AlwaysStoppedAnimation(Colors.green)),
       ),
     );
@@ -22,7 +22,7 @@ class CampanhaDetalhe extends StatelessWidget {
           border: new Border.all(color: Colors.white),
           borderRadius: BorderRadius.circular(5.0)),
       child: new Text(
-        lesson.price.toString(),
+        campanha.idadeInicio.toString(),
         style: TextStyle(color: Colors.white),
       ),
     );
@@ -33,7 +33,7 @@ class CampanhaDetalhe extends StatelessWidget {
           border: new Border.all(color: Colors.white),
           borderRadius: BorderRadius.circular(5.0)),
       child: new Text(
-        lesson.price.toString(),
+        campanha.idadeFinal.toString(),
         style: TextStyle(color: Colors.white),
       ),
     );
@@ -53,7 +53,7 @@ class CampanhaDetalhe extends StatelessWidget {
         ),
         SizedBox(height: 10.0),
         Text(
-          lesson.title,
+          campanha.nome,
           style: TextStyle(color: Colors.white, fontSize: 25.0),
         ),
         SizedBox(height: 30.0),
@@ -61,14 +61,14 @@ class CampanhaDetalhe extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Expanded(flex: 1, child: levelIndicator),
-            Expanded(
+            /*Expanded(
                 flex: 6,
                 child: Padding(
                     padding: EdgeInsets.only(left: 10.0),
                     child: Text(
-                      lesson.level,
+                      campanha.cidade,
                       style: TextStyle(color: Colors.white),
-                    ))),
+                    ))),*/
             Expanded(flex: 1, child: idadeInicio),
             Expanded(flex: 1, child: idadeFinal)
           ],
@@ -110,7 +110,7 @@ class CampanhaDetalhe extends StatelessWidget {
     );
 
     final bottomContentText = Text(
-      lesson.content,
+      campanha.nome,
       style: TextStyle(fontSize: 18.0),
     );
     final readButton = Container(

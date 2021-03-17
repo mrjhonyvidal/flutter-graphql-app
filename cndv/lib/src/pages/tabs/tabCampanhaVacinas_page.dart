@@ -1,4 +1,4 @@
-import 'package:cndv/src/models/example_model.dart';
+import 'package:cndv/src/models/campanhas_models.dart';
 import 'package:cndv/src/pages/campanhas/campanha_detalhe_page.dart';
 import 'package:flutter/material.dart';
 import 'package:cndv/src/services/graphql/queries/campanhas.dart';
@@ -34,11 +34,11 @@ class ListPage extends StatefulWidget {
 class _ListPageState extends State<ListPage> {
 
   VoidCallback refetchQuery;
-  List lessons;
+  List campanhas;
 
   @override
   void initState() {
-    lessons = getLessons();
+    //lessons = getLessons();
     super.initState();
   }
 
@@ -47,7 +47,7 @@ class _ListPageState extends State<ListPage> {
 
 
 
-    ListTile makeListTile(ExampleModel lesson) => ListTile(
+    ListTile makeListTile(ObtenerCampanha campanha) => ListTile(
       contentPadding:
       EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
       leading: Container(
@@ -58,7 +58,7 @@ class _ListPageState extends State<ListPage> {
         child: Icon(Icons.campaign, color: Colors.white),
       ),
       title: Text(
-        lesson.title,
+        campanha.nome,
         style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
       ),
       // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
@@ -71,14 +71,14 @@ class _ListPageState extends State<ListPage> {
                 // tag: 'hero',
                 child: LinearProgressIndicator(
                     backgroundColor: Color.fromRGBO(209, 224, 224, 0.2),
-                    value: lesson.indicatorValue,
+                    value: 0.5,
                     valueColor: AlwaysStoppedAnimation(Colors.green)),
               )),
           Expanded(
             flex: 4,
             child: Padding(
                 padding: EdgeInsets.only(left: 10.0),
-                child: Text(lesson.level,
+                child: Text(campanha.uf,
                     style: TextStyle(color: Colors.white))),
           )
         ],
@@ -89,16 +89,16 @@ class _ListPageState extends State<ListPage> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => CampanhaDetalhe(lesson: lesson)));
+                builder: (context) => CampanhaDetalhe(campanha: campanha)));
       },
     );
 
-    Card makeCard(ExampleModel lesson) => Card(
+    Card makeCard(ObtenerCampanha campanha) => Card(
       elevation: 8.0,
       margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
       child: Container(
         decoration: BoxDecoration(color: Color.fromRGBO(64, 75, 96, .9)),
-        child: makeListTile(lesson),
+        child: makeListTile(campanha),
       ),
     );
 
@@ -124,17 +124,39 @@ class _ListPageState extends State<ListPage> {
                   return Center(child: CircularProgressIndicator());
                 }
 
-                final List<dynamic> completeCampanhas =
-                result.data['obtenerCampanhas'] as List<dynamic>;
+                final List<dynamic> completeCampanhas = result.data['obtenerCampanhas'] as List<dynamic>;
 
-              return ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount: lessons.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return makeCard(lessons[index]);
-                  },
-                );
+                if (completeCampanhas != null &&  completeCampanhas.length > 0) {
+                  List campanhasList = completeCampanhas.map((campanha) => new ObtenerCampanha(
+                    id: campanha['id'],
+                    nome: campanha['nome'],
+                    idadeInicio: campanha['idadeInicio'],
+                    idadeFinal: campanha['idadeFinal'],
+                    uf: campanha['uf']
+                  )).toList();
+                  //List campanhas = campanhasList.toJson()
+
+                  return ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: campanhasList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return makeCard(campanhasList[index]);
+                    },
+                  );
+                } else {
+                  return Center(
+                      child: Container(
+                          width: 250,
+                          margin: EdgeInsets.only(top: 100),
+                          child: Column(children: <Widget>[
+                            Icon(Icons.calendar_today_outlined),
+                            SizedBox(height: 10),
+                            Text('Nenhuma campanha ativa no momento.',
+                                style: TextStyle(
+                                    fontSize: 18, color: Colors.black54)),
+                          ])));
+                }
           })
     );
 
@@ -411,58 +433,4 @@ class SearchCampaingsParameters {
     cidade = "";
     uf = "";
   }
-}
-
-List getLessons() {
-  return [
-    ExampleModel(
-        title: "Introduction to Driving",
-        level: "Beginner",
-        indicatorValue: 0.33,
-        price: 20,
-        content:
-        "Start by taking a couple of minutes to read the info in this section. Launch your app and click on the Settings menu.  While on the settings page, click the Save button.  You should see a circular progress indicator display in the middle of the page and the user interface elements cannot be clicked due to the modal barrier that is constructed."),
-    ExampleModel(
-        title: "Observation at Junctions",
-        level: "Beginner",
-        indicatorValue: 0.33,
-        price: 50,
-        content:
-        "Start by taking a couple of minutes to read the info in this section. Launch your app and click on the Settings menu.  While on the settings page, click the Save button.  You should see a circular progress indicator display in the middle of the page and the user interface elements cannot be clicked due to the modal barrier that is constructed."),
-    ExampleModel(
-        title: "Campanha COVID-19 Dose 2 Barueri",
-        level: "Barueri",
-        indicatorValue: 0.66,
-        price: 30,
-        content:
-        "Start by taking a couple of minutes to read the info in this section. Launch your app and click on the Settings menu.  While on the settings page, click the Save button.  You should see a circular progress indicator display in the middle of the page and the user interface elements cannot be clicked due to the modal barrier that is constructed."),
-    ExampleModel(
-        title: "Reversing",
-        level: "Intermidiate",
-        indicatorValue: 0.66,
-        price: 30,
-        content:
-        "Start by taking a couple of minutes to read the info in this section. Launch your app and click on the Settings menu.  While on the settings page, click the Save button.  You should see a circular progress indicator display in the middle of the page and the user interface elements cannot be clicked due to the modal barrier that is constructed."),
-    ExampleModel(
-        title: "Incorrect Use of Signal",
-        level: "Advanced",
-        indicatorValue: 1.0,
-        price: 50,
-        content:
-        "Start by taking a couple of minutes to read the info in this section. Launch your app and click on the Settings menu.  While on the settings page, click the Save button.  You should see a circular progress indicator display in the middle of the page and the user interface elements cannot be clicked due to the modal barrier that is constructed."),
-    ExampleModel(
-        title: "Engine Challenges",
-        level: "Advanced",
-        indicatorValue: 1.0,
-        price: 50,
-        content:
-        "Start by taking a couple of minutes to read the info in this section. Launch your app and click on the Settings menu.  While on the settings page, click the Save button.  You should see a circular progress indicator display in the middle of the page and the user interface elements cannot be clicked due to the modal barrier that is constructed."),
-    ExampleModel(
-        title: "Self Driving Car",
-        level: "Advanced",
-        indicatorValue: 1.0,
-        price: 50,
-        content:
-        "Start by taking a couple of minutes to read the info in this section. Launch your app and click on the Settings menu.  While on the settings page, click the Save button.  You should see a circular progress indicator display in the middle of the page and the user interface elements cannot be clicked due to the modal barrier that is constructed.  ")
-  ];
 }
