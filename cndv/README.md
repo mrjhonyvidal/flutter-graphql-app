@@ -49,4 +49,8 @@ Os plugins para Flutter utilizados podem ser encontrados no arquivo pubspec.yaml
 
 ### Recursos e links
 
-[Tutorial Push Notification](https://blog.logrocket.com/flutter-push-notifications-with-firebase-cloud-messaging/)
+- [Tutorial Push Notification](https://blog.logrocket.com/flutter-push-notifications-with-firebase-cloud-messaging/)
+- [Google Push Notification REST HTTP v1](https://firebase.google.com/docs/cloud-messaging/migrate-v1#go)
+- https://github.com/FirebaseExtended/flutterfire/issues/3757
+- [Firebase Android Setup](https://firebase.google.com/docs/android/setup)
+- [Visão Geral de notificações](https://developer.android.com/guide/topics/ui/notifiers/notifications?hl=pt#ManageChannels)

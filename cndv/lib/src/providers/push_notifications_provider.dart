@@ -51,9 +51,11 @@ class PushNotificationsProvider {
       );
     }
 
+    // User Mobile Phone Token
     final token = await _firebaseMessaging.getToken();
     print('=====FCM Token=====');
     print(token);
+    /// TODO save to DB
 
     _firebaseMessaging.configure(
         onMessage: onMessage,
@@ -71,7 +73,7 @@ class PushNotificationsProvider {
       Text(notification.title),
       subtitle: Text('Vacina sim!'),
       background: Colors.blueAccent,
-      duration: Duration(seconds: 7),
+      duration: Duration(seconds: 5),
     );
 
     // Increment the total of messages received

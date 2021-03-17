@@ -124,7 +124,8 @@ class _Pages extends StatelessWidget {
       controller: navigationModel.pageController,
       //physics: BouncingScrollPhysics(),
       physics: NeverScrollableScrollPhysics(),
-      children: <Widget>[TabCarteiraMedica(), TabCampanhaVacinas()],
+      ///children: <Widget>[TabCarteiraMedica(), TabCampanhaVacinas()],
+      children: <Widget>[TabCarteiraMedica(), MyApp()],
     );
   }
 }

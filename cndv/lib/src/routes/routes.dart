@@ -18,7 +18,7 @@ final Map<String, Widget Function(BuildContext)> appRoutes = {
   'recuperar_acesso': (_) => RecuperarAcesso(),
   'campanha_detalhe': (_) => CampanhaDetalhe(),
   'mensagem_notificacoes': (_) => MensagensNotificacoes(),
-  'editar_dados_pessoais': (_) => EditarDadosPessoais(),
+  'editar_dados_pessoais': (_) => EditarDadosPessoais(), /// TODO Add EditProfileImage Page
   'buscar_campanhas': (_) => BuscarCampanhasPage(),
   'carteira_qr': (_) => CarteiraQR(),
 };

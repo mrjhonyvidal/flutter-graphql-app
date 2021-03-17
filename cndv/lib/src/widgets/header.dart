@@ -84,8 +84,8 @@ class _IconHeaderBackground extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(60),
-              bottomRight: Radius.circular(60)),
+              bottomLeft: Radius.circular(30),
+              bottomRight: Radius.circular(30)),
           gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
