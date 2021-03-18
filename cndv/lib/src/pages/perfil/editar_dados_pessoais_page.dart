@@ -15,9 +15,37 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
   ObtenerDadosPessoais cidadao;
   VoidCallback refetchQuery;
 
+  String _selectedTipoSanguineo = 'A+';
+  List<DropdownMenuItem<String>> tipoSanguineoList = [];
+
+  void loadTipoSanguineoList() {
+    tipoSanguineoList = [];
+    tipoSanguineoList.add(new DropdownMenuItem(
+      child: new Text('A-'),
+      value: 'A-',
+    ));
+    tipoSanguineoList.add(new DropdownMenuItem(
+      child: new Text('A+'),
+      value: 'A+',
+    ));
+    tipoSanguineoList.add(new DropdownMenuItem(
+      child: new Text('AB+'),
+      value: 'AB-',
+    ));
+    tipoSanguineoList.add(new DropdownMenuItem(
+      child: new Text('B+'),
+      value: 'B-',
+    ));
+    tipoSanguineoList.add(new DropdownMenuItem(
+      child: new Text('O+'),
+      value: 'O-',
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     final Map cidadaoCPF = ModalRoute.of(context).settings.arguments;
+    loadTipoSanguineoList();
 
     return Scaffold(
       appBar: AppBar(
@@ -131,14 +159,20 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
     );
   }
 
-  Widget _inputTipoSanguineo() {
-    return TextFormField(
-      initialValue: cidadao.idTipoSanguineo,
-      textCapitalization: TextCapitalization.sentences,
-      onSaved: (value) => cidadao.idTipoSanguineo = value,
-      decoration: InputDecoration(labelText: 'Tipo Sanguineo'),
+  Widget _inputTipoSanguineo(){
+    return DropdownButton(
+      hint: new Text('Selecione'),
+      items: tipoSanguineoList,
+      value: cidadao.idTipoSanguineo,
+      onChanged: (value) {
+        setState(() {
+            cidadao.idTipoSanguineo = value;
+        });
+      },
+      isExpanded: true,
     );
   }
+
 
   Widget _inputDoador() {
     return TextFormField(
@@ -216,44 +250,47 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
     return Mutation(
         options: MutationOptions(
             document: gql(DadosPessoaisMutations.editarDadosPessoaisByCPF),
-            update: (GraphQLDataProxy cache, QueryResult result) {
-              return cache;
-            },
+            fetchPolicy: FetchPolicy.noCache,
             onCompleted: (dynamic resultData) {
-              print(resultData);
-              if (resultData != null) {
-                Navigator.pushReplacementNamed(context, 'tabs');
+              ///if (resultData != null) {
+              refetchQuery();
+              /*   Navigator.pushReplacementNamed(context, 'tabs');
               } else {
                 showValidationsAlertMsg(context, 'Dados incorretos!',
                     'Revise por favor que todos os campos sejam completados.');
-              }
+              }*/
             }),
         builder: (RunMutation runMutation, QueryResult result) {
           return RaisedButton.icon(
-            label: Text('Modificar'),
-            icon: Icon(Icons.save),
-            color: Colors.blue,
-            textColor: Colors.white,
-            onPressed: () => runMutation({
-              "cpf": cidadao.cpf,
-              "input": {
-                "rg": cidadao.rg,
-                "nome": cidadao.nome,
-                "dt_nascimento": "2018-01-01",
-                "email": cidadao.email,
-                "contato": cidadao.contato,
-                "id_tipo_sanguineo": cidadao.idTipoSanguineo,
-                "doador": cidadao.doador,
-                "numero": cidadao.numero,
-                "complemento": cidadao.complemento,
-                "bairro": cidadao.bairro,
-                "cidade": cidadao.cidade,
-                "uf": cidadao.uf,
-                "pais": cidadao.pais,
-                "cep": cidadao.cep
-              }
-            }),
-          );
-        });
+              label: Text('Modificar'),
+              icon: Icon(Icons.save),
+              color: Colors.blue,
+              textColor: Colors.white,
+              onPressed: () {
+                formKey.currentState.save();
+
+                runMutation({
+                  "cpf": cidadao.cpf,
+                  "input": {
+                    "rg": cidadao.rg,
+                    "nome": cidadao.nome,
+                    "dt_nascimento": "2018-01-01",
+                    "email": cidadao.email,
+                    "contato": cidadao.contato,
+                    "id_tipo_sanguineo": cidadao.idTipoSanguineo,
+                    "doador": cidadao.doador,
+                    "numero": cidadao.numero,
+                    "complemento": cidadao.complemento,
+                    "bairro": cidadao.bairro,
+                    "cidade": cidadao.cidade,
+                    "uf": cidadao.uf,
+                    "pais": cidadao.pais,
+                    "cep": cidadao.cep
+                  }
+                },
+                );
+              });
+        }
+    );
   }
 }
