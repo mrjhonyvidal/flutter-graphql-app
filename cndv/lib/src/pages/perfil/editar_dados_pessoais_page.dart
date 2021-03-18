@@ -4,6 +4,7 @@ import 'package:cndv/src/services/graphql/mutations/edit_dados_pessoais.dart';
 import 'package:cndv/src/services/graphql/queries/dados_pessoais.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:intl/intl.dart';
 
 class EditarDadosPessoais extends StatefulWidget {
   @override
@@ -14,6 +15,7 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
   final formKey = GlobalKey<FormState>();
   ObtenerDadosPessoais cidadao;
   VoidCallback refetchQuery;
+  DateTime _selectedNascimentoDate;
 
   String _selectedTipoSanguineo = 'A+';
   List<DropdownMenuItem<String>> tipoSanguineoList = [];
@@ -46,6 +48,7 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
   Widget build(BuildContext context) {
     final Map cidadaoCPF = ModalRoute.of(context).settings.arguments;
     loadTipoSanguineoList();
+    cidadao.dtNascimento = cidadao.dtNascimento ?? DateTime.now();
 
     return Scaffold(
       appBar: AppBar(
@@ -132,13 +135,35 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
     );
   }
 
-  Widget _inputDataNascimento() {
+  Widget _inputDataNascimento2() {
     return TextFormField(
       initialValue: cidadao.dtNascimento.toString(),
       textCapitalization: TextCapitalization.sentences,
       onSaved: (value) => cidadao.dtNascimento = DateTime.parse(value),
       decoration: InputDecoration(labelText: 'Data Nascimento'),
     );
+  }
+
+  Widget _inputDataNascimento(){
+    return TextFormField(
+      initialValue: _selectedNascimentoDate.toString(),
+      onTap: () => _selectDate(context),
+      readOnly: true,
+    );
+  }
+
+   _selectDate(BuildContext context) async {
+    final DateTime pickedDate = await showDatePicker(
+        context: context,
+        initialDate: _selectedNascimentoDate ?? DateTime.now(),
+        firstDate: DateTime(1901, 1),
+        lastDate: DateTime(2101));
+
+    if (pickedDate != null && pickedDate != _selectedNascimentoDate) {
+      setState(() {
+        _selectedNascimentoDate = pickedDate;
+      });
+    }
   }
 
   Widget _inputEmail() {
@@ -161,12 +186,12 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
 
   Widget _inputTipoSanguineo(){
     return DropdownButton(
-      hint: new Text('Selecione'),
+      hint: new Text('Selecione o tipo sanguineo'),
       items: tipoSanguineoList,
-      value: cidadao.idTipoSanguineo,
+      value: _selectedTipoSanguineo,
       onChanged: (value) {
         setState(() {
-            cidadao.idTipoSanguineo = value;
+          _selectedTipoSanguineo = value;
         });
       },
       isExpanded: true,
@@ -239,6 +264,8 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
 
   Widget _inputPais() {
     return TextFormField(
+      enabled: false,
+      style: TextStyle(color: Colors.grey),
       initialValue: cidadao.pais,
       textCapitalization: TextCapitalization.sentences,
       onSaved: (value) => cidadao.pais = value,
@@ -274,10 +301,10 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
                   "input": {
                     "rg": cidadao.rg,
                     "nome": cidadao.nome,
-                    "dt_nascimento": "2018-01-01",
+                    "dt_nascimento": _selectedNascimentoDate.toString(),
                     "email": cidadao.email,
                     "contato": cidadao.contato,
-                    "id_tipo_sanguineo": cidadao.idTipoSanguineo,
+                    "id_tipo_sanguineo": _selectedTipoSanguineo,
                     "doador": cidadao.doador,
                     "numero": cidadao.numero,
                     "complemento": cidadao.complemento,
