@@ -1,5 +1,4 @@
 import 'package:cndv/src/models/campanhas_models.dart';
-import 'package:cndv/src/pages/mensagens/mensagem_notificacoes_page.dart';
 import 'package:cndv/src/widgets/postos_saude_map.dart';
 import 'package:flutter/material.dart';
 
