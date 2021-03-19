@@ -9,6 +9,8 @@
 .history
 .svn/
 
+key.properties
+
 *jks
 android/app/release/*
 build/

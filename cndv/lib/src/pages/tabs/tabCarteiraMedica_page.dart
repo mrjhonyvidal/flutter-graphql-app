@@ -181,7 +181,7 @@ class _Header extends StatelessWidget {
       children: <Widget>[
         Header(
             titulo: 'Bem-vindo ${this.usuarioNome},',
-            subtitulo: 'Carteira Nacional Digital de Vacinação',
+            subtitulo: 'Carteira Nacional Digital de Vacina',
             username: 'JVO',
             iconHeader: FontAwesomeIcons.plus,
             color1: Colors.blue,

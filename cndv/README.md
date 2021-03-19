@@ -46,7 +46,14 @@ Os plugins para Flutter utilizados podem ser encontrados no arquivo pubspec.yaml
 - firebase_messaging: ^7.0.3
 - graphql_flutter: ^4.0.1
 
-
+### Deploy to Google Play
+- [Flutter doc Deploy Android](https://flutter.dev/docs/deployment/android)
+- [Android Launch Melhores práticas](https://developer.android.com/distribute/best-practices/launch)
+```
+flutter clean
+flutter build apk --release
+flutter build appbundle --release
+```
 ### Recursos e links
 
 - [Tutorial Push Notification](https://blog.logrocket.com/flutter-push-notifications-with-firebase-cloud-messaging/)

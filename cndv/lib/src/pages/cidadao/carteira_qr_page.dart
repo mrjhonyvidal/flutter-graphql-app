@@ -14,7 +14,7 @@ class CarteiraQR extends StatelessWidget {
             SizedBox( height: 10),
             Padding(
               padding: EdgeInsets.all(50.0),
-              child: Text('Escanei o código abaixo para mostrar seus dados pessoais e seu controle de vacinação.', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
+              child: Text('Escanei o código abaixo para mostrar seus dados pessoais e seu controle de vacinas.', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
             ),
             QrImage(
               data: "Seu cadastro de vacinas está ok! Siga incentivando e apoiando #VacinaSIM. Muito obrigado!",

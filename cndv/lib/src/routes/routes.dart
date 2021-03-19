@@ -8,6 +8,7 @@ import 'package:cndv/src/pages/mensagens/mensagem_notificacoes_page.dart';
 import 'package:cndv/src/pages/perfil/editar_dados_pessoais_page.dart';
 import 'package:cndv/src/pages/searchs/buscar_campanhas_page.dart';
 import 'package:cndv/src/pages/tabs/tabs_page.dart';
+import 'package:cndv/src/widgets/postos_saude_map.dart';
 import 'package:flutter/cupertino.dart';
 
 final Map<String, Widget Function(BuildContext)> appRoutes = {
@@ -17,6 +18,7 @@ final Map<String, Widget Function(BuildContext)> appRoutes = {
   'cadastro': (_) => Cadastro(),
   'recuperar_acesso': (_) => RecuperarAcesso(),
   'campanha_detalhe': (_) => CampanhaDetalhe(),
+  'postos_saude_map': (_) => PostosSaudeMap(),
   'mensagem_notificacoes': (_) => MensagensNotificacoes(),
   'editar_dados_pessoais': (_) => EditarDadosPessoais(), /// TODO Add EditProfileImage Page
   'buscar_campanhas': (_) => BuscarCampanhasPage(),

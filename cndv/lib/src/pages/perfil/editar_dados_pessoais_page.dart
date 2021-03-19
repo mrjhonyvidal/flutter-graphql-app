@@ -48,7 +48,7 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
   Widget build(BuildContext context) {
     final Map cidadaoCPF = ModalRoute.of(context).settings.arguments;
     loadTipoSanguineoList();
-    cidadao.dtNascimento = cidadao.dtNascimento ?? DateTime.now();
+
 
     return Scaffold(
       appBar: AppBar(
@@ -137,7 +137,7 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
 
   Widget _inputDataNascimento2() {
     return TextFormField(
-      initialValue: cidadao.dtNascimento.toString(),
+      initialValue: cidadao.dtNascimento.toString() ?? DateTime.now().toString(),
       textCapitalization: TextCapitalization.sentences,
       onSaved: (value) => cidadao.dtNascimento = DateTime.parse(value),
       decoration: InputDecoration(labelText: 'Data Nascimento'),
@@ -149,6 +149,7 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
       initialValue: _selectedNascimentoDate.toString(),
       onTap: () => _selectDate(context),
       readOnly: true,
+      decoration: InputDecoration(labelText: 'Data Nascimento'),
     );
   }
 

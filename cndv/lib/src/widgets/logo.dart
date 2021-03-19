@@ -24,7 +24,7 @@ class Logo extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 20,
                 )),
-            Text('Digital de Vacinação', style: TextStyle(fontSize: 20)),
+            Text('Digital de Vacina', style: TextStyle(fontSize: 20)),
           ],
         ),
       ),

@@ -1,4 +1,6 @@
 import 'package:cndv/src/models/campanhas_models.dart';
+import 'package:cndv/src/pages/mensagens/mensagem_notificacoes_page.dart';
+import 'package:cndv/src/widgets/postos_saude_map.dart';
 import 'package:flutter/material.dart';
 
 class CampanhaDetalhe extends StatelessWidget {
@@ -11,7 +13,7 @@ class CampanhaDetalhe extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(5.0),
         child: LinearProgressIndicator(
-            backgroundColor: Color.fromRGBO(209, 224, 224, 0.2),
+            backgroundColor: Color.fromRGBO(58, 66, 86, .6),
             value: 0.5,
             valueColor: AlwaysStoppedAnimation(Colors.green)),
       ),
@@ -77,7 +79,7 @@ class CampanhaDetalhe extends StatelessWidget {
           height: MediaQuery.of(context).size.height * 0.5,
           padding: EdgeInsets.all(40.0),
           width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(color: Color.fromRGBO(58, 66, 86, .9)),
+          decoration: BoxDecoration(color: Color.fromRGBO(93, 133, 248, 0.9)),
           child: Center(
             child: topContentText,
           ),
@@ -103,8 +105,14 @@ class CampanhaDetalhe extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 16.0),
         width: MediaQuery.of(context).size.width,
         child: RaisedButton(
-          onPressed: () => {},
-          color: Color.fromRGBO(58, 66, 86, 1.0),
+          onPressed: () => {
+            Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    PostosSaudeMap(), fullscreenDialog: true),
+          )},
+          color: Colors.blueAccent,
           child:
           Text("Buscar Postos de Saúde", style: TextStyle(color: Colors.white)),
         ));
@@ -122,6 +130,9 @@ class CampanhaDetalhe extends StatelessWidget {
           ),
         )),
     );
+
+    /// Show in Campanha Detalhe page:
+    /// PostosSaudeMap postosSaudeMap = PostosSaudeMap();
 
     return Scaffold(
       body: SafeArea(
