@@ -7,6 +7,7 @@ import 'package:cndv/src/widgets/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class Cadastro extends StatelessWidget {
@@ -40,10 +41,16 @@ class Form extends StatefulWidget {
 }
 
 class _FormState extends State<Form> {
+
+  final formKey = GlobalKey<FormState>();
+  DateTime selectedNascimentoDate;
+  ValueChanged<DateTime> selectDate;
+
   final emailCtrl = TextEditingController();
   final passCtrl = TextEditingController();
   final cpfCtrl = TextEditingController();
   final nomeCtrl = TextEditingController();
+  final dtNascimentoCtrl = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -58,8 +65,7 @@ class _FormState extends State<Form> {
               placeholder: 'CPF',
               keyboardType: TextInputType.number,
               textController: cpfCtrl,
-              textInputFormatter:
-                  MaskTextInputFormatter(mask: "###.###.###-##")),
+              textInputFormatter: MaskTextInputFormatter(mask: "###.###.###-##")),
           CustomInput(
             icon: Icons.person,
             placeholder: 'Nome',
@@ -67,6 +73,35 @@ class _FormState extends State<Form> {
             textController: nomeCtrl,
             textInputFormatter: MaskTextInputFormatter(mask: ""),
             textLength: 50,
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 5, left: 5, bottom: 5, right: 20),
+            margin: EdgeInsets.only(bottom: 20),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(30),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                      color: Colors.black.withOpacity(0.05),
+                      offset: Offset(0, 5),
+                      blurRadius: 5)
+                ]),
+            child: TextFormField(
+              controller: dtNascimentoCtrl,
+              onTap: () async {
+                FocusScope.of(context).requestFocus(new FocusNode());
+                // Show Date Picker here
+                await _selectDate(context);
+                dtNascimentoCtrl.text = DateFormat('dd/MM/yyyy').format(selectedNascimentoDate);
+              },
+              readOnly: true,
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  labelText: 'Data Nascimento',
+                  prefixIcon: Icon(Icons.calendar_today_outlined),
+                  focusedBorder: InputBorder.none,
+              )
+            ),
           ),
           CustomInput(
             icon: Icons.mail_outline,
@@ -91,8 +126,15 @@ class _FormState extends State<Form> {
                   update: (GraphQLDataProxy cache, QueryResult result) {
                     return cache;
                   },
+                  onError: (err) {
+                    print(err);
+                  },
                   onCompleted: (dynamic resultData) {
                     if (resultData != null) {
+                      showValidationsAlertMsg(
+                        context,
+                        'Cadastro realizado com sucesso!',
+                        'Você receberá um email com mais instruções de uso.');
                       Navigator.pushReplacementNamed(context, 'login');
                     } else {
                       showValidationsAlertMsg(
@@ -108,12 +150,26 @@ class _FormState extends State<Form> {
                     'cpf': cpfCtrl.text,
                     'nome': nomeCtrl.text,
                     'senha': passCtrl.text,
-                    'email': emailCtrl.text
+                    'email': emailCtrl.text,
+                    "dt_nascimento": DateFormat('yyyy-MM-dd').format(selectedNascimentoDate)
                   }),
                 );
               })
         ],
       ),
     );
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime pickedDate = await showDatePicker(
+        context: context,
+        initialDate: selectedNascimentoDate ?? DateTime.now(),
+        firstDate: DateTime(1901, 1),
+        lastDate: DateTime(2101));
+    if (pickedDate != null && pickedDate != selectedNascimentoDate)
+      setState(() {
+        print(pickedDate);
+        selectedNascimentoDate = pickedDate;
+      });
   }
 }

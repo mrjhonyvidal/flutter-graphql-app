@@ -12,13 +12,22 @@ class EditarDadosPessoais extends StatefulWidget {
 }
 
 class _EditarDadosPessoais extends State<EditarDadosPessoais> {
+
   final formKey = GlobalKey<FormState>();
+  DateTime selectedNascimentoDate;
+  ValueChanged<DateTime> selectDate;
+
   ObtenerDadosPessoais cidadao;
   VoidCallback refetchQuery;
-  DateTime _selectedNascimentoDate;
-
   String _selectedTipoSanguineo = 'A+';
   List<DropdownMenuItem<String>> tipoSanguineoList = [];
+
+  TextEditingController dtNascimentoEditingController = new TextEditingController();
+  /*@override
+  void initState() {
+    super.initState();
+    //dtNascimentoEditingController = new TextEditingController(text: selectedNascimentoDate.toString());
+  }*/
 
   void loadTipoSanguineoList() {
     tipoSanguineoList = [];
@@ -48,7 +57,6 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
   Widget build(BuildContext context) {
     final Map cidadaoCPF = ModalRoute.of(context).settings.arguments;
     loadTipoSanguineoList();
-
 
     return Scaffold(
       appBar: AppBar(
@@ -82,6 +90,7 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
                       cidadao = ObtenerDadosPessoais.fromJson(
                           result.data['obtenerDadosPessoais']);
 
+                      dtNascimentoEditingController.text = DateFormat('dd/MM/yyyy').format(selectedNascimentoDate ?? cidadao.dtNascimento);
                       return Form(
                           key: formKey,
                           child: Column(
@@ -135,36 +144,31 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
     );
   }
 
-  Widget _inputDataNascimento2() {
-    return TextFormField(
-      initialValue: cidadao.dtNascimento.toString() ?? DateTime.now().toString(),
-      textCapitalization: TextCapitalization.sentences,
-      onSaved: (value) => cidadao.dtNascimento = DateTime.parse(value),
-      decoration: InputDecoration(labelText: 'Data Nascimento'),
-    );
-  }
-
+  ///initialValue: selectedNascimentoDate.toString()
   Widget _inputDataNascimento(){
     return TextFormField(
-      initialValue: _selectedNascimentoDate.toString(),
-      onTap: () => _selectDate(context),
+      controller: dtNascimentoEditingController,
+      onTap: () async {
+        FocusScope.of(context).requestFocus(new FocusNode());
+        // Show Date Picker here
+        await _selectDate(context);
+        dtNascimentoEditingController.text = DateFormat('dd/MM/yyyy').format(selectedNascimentoDate);
+      },
       readOnly: true,
       decoration: InputDecoration(labelText: 'Data Nascimento'),
     );
   }
 
-   _selectDate(BuildContext context) async {
+   Future<void> _selectDate(BuildContext context) async {
     final DateTime pickedDate = await showDatePicker(
         context: context,
-        initialDate: _selectedNascimentoDate ?? DateTime.now(),
+        initialDate: selectedNascimentoDate ?? DateTime.now(),
         firstDate: DateTime(1901, 1),
         lastDate: DateTime(2101));
-
-    if (pickedDate != null && pickedDate != _selectedNascimentoDate) {
+    if (pickedDate != null && pickedDate != selectedNascimentoDate)
       setState(() {
-        _selectedNascimentoDate = pickedDate;
+        selectedNascimentoDate = pickedDate;
       });
-    }
   }
 
   Widget _inputEmail() {
@@ -198,7 +202,6 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
       isExpanded: true,
     );
   }
-
 
   Widget _inputDoador() {
     return TextFormField(
@@ -296,13 +299,12 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
               textColor: Colors.white,
               onPressed: () {
                 formKey.currentState.save();
-
                 runMutation({
                   "cpf": cidadao.cpf,
                   "input": {
                     "rg": cidadao.rg,
                     "nome": cidadao.nome,
-                    "dt_nascimento": _selectedNascimentoDate.toString(),
+                    "dt_nascimento": selectedNascimentoDate.toString() ?? DateTime.now(),
                     "email": cidadao.email,
                     "contato": cidadao.contato,
                     "id_tipo_sanguineo": _selectedTipoSanguineo,

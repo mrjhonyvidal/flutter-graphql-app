@@ -14,8 +14,6 @@ class PostosSaudeMap extends StatefulWidget {
 class _PostosSaudeMapState extends State<PostosSaudeMap> {
   Completer<GoogleMapController> _controller = Completer();
 
-  /// TODO Add Markers get data from all hospitals and Postos de Saude from Google API Places while checking DataSus API
-  /// Document all this on the infrastructure document
   Iterable markers = [];
 
   @override
@@ -26,6 +24,8 @@ class _PostosSaudeMapState extends State<PostosSaudeMap> {
 
   getHealthInstitutionsGeo(String latitude, String longitude) async {
 
+    /// TODO Replace URL to consume from DataSus API instead of Google Places
+    /// Document all this on the infrastructure document
     var endpointUrl = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
     Map<String, String> queryParams = {
       'location': "$latitude,$longitude",
@@ -50,8 +50,21 @@ class _PostosSaudeMapState extends State<PostosSaudeMap> {
           Map location = result["geometry"]["location"];
           LatLng latLngMarker = LatLng(location["lat"], location["lng"]);
           return Marker(
-              markerId: MarkerId("marker$index"), position: latLngMarker);
+              markerId: MarkerId("marker$index"),
+              position: latLngMarker,
+              icon: BitmapDescriptor.defaultMarker
+          );
         });
+
+        /// TODO Add aditional marker with different color to have a track
+        /// between the current place and the point/mark that have the lowest
+        /// distance
+        /// LatLng currentLatLngMarker = LatLng($latitude, $longitude);
+        /// Marker(
+        //  markerId: MarkerId("currentMarker1"),
+        //  position: latLngMarker,
+        //  icon: BitmapDescriptor.defaultMarkerWithHue(3.0)
+        //           );
 
         setState(() {
           markers = _markers;
@@ -81,8 +94,8 @@ class _PostosSaudeMapState extends State<PostosSaudeMap> {
   Widget build(BuildContext context) {
     return new Scaffold(
       body: GoogleMap(
-        mapType: MapType.normal,
-        markers: Set.from(markers),
+        mapType: MapType.terrain,
+        markers: markers != null ? Set.from(markers) : null,
         initialCameraPosition: _kGooglePlex,
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);

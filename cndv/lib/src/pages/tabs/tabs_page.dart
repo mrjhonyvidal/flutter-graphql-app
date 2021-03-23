@@ -1,5 +1,6 @@
 import 'package:cndv/src/pages/tabs/tabCampanhaVacinas_page.dart';
 import 'package:cndv/src/pages/tabs/tabCarteiraMedica_page.dart';
+import 'package:cndv/src/pages/tabs/tabPermissoes_page.dart';
 import 'package:cndv/src/routes/sidebar_menu_routes.dart';
 import 'package:cndv/src/storage/cndv_secure_storage.dart';
 import 'package:flutter/material.dart';
@@ -111,7 +112,9 @@ class _Navigation extends StatelessWidget {
           BottomNavigationBarItem(
               icon: Icon(Icons.fingerprint), label: 'Carteira Médica'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.medical_services), label: 'Campanhas')
+              icon: Icon(Icons.medical_services), label: 'Campanhas'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.settings), label: 'Permissões')
         ]);
   }
 }
@@ -126,7 +129,7 @@ class _Pages extends StatelessWidget {
       //physics: BouncingScrollPhysics(),
       physics: NeverScrollableScrollPhysics(),
       ///children: <Widget>[TabCarteiraMedica(), TabCampanhaVacinas()],
-      children: <Widget>[TabCarteiraMedica(), MyApp()],
+      children: <Widget>[TabCarteiraMedica(), TabCampanhas(), TabPermissoes()],
     );
   }
 }

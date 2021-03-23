@@ -5,9 +5,9 @@ import 'package:cndv/src/services/graphql/queries/campanhas.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 
-void main() => runApp(new MyApp());
+void main() => runApp(new TabCampanhas());
 
-class MyApp extends StatelessWidget {
+class TabCampanhas extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -44,8 +44,6 @@ class _ListPageState extends State<ListPage> {
 
   @override
   Widget build(BuildContext context) {
-
-
 
     ListTile makeListTile(ObtenerCampanha campanha) => ListTile(
       contentPadding:

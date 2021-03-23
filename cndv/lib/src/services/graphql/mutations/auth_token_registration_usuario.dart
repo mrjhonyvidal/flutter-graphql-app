@@ -11,8 +11,8 @@ class authTokenRegistrationUsuario {
   """;
 
   static String registerNewUser = """
-    mutation novoUsuarioAcesso(\$cpf: String!, \$nome: String!, \$senha: String!, \$email: String!) {
-      novoUsuarioAcesso(input: {cpf: \$cpf, nome: \$nome, senha: \$senha, email: \$email}) {
+    mutation novoUsuarioAcesso(\$cpf: String!, \$nome: String!, \$senha: String!, \$email: String!, \$dt_nascimento: Date) {
+      novoUsuarioAcesso(input: {cpf: \$cpf, nome: \$nome, senha: \$senha, email: \$email, dt_nascimento: \$dt_nascimento}) {
         cpf
         nome
         email
