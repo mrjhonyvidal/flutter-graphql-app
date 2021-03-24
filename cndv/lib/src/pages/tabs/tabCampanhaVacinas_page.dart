@@ -204,7 +204,6 @@ class _ListPageState extends State<ListPage> {
         )
       ],
     );
-
     return Scaffold(
       appBar: topAppBar,
       body: makeBody,
