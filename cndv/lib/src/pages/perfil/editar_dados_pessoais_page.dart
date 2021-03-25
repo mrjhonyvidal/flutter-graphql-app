@@ -1,7 +1,8 @@
-import 'package:cndv/src/helpers/show_validations_alert_msg.dart';
 import 'package:cndv/src/models/cidadao_dados_pessoais_models.dart';
 import 'package:cndv/src/services/graphql/mutations/edit_dados_pessoais.dart';
 import 'package:cndv/src/services/graphql/queries/dados_pessoais.dart';
+import 'package:cndv/src/services/graphql/queries/municipios_cidades.dart';
+import 'package:cndv/src/widgets/blue_button.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
@@ -14,20 +15,45 @@ class EditarDadosPessoais extends StatefulWidget {
 class _EditarDadosPessoais extends State<EditarDadosPessoais> {
 
   final formKey = GlobalKey<FormState>();
+  ObtenerDadosPessoais cidadao;
   DateTime selectedNascimentoDate;
   ValueChanged<DateTime> selectDate;
-
-  ObtenerDadosPessoais cidadao;
   VoidCallback refetchQuery;
   String _selectedTipoSanguineo = 'A+';
   List<DropdownMenuItem<String>> tipoSanguineoList = [];
 
-  TextEditingController dtNascimentoEditingController = new TextEditingController();
-  /*@override
+  List stateList = ["AC","AL","AM","AP","BA","CE","DF","ES","GO","MA","MG","MS","MT","PA","PB","PE","PI","PR","RJ","RN","RO","RR","RS","SC","SE","SP","TO"];
+  String _myState;
+  var _municipioSelected;
+
+  @override
   void initState() {
     super.initState();
-    //dtNascimentoEditingController = new TextEditingController(text: selectedNascimentoDate.toString());
-  }*/
+  }
+
+  List<DropdownMenuItem<String>> getMunicipiosDropdown(List municipios) {
+    List<DropdownMenuItem<String>> listOfMunicipios = new List();
+      municipios?.forEach((municipio){
+      listOfMunicipios.add(DropdownMenuItem(
+        child: Text(municipio['cidade']),
+        value: municipio['cidade'],
+      ));
+    });
+    return listOfMunicipios;
+  }
+
+  List<DropdownMenuItem>getStateDropdown(List states){
+    List<DropdownMenuItem<String>> listOfStates = new List();
+    states.forEach((state) {
+      listOfStates.add(DropdownMenuItem(
+        child: Text(state),
+        value: state
+      ));
+    });
+    return listOfStates;
+  }
+
+  TextEditingController dtNascimentoEditingController = new TextEditingController();
 
   void loadTipoSanguineoList() {
     tipoSanguineoList = [];
@@ -90,7 +116,10 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
                       cidadao = ObtenerDadosPessoais.fromJson(
                           result.data['obtenerDadosPessoais']);
 
+                      /// Initialize default values for Date and Location
                       dtNascimentoEditingController.text = DateFormat('dd/MM/yyyy').format(selectedNascimentoDate ?? cidadao.dtNascimento);
+                      _myState = _myState ?? cidadao.uf;
+
                       return Form(
                           key: formKey,
                           child: Column(
@@ -105,9 +134,10 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
                               _inputCep(),
                               _inputEndereco(),
                               _inputNumero(),
+                              _inputComplemento(),
                               _inputBairro(),
-                              _inputCidade(),
                               _inputUF(),
+                              _inputCidade(),
                               _inputPais(),
                               _submitButton(),
                             ],
@@ -144,7 +174,6 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
     );
   }
 
-  ///initialValue: selectedNascimentoDate.toString()
   Widget _inputDataNascimento(){
     return TextFormField(
       controller: dtNascimentoEditingController,
@@ -235,6 +264,15 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
       initialValue: cidadao.numero,
       textCapitalization: TextCapitalization.sentences,
       onSaved: (value) => cidadao.numero = value,
+      decoration: InputDecoration(labelText: 'Número'),
+    );
+  }
+
+  Widget _inputComplemento() {
+    return TextFormField(
+      initialValue: cidadao.complemento,
+      textCapitalization: TextCapitalization.sentences,
+      onSaved: (value) => cidadao.complemento = value,
       decoration: InputDecoration(labelText: 'Complemento'),
     );
   }
@@ -248,22 +286,89 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
     );
   }
 
-  Widget _inputCidade() {
-    return TextFormField(
-      initialValue: cidadao.cidade,
-      textCapitalization: TextCapitalization.sentences,
-      onSaved: (value) => cidadao.cidade = value,
-      decoration: InputDecoration(labelText: 'Cidade'),
-    );
+  Widget _inputUF() {
+    return Row(
+      children: <Widget>[
+        Expanded(
+         child: DropdownButton(
+            value: _myState,
+            items: getStateDropdown(stateList),
+            hint: Text('Selecione o estado (UF)'),
+            onChanged: (opt) {
+              setState((){
+                /// We set to null in order to avoid duplicated values
+                /// Avoid: There should be exactly one item with [DropdownButton]'
+                _municipioSelected = null;
+                _myState = opt;
+              });
+            },
+             isExpanded: true,
+          ),
+        ),
+      ]);
   }
 
-  Widget _inputUF() {
-    return TextFormField(
-      initialValue: cidadao.uf,
-      textCapitalization: TextCapitalization.sentences,
-      onSaved: (value) => cidadao.uf = value,
-      decoration: InputDecoration(labelText: 'Cidade'),
-    );
+  Widget _inputCidade() {
+    if(_myState != null ) {
+      return Row(
+        children: <Widget>[
+          Expanded(
+              child: Query(
+                options: QueryOptions(
+                    document: gql(MunicipiosCidades.getMunicipiosCidades),
+                    variables: {'uf': _myState}),
+                builder: (QueryResult result,
+                    {VoidCallback refetch, FetchMore fetchMore}) {
+                  refetchQuery = refetch;
+
+                  if (result.hasException) {
+                    return Text(
+                      result.exception.toString(),
+                      style: TextStyle(
+                          color: Colors.black54, fontWeight: FontWeight.w600),
+                    );
+                  }
+
+                  if (result.isLoading) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+
+                  if (result.data != null) {
+                    List<dynamic> municipios = result.data['obtenerCidadesFilteredByUF'];
+
+                    return DropdownButton(
+                      value: _municipioSelected,
+                      items: getMunicipiosDropdown(municipios),
+                      hint: Text('Selecione o município'),
+                      onChanged: (opt) {
+                        setState(() {
+                          _municipioSelected = opt;
+                        });
+                      },
+                      isExpanded: true,
+                    );
+                  } else {
+                    return DropdownButton(
+                      items: [],
+                      onChanged: (opt) {},
+                      isExpanded: true,
+                    );
+                  }
+                },
+              ))
+        ],
+      );
+    }else{
+      return Row(
+          children: <Widget>[
+            Expanded(
+              child: DropdownButton(
+                    items: [],
+                    hint: Text('Município - Selecione o estado(UF) antes'),
+                    onChanged: (opt) {},
+                    ))
+            ]);
+      }
   }
 
   Widget _inputPais() {
@@ -292,32 +397,30 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
               }*/
             }),
         builder: (RunMutation runMutation, QueryResult result) {
-          return RaisedButton.icon(
-              label: Text('Modificar'),
-              icon: Icon(Icons.save),
-              color: Colors.blue,
-              textColor: Colors.white,
+          return BlueButton(
+              text: 'Modificar',
               onPressed: () {
                 formKey.currentState.save();
                 runMutation({
-                  "cpf": cidadao.cpf,
-                  "input": {
-                    "rg": cidadao.rg,
-                    "nome": cidadao.nome,
-                    "dt_nascimento": selectedNascimentoDate.toString() ?? DateTime.now(),
-                    "email": cidadao.email,
-                    "contato": cidadao.contato,
-                    "id_tipo_sanguineo": _selectedTipoSanguineo,
-                    "doador": cidadao.doador,
-                    "numero": cidadao.numero,
-                    "complemento": cidadao.complemento,
-                    "bairro": cidadao.bairro,
-                    "cidade": cidadao.cidade,
-                    "uf": cidadao.uf,
-                    "pais": cidadao.pais,
-                    "cep": cidadao.cep
-                  }
-                },
+                    "cpf": cidadao.cpf,
+                    "input": {
+                      "rg": cidadao.rg,
+                      "nome": cidadao.nome,
+                      "dt_nascimento": DateFormat('yyyy-MM-dd').format(selectedNascimentoDate) ?? DateFormat('yyyy-MM-dd').format(DateTime.now()),
+                      "email": cidadao.email,
+                      "contato": cidadao.contato,
+                      "id_tipo_sanguineo": _selectedTipoSanguineo,
+                      "doador": cidadao.doador,
+                      "endereco": cidadao.endereco,
+                      "numero": cidadao.numero,
+                      "complemento": cidadao.complemento,
+                      "bairro": cidadao.bairro,
+                      "cidade": _municipioSelected,
+                      "uf": _myState,
+                      "pais": cidadao.pais,
+                      "cep": cidadao.cep
+                    }
+                  },
                 );
               });
         }
