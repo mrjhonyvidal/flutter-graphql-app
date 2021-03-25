@@ -50,6 +50,16 @@ Os plugins para Flutter utilizados podem ser encontrados no arquivo pubspec.yaml
 - [Flutter doc Deploy Android](https://flutter.dev/docs/deployment/android)
 - [Android Launch Melhores práticas](https://developer.android.com/distribute/best-practices/launch)
 ```
+Change version in Android/app/build.gradle
+
+    defaultConfig {
+        applicationId "com.gpfgv.cndv"
+        minSdkVersion 18
+        targetSdkVersion 29
+        versionCode 4 <----------- +1
+        versionName "1.0.4"
+        multiDexEnabled true
+    }
 flutter clean
 flutter build apk --release
 flutter build appbundle --release
