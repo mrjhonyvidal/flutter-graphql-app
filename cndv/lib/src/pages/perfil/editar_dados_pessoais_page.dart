@@ -251,16 +251,27 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
   }
 
   Widget _inputTipoSanguineo(){
-    return DropdownButton(
-      hint: new Text('Selecione o tipo sanguineo'),
-      items: tipoSanguineoList,
-      value: (_selectedTipoSanguineo != '-') ? _selectedTipoSanguineo : (cidadao.idTipoSanguineo == '') ? '-' : cidadao.idTipoSanguineo,
-      onChanged: (value) {
-        setState(() {
-          _selectedTipoSanguineo = value;
-        });
-      },
-      isExpanded: true,
+    print(_selectedTipoSanguineo);
+    print(cidadao.idTipoSanguineo);
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+            Text(
+              'Tipo Sanguíneo',
+                style: TextStyle(),
+            ),
+        DropdownButton(
+        hint: new Text('Selecione o tipo sanguineo'),
+        items: tipoSanguineoList,
+        value: (_selectedTipoSanguineo != '-') ? _selectedTipoSanguineo : (cidadao.idTipoSanguineo == '') ? '-' : cidadao.idTipoSanguineo,
+        onChanged: (value) {
+          setState(() {
+            _selectedTipoSanguineo = value;
+          });
+        },
+        isExpanded: true,
+        ),
+      ]
     );
   }
 
@@ -341,6 +352,10 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
   Widget _inputUF() {
     return Row(
       children: <Widget>[
+        Text(
+          'UF: ',
+          style: TextStyle(),
+        ),
         Expanded(
          child: DropdownButton(
             value: _myState ?? cidadao.uf,
@@ -365,6 +380,10 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
     if(_myState != null ) {
       return Row(
         children: <Widget>[
+          Text(
+            'Município: ',
+            style: TextStyle(),
+          ),
           Expanded(
               child: Query(
                 options: QueryOptions(
@@ -468,7 +487,7 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
                       "dt_nascimento": DateFormat('yyyy-MM-dd').format(selectedNascimentoDate) ?? DateFormat('yyyy-MM-dd').format(DateTime.now()),
                       "email": cidadao.email,
                       "contato": cidadao.contato,
-                      "id_tipo_sanguineo": _selectedTipoSanguineo,
+                      "id_tipo_sanguineo": (_selectedTipoSanguineo != '-') ? _selectedTipoSanguineo : (cidadao.idTipoSanguineo == '') ? '-' : cidadao.idTipoSanguineo,
                       "doador": selectedIsDoador,
                       "endereco": cidadao.endereco,
                       "numero": cidadao.numero,
