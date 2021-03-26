@@ -48,7 +48,7 @@ class _MyAppState extends State<MyApp> {
             debugShowCheckedModeBanner: false,
             navigatorKey: navigatorKey,
             title: 'CNDV App',
-            initialRoute: 'loading',
+            initialRoute: 'splashscreen',
             routes: appRoutes,
           ),
         ),

@@ -5,6 +5,7 @@ import 'package:cndv/src/routes/sidebar_menu_routes.dart';
 import 'package:cndv/src/storage/cndv_secure_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
 
 class TabsPage extends StatelessWidget {
@@ -14,14 +15,41 @@ class TabsPage extends StatelessWidget {
       create: (_) => new _NavegationModel(),
       child: Scaffold(
         body: _Pages(),
-        drawer: _MainSidebarMenu(),
+        drawer: MainSidebarMenu(),
         bottomNavigationBar: _Navigation(),
       ),
     );
   }
 }
 
-class _MainSidebarMenu extends StatelessWidget {
+class MainSidebarMenu extends StatefulWidget{
+  @override
+  _MainSidebarMenu createState() => _MainSidebarMenu();
+}
+
+class _MainSidebarMenu extends State<MainSidebarMenu> {
+
+  PackageInfo _packageInfo = PackageInfo(
+    appName: 'Unknown',
+    packageName: 'Unknown',
+    version: 'Unknown',
+    buildNumber: 'Unknown',
+  );
+
+  @override
+  void initState() {
+    super.initState();
+
+    _initPackageInfo();
+  }
+
+  Future<void> _initPackageInfo() async {
+    final PackageInfo info = await PackageInfo.fromPlatform();
+    setState(() {
+      _packageInfo = info;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final cndvAuthSecureProvider =
@@ -63,6 +91,9 @@ class _MainSidebarMenu extends StatelessWidget {
               CNDVAuthSecureStorage.deleteToken();
               Navigator.pushReplacementNamed(context, 'login');
             },
+          ),
+          ListTile(
+            title: Text('CNDV v${_packageInfo.version}')
           )
         ],
       )),

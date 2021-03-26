@@ -77,7 +77,7 @@ class _TabPermissoes extends State<TabPermissoes> {
                   title: Text('Compartilhar meus dados para ajudar o controle nacional de vacinas'),
                   onChanged: ( value ) {
                     setState(() {
-                      _allowShareMedicalHistory = value;
+                      _shareMyDataToHelpVacineControl = value;
                     });
                   }
               ),

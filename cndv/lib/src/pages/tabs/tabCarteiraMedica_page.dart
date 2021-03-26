@@ -190,7 +190,7 @@ class _Header extends StatelessWidget {
             urlRoute: EditarDadosPessoais(),
             iconCenter: Icons.account_box),
         Positioned(
-          left: 30,
+          left: 50,
           top: 30,
           child: InkWell(
             onTap: () {

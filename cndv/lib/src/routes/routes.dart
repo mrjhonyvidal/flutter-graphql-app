@@ -1,3 +1,4 @@
+import 'package:cndv/SplashScreen.dart';
 import 'package:cndv/src/pages/auth/cadastro_page.dart';
 import 'package:cndv/src/pages/auth/login_page.dart';
 import 'package:cndv/src/pages/auth/recuperar_senha_page.dart';
@@ -16,6 +17,7 @@ final Map<String, Widget Function(BuildContext)> appRoutes = {
   'login': (_) => Login(),
   'loading': (_) => Loading(),
   'cadastro': (_) => Cadastro(),
+  'splashscreen': (_) => SplashScreen(),
   'recuperar_acesso': (_) => RecuperarAcesso(),
   'campanha_detalhe': (_) => CampanhaDetalhe(),
   'postos_saude_map': (_) => PostosSaudeMap(),

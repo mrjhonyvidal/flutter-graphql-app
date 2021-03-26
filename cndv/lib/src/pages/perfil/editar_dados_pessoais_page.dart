@@ -1,3 +1,4 @@
+import 'package:cndv/src/helpers/show_validations_alert_msg.dart';
 import 'package:cndv/src/models/cidadao_dados_pessoais_models.dart';
 import 'package:cndv/src/services/graphql/mutations/edit_dados_pessoais.dart';
 import 'package:cndv/src/services/graphql/queries/dados_pessoais.dart';
@@ -19,12 +20,13 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
   DateTime selectedNascimentoDate;
   ValueChanged<DateTime> selectDate;
   VoidCallback refetchQuery;
-  String _selectedTipoSanguineo = 'A+';
   List<DropdownMenuItem<String>> tipoSanguineoList = [];
+  String selectedIsDoador;
 
-  List stateList = ["AC","AL","AM","AP","BA","CE","DF","ES","GO","MA","MG","MS","MT","PA","PB","PE","PI","PR","RJ","RN","RO","RR","RS","SC","SE","SP","TO"];
-  String _myState;
-  var _municipioSelected;
+  List stateList = ["Selecione","AC","AL","AM","AP","BA","CE","DF","ES","GO","MA","MG","MS","MT","PA","PB","PE","PI","PR","RJ","RN","RO","RR","RS","SC","SE","SP","TO"];
+  var _selectedTipoSanguineo = '-';
+  var _myState = 'Selecione';
+  var _municipioSelected = 'Selecione';
 
   @override
   void initState() {
@@ -39,6 +41,12 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
         value: municipio['cidade'],
       ));
     });
+
+    /// In order to control dynamically and have always an option inside the list
+    listOfMunicipios.add(DropdownMenuItem(
+      child: Text('Selecione'),
+      value: 'Selecione',
+    ));
     return listOfMunicipios;
   }
 
@@ -58,6 +66,10 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
   void loadTipoSanguineoList() {
     tipoSanguineoList = [];
     tipoSanguineoList.add(new DropdownMenuItem(
+      child: new Text('-'),
+      value: '-',
+    ));
+    tipoSanguineoList.add(new DropdownMenuItem(
       child: new Text('A-'),
       value: 'A-',
     ));
@@ -67,16 +79,34 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
     ));
     tipoSanguineoList.add(new DropdownMenuItem(
       child: new Text('AB+'),
+      value: 'AB+',
+    ));
+    tipoSanguineoList.add(new DropdownMenuItem(
+      child: new Text('AB-'),
       value: 'AB-',
     ));
     tipoSanguineoList.add(new DropdownMenuItem(
       child: new Text('B+'),
+      value: 'B+',
+    ));
+    tipoSanguineoList.add(new DropdownMenuItem(
+      child: new Text('B-'),
       value: 'B-',
     ));
     tipoSanguineoList.add(new DropdownMenuItem(
       child: new Text('O+'),
+      value: 'O+',
+    ));
+    tipoSanguineoList.add(new DropdownMenuItem(
+      child: new Text('O-'),
       value: 'O-',
     ));
+  }
+
+  setSelectedIsDoader(String val) {
+    setState((){
+      selectedIsDoador = val;
+    });
   }
 
   @override
@@ -118,7 +148,9 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
 
                       /// Initialize default values for Date and Location
                       dtNascimentoEditingController.text = DateFormat('dd/MM/yyyy').format(selectedNascimentoDate ?? cidadao.dtNascimento);
-                      _myState = _myState ?? cidadao.uf;
+                      selectedNascimentoDate = selectedNascimentoDate ?? cidadao.dtNascimento;
+                      selectedIsDoador = selectedIsDoador ?? cidadao.doador;
+                      _myState = (_myState != 'Selecione') ? _myState : cidadao.uf;
 
                       return Form(
                           key: formKey,
@@ -222,7 +254,7 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
     return DropdownButton(
       hint: new Text('Selecione o tipo sanguineo'),
       items: tipoSanguineoList,
-      value: _selectedTipoSanguineo,
+      value: (_selectedTipoSanguineo != '-') ? _selectedTipoSanguineo : (cidadao.idTipoSanguineo == '') ? '-' : cidadao.idTipoSanguineo,
       onChanged: (value) {
         setState(() {
           _selectedTipoSanguineo = value;
@@ -232,12 +264,32 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
     );
   }
 
-  Widget _inputDoador() {
-    return TextFormField(
-      initialValue: cidadao.doador,
-      textCapitalization: TextCapitalization.sentences,
-      onSaved: (value) => cidadao.doador = value,
-      decoration: InputDecoration(labelText: 'Doador'),
+  Widget _inputDoador(){
+    return ButtonBar(
+          alignment: MainAxisAlignment.start,
+          children: <Widget>[
+          Text('Você é doador?', style: new TextStyle(fontSize: 16.0),),
+          Radio(
+            value:'S',
+            groupValue: selectedIsDoador,
+            onChanged: (value) {
+              setState((){
+                selectedIsDoador = value;
+              });
+            },
+          ),
+          Text('Sim', style: new TextStyle(fontSize: 16.0),),
+          Radio(
+            value: 'N',
+            groupValue: selectedIsDoador,
+            onChanged: (value) {
+              setState((){
+                selectedIsDoador = value;
+              });
+            },
+          ),
+          Text('Não', style: new TextStyle(fontSize: 16.0),),
+       ],
     );
   }
 
@@ -291,14 +343,15 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
       children: <Widget>[
         Expanded(
          child: DropdownButton(
-            value: _myState,
+            value: _myState ?? cidadao.uf,
             items: getStateDropdown(stateList),
             hint: Text('Selecione o estado (UF)'),
             onChanged: (opt) {
               setState((){
                 /// We set to null in order to avoid duplicated values
                 /// Avoid: There should be exactly one item with [DropdownButton]'
-                _municipioSelected = null;
+                _municipioSelected = 'Selecione';
+                cidadao.cidade = 'Selecione';
                 _myState = opt;
               });
             },
@@ -336,8 +389,12 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
                   if (result.data != null) {
                     List<dynamic> municipios = result.data['obtenerCidadesFilteredByUF'];
 
+                    if(_myState != cidadao.uf && cidadao.cidade != "Selecione") {
+                      cidadao.cidade = "Selecione";
+                    }
+
                     return DropdownButton(
-                      value: _municipioSelected,
+                      value: (_municipioSelected != "Selecione") ? _municipioSelected : cidadao.cidade,
                       items: getMunicipiosDropdown(municipios),
                       hint: Text('Selecione o município'),
                       onChanged: (opt) {
@@ -390,7 +447,9 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
             onCompleted: (dynamic resultData) {
               ///if (resultData != null) {
               refetchQuery();
-              /*   Navigator.pushReplacementNamed(context, 'tabs');
+               showValidationsAlertMsg(context, 'Dados atualizados com sucesso!','');
+
+              /**
               } else {
                 showValidationsAlertMsg(context, 'Dados incorretos!',
                     'Revise por favor que todos os campos sejam completados.');
@@ -410,12 +469,12 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
                       "email": cidadao.email,
                       "contato": cidadao.contato,
                       "id_tipo_sanguineo": _selectedTipoSanguineo,
-                      "doador": cidadao.doador,
+                      "doador": selectedIsDoador,
                       "endereco": cidadao.endereco,
                       "numero": cidadao.numero,
                       "complemento": cidadao.complemento,
                       "bairro": cidadao.bairro,
-                      "cidade": _municipioSelected,
+                      "cidade": (_municipioSelected != 'Selecione') ? _municipioSelected : cidadao.cidade,
                       "uf": _myState,
                       "pais": cidadao.pais,
                       "cep": cidadao.cep
