@@ -5,6 +5,7 @@ import 'package:cndv/src/models/push_notification_model.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 
 
 /// Class Responsible for interacting with Firebase Cloud Messaging(FCM) REST API
@@ -51,18 +52,16 @@ class PushNotificationsProvider {
       );
     }
 
-    // User Mobile Phone Token
-    final token = await _firebaseMessaging.getToken();
-    print('=====FCM Token=====');
-    ///print(token);
-    /// TODO save to DB with user cpf
-
-
     _firebaseMessaging.configure(
         onMessage: onMessage,
         onBackgroundMessage: firebaseMessagingBackgroundHandler,
         onLaunch: onLaunch,
-        onResume: onResume);
+        onResume: onResume
+    );
+  }
+
+  Future<String> getDeviceToken() async{
+    return await _firebaseMessaging.getToken();
   }
 
   Future<dynamic> onMessage(Map<String, dynamic> message) {

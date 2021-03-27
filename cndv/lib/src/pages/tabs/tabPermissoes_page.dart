@@ -1,4 +1,7 @@
+import 'package:cndv/src/providers/push_notifications_provider.dart';
+import 'package:cndv/src/services/graphql/mutations/device_push_notification.dart';
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 
 class TabPermissoes extends StatefulWidget {
   TabPermissoes({Key key}) : super(key: key);
@@ -9,13 +12,15 @@ class TabPermissoes extends StatefulWidget {
 
 class _TabPermissoes extends State<TabPermissoes> {
 
-  bool _receivePushNotification = true;
+  bool _receivePushNotification = false;
   bool _receiveEmailWhenNewCampaign = true;
   bool _allowShareMedicalHistory = true;
   bool _shareMyDataToHelpVacineControl = true;
 
   @override
   Widget build(BuildContext context) {
+
+    final pushNotificationProvider = new PushNotificationsProvider();
 
     return Scaffold(
         backgroundColor: Color(0xffFFFFFF),
@@ -37,15 +42,37 @@ class _TabPermissoes extends State<TabPermissoes> {
                 child: Text('Mensagens', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
               ),
               Divider(),
-              SwitchListTile(
-                value: _receivePushNotification,
-                title: Text('Receber Push Notification'),
-                onChanged: ( value ) {
-                  setState(() {
-                    _receivePushNotification = value;
-                  });
-                }
-              ),
+              Mutation(
+                options: MutationOptions(
+                    document: gql(devicePushNotification.registerNewDevice),
+                    update: (GraphQLDataProxy cache, QueryResult result) {
+                    return cache;
+                },
+                  onCompleted: (dynamic resultData) {
+                      if (resultData != null) {
+                        print('ok was good');
+                      } else {
+                        print('implement GraphQL Node Query Side!');
+                      }
+                  }),
+                  builder: (RunMutation runMutation, QueryResult result) {
+                  return SwitchListTile(
+                    value: _receivePushNotification,
+                    title: Text('Receber Push Notification'),
+                    onChanged: ( value ) {
+
+                      pushNotificationProvider.getDeviceToken().then((value){
+                        print(value);
+                         /* runMutation({
+                          'dispositivo_token': value
+                          });*/
+                        });
+                      setState(() {
+                        _receivePushNotification = value;
+                      });
+                    }
+                  );
+                }),
               Divider(),
               SwitchListTile(
                   value: _receiveEmailWhenNewCampaign,
