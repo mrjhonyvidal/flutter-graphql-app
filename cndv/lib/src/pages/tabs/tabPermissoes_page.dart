@@ -1,7 +1,10 @@
+import 'package:cndv/src/helpers/show_validations_alert_msg.dart';
 import 'package:cndv/src/providers/push_notifications_provider.dart';
 import 'package:cndv/src/services/graphql/mutations/device_push_notification.dart';
+import 'package:cndv/src/storage/cndv_secure_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:provider/provider.dart';
 
 class TabPermissoes extends StatefulWidget {
   TabPermissoes({Key key}) : super(key: key);
@@ -21,6 +24,8 @@ class _TabPermissoes extends State<TabPermissoes> {
   Widget build(BuildContext context) {
 
     final pushNotificationProvider = new PushNotificationsProvider();
+    final cndvAuthSecureProvider = Provider.of<CNDVAuthSecureStorage>(context, listen: false);
+
 
     return Scaffold(
         backgroundColor: Color(0xffFFFFFF),
@@ -48,13 +53,19 @@ class _TabPermissoes extends State<TabPermissoes> {
                     update: (GraphQLDataProxy cache, QueryResult result) {
                     return cache;
                 },
-                  onCompleted: (dynamic resultData) {
+                onCompleted: (dynamic resultData) {
                       if (resultData != null) {
-                        print('ok was good');
+                        showValidationsAlertMsg(
+                            context,
+                            'Você receberá uma notificação cada vez que uma nova campanha seja criada para sua idade e na sua cidade.',
+                            '');
                       } else {
-                        print('implement GraphQL Node Query Side!');
+                        print('Erro ao cadastrar o push notification');
                       }
-                  }),
+                  },
+                onError: (err){
+                  print(err);
+                }),
                   builder: (RunMutation runMutation, QueryResult result) {
                   return SwitchListTile(
                     value: _receivePushNotification,
@@ -62,10 +73,13 @@ class _TabPermissoes extends State<TabPermissoes> {
                     onChanged: ( value ) {
 
                       pushNotificationProvider.getDeviceToken().then((value){
-                        print(value);
-                         /* runMutation({
-                          'dispositivo_token': value
-                          });*/
+                          runMutation({
+                          'input': {
+                            'cpf': cndvAuthSecureProvider.usuarioAcesso.cpf,
+                            'token': value,
+                            'tipo': 'CELULAR_ANDROID'
+                            }
+                          });
                         });
                       setState(() {
                         _receivePushNotification = value;

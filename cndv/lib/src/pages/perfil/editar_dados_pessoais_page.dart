@@ -466,7 +466,7 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
             onCompleted: (dynamic resultData) {
               ///if (resultData != null) {
               refetchQuery();
-               showValidationsAlertMsg(context, 'Dados atualizados com sucesso!','');
+               showValidationsAlertMsg(context, 'Dados atualizados!','');
 
               /**
               } else {

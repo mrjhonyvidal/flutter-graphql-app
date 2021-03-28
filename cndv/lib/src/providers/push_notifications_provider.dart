@@ -5,8 +5,6 @@ import 'package:cndv/src/models/push_notification_model.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-
 
 /// Class Responsible for interacting with Firebase Cloud Messaging(FCM) REST API
 class PushNotificationsProvider {

@@ -96,7 +96,9 @@ class _FormState extends State<Form> {
                       CNDVAuthSecureStorage.saveTokenAndInfo(
                           usuarioAcesso.autenticarUsuario.cpf,
                           usuarioAcesso.autenticarUsuario.nome,
-                          usuarioAcesso.autenticarUsuario.token);
+                          usuarioAcesso.autenticarUsuario.token
+                      );
+
                       Navigator.pushReplacementNamed(context, 'tabs');
                     } else {
                       showValidationsAlertMsg(
