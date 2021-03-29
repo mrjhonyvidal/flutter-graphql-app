@@ -1,6 +1,7 @@
 import 'package:cndv/src/helpers/show_validations_alert_msg.dart';
 import 'package:cndv/src/providers/push_notifications_provider.dart';
 import 'package:cndv/src/services/graphql/mutations/device_push_notification.dart';
+import 'package:cndv/src/shared_preferences/preferencias_usuario.dart';
 import 'package:cndv/src/storage/cndv_secure_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -15,17 +16,27 @@ class TabPermissoes extends StatefulWidget {
 
 class _TabPermissoes extends State<TabPermissoes> {
 
-  bool _receivePushNotification = false;
-  bool _receiveEmailWhenNewCampaign = true;
-  bool _allowShareMedicalHistory = true;
-  bool _shareMyDataToHelpVacineControl = true;
+  bool _receivePushNotification;
+  bool _receiveEmailWhenNewCampaign;
+  bool _allowShareMedicalHistory;
+  bool _shareMyDataToHelpVacineControl;
+
+  final prefs = new PreferenciaUsuario();
+
+  @override
+  void initState() {
+    super.initState();
+    _receivePushNotification = prefs.receivePushNotification;
+    _receiveEmailWhenNewCampaign = prefs.receiveEmailWhenNewCampaign;
+    _allowShareMedicalHistory = prefs.allowShareMedicalHistory;
+    _shareMyDataToHelpVacineControl = prefs.shareMyDataToHelpVacineControl;
+  }
 
   @override
   Widget build(BuildContext context) {
 
     final pushNotificationProvider = new PushNotificationsProvider();
     final cndvAuthSecureProvider = Provider.of<CNDVAuthSecureStorage>(context, listen: false);
-
 
     return Scaffold(
         backgroundColor: Color(0xffFFFFFF),
@@ -83,6 +94,7 @@ class _TabPermissoes extends State<TabPermissoes> {
                         });
                       setState(() {
                         _receivePushNotification = value;
+                        prefs.receivePushNotification = value;
                       });
                     }
                   );
@@ -94,6 +106,7 @@ class _TabPermissoes extends State<TabPermissoes> {
                   onChanged: ( value ) {
                     setState(() {
                       _receiveEmailWhenNewCampaign = value;
+                      prefs.receiveEmailWhenNewCampaign = value;
                     });
                   }
               ),
@@ -104,6 +117,7 @@ class _TabPermissoes extends State<TabPermissoes> {
                   onChanged: ( value ) {
                     setState(() {
                       _allowShareMedicalHistory = value;
+                      prefs.allowShareMedicalHistory = value;
                     });
                   }
               ),
@@ -119,6 +133,7 @@ class _TabPermissoes extends State<TabPermissoes> {
                   onChanged: ( value ) {
                     setState(() {
                       _shareMyDataToHelpVacineControl = value;
+                      prefs.shareMyDataToHelpVacineControl = value;
                     });
                   }
               ),
