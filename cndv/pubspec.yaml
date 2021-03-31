@@ -37,6 +37,7 @@ dependencies:
   firebase_core: ^0.5.0+1
   firebase_messaging: ^7.0.3
   graphql_flutter: ^4.0.1
+  graphql: ^4.0.0-beta
   google_maps_flutter: ^1.2.0
   geolocator: ^6.2.1
   package_info: ^2.0.0

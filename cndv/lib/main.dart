@@ -1,4 +1,5 @@
-import 'package:cndv/src/config/graphql_url_client.dart';
+import 'package:cndv/src/config/graphql_value_notifier.dart';
+import 'package:cndv/src/providers/CidadaoProvider.dart';
 import 'package:cndv/src/providers/push_notifications_provider.dart';
 import 'package:cndv/src/routes/routes.dart';
 import 'package:cndv/src/services/graphql/graphql_service.dart';
@@ -44,10 +45,9 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GraphQLProvider(
-      client: GraphQLCNDVClient.inititializeClient(),
+      client: GraphQLValueNotifier.inititializeClient(),
       child: MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (_) => new CarteiraCidadaoService()),
           ChangeNotifierProvider(create: (_) => new CNDVAuthSecureStorage()),
           ChangeNotifierProvider(create: (_) => new NoticiasService()),
         ],

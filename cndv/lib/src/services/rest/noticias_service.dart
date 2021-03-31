@@ -12,7 +12,7 @@ class NoticiasService with ChangeNotifier {
     this.getTopHeadlines();
   }
 
-  /// TODO check if this REST endpoint will be used in our app
+  /// REST Example using ChangeNotifier and notifyListeners
   getTopHeadlines() async {
     final url =
         '$_URL_NOTICIAS/top-headlines?apiKey=$_API_KEY&country=br&q=vacina&category=health';

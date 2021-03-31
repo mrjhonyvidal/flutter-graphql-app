@@ -1,9 +1,14 @@
 import 'package:cndv/src/models/campanhas_models.dart';
+import 'package:cndv/src/models/cidadao_dados_pessoais_models.dart';
 import 'package:cndv/src/pages/campanhas/campanha_detalhe_page.dart';
 import 'package:cndv/src/pages/campanhas/dialog_search_campanha.dart';
+import 'package:cndv/src/providers/CidadaoProvider.dart';
+import 'package:cndv/src/storage/cndv_secure_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cndv/src/services/graphql/queries/campanhas.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 
 void main() => runApp(new TabCampanhas());
@@ -35,12 +40,16 @@ class ListPage extends StatefulWidget {
 class _ListPageState extends State<ListPage> {
 
   VoidCallback refetchQuery;
+  Future<dynamic> _privateFutureInstance;
   List campanhas;
   int idade_inicio;
   int idade_final;
   String tipo;
   String uf;
   String cidade;
+  int cidadaosAge;
+  String cidadaoUF;
+  String cidadaoCidade;
 
   @override
   void initState() {
@@ -48,8 +57,39 @@ class _ListPageState extends State<ListPage> {
     super.initState();
   }
 
+  calculateAge(DateTime birthDate) {
+    DateTime currentDate = DateTime.now();
+    int age = currentDate.year - birthDate.year;
+    int monthCurrentDate = currentDate.month;
+    int monthBirthDate = birthDate.month;
+    if(monthBirthDate > monthCurrentDate){
+      age--;
+    }else if(monthCurrentDate == monthBirthDate){
+      int dayCurrentDate = currentDate.day;
+      int dayBirthDate = birthDate.day;
+      if (dayBirthDate > dayCurrentDate) {
+        age--;
+      }
+    }
+    return age;
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    final cndvAuthSecureProvider =
+    Provider.of<CNDVAuthSecureStorage>(context, listen: true);
+
+    //// TODO FIX why is being called so many times, alternatives
+    CidadaoProvider cidadaoProvider = CidadaoProvider(cndvAuthSecureProvider.usuarioAcesso.cpf);
+
+    cidadaoProvider.getDadosPessoais().then((result) {
+      setState(() {
+        cidadaosAge = calculateAge(DateTime.parse(result['obtenerDadosPessoais']['dt_nascimento']));
+        cidadaoUF = result['obtenerDadosPessoais']['cidade'];
+        cidadaoCidade = result['obtenerDadosPessoais']['uf'];
+      });
+    });
 
     ListTile makeListTile(SearchCampanhas campanha) => ListTile(
       contentPadding:
@@ -112,9 +152,9 @@ class _ListPageState extends State<ListPage> {
         options: QueryOptions(
             document: gql(Campanhas.getSearchCampanhas),
             variables: { 'input': {
-             "idade_inicio": (idade_inicio != null) ? idade_inicio : 80, /// TODO pass user age
-             "uf": (uf != null) ? uf : 'SP', /// TODO Pass user UF
-             "cidade": (cidade != null) ? cidade : "BARUERI" /// TODO pass user cidade
+             "idade_inicio": (idade_inicio != null) ? idade_inicio : cidadaosAge,
+              "uf": (uf != null) ? uf : cidadaoUF,
+             "cidade": (cidade != null) ? cidade : cidadaoCidade
               /*"idade_inicio": 30,
               "uf": 'SP',
               "cidade": "BARUERI"*/
