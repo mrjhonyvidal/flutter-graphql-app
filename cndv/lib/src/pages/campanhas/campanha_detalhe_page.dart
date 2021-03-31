@@ -3,7 +3,7 @@ import 'package:cndv/src/widgets/postos_saude_map.dart';
 import 'package:flutter/material.dart';
 
 class CampanhaDetalhe extends StatelessWidget {
-  final ObtenerCampanha campanha;
+  final SearchCampanhas campanha;
 
   CampanhaDetalhe({Key key, this.campanha}) : super(key: key);
   @override

@@ -1,7 +1,7 @@
 import 'package:cndv/src/config/graphql_url_client.dart';
 import 'package:cndv/src/providers/push_notifications_provider.dart';
 import 'package:cndv/src/routes/routes.dart';
-import 'package:cndv/src/services/graphql/carteira_cidadao_service.dart';
+import 'package:cndv/src/services/graphql/graphql_service.dart';
 import 'package:cndv/src/services/rest/noticias_service.dart';
 import 'package:cndv/src/shared_preferences/preferencias_usuario.dart';
 import 'package:cndv/src/storage/cndv_secure_storage.dart';
@@ -10,7 +10,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 
-import 'src/services/graphql/carteira_cidadao_service.dart';
+import 'src/services/graphql/graphql_service.dart';
 
 void main() async {
 

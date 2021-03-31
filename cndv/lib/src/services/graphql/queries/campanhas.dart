@@ -10,4 +10,15 @@ class Campanhas {
       descricao
     }
 }""";
+
+  static String getSearchCampanhas = """query searchCampanhas(\$input: CampanhasSearchInput) {
+      searchCampanhas(input: \$input){
+        	id
+          nome
+          idade_inicio
+          idade_final
+          cidade
+          uf
+      }
+  }""";
 }

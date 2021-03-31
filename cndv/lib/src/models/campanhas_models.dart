@@ -27,24 +27,24 @@ class CampanhasModel {
 
 class Data {
   Data({
-    this.obtenerCampanhas,
+    this.searchCampanhas,
   });
 
-  List<ObtenerCampanha> obtenerCampanhas;
+  List<SearchCampanhas> searchCampanhas;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        obtenerCampanhas: List<ObtenerCampanha>.from(
-            json["obtenerCampanhas"].map((x) => ObtenerCampanha.fromJson(x))),
+        searchCampanhas: List<SearchCampanhas>.from(
+            json["searchCampanhas"].map((x) => SearchCampanhas.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "obtenerCampanhas":
-            List<dynamic>.from(obtenerCampanhas.map((x) => x.toJson())),
+        "searchCampanhas":
+            List<dynamic>.from(searchCampanhas.map((x) => x.toJson())),
       };
 }
 
-class ObtenerCampanha {
-  ObtenerCampanha({
+class SearchCampanhas {
+  SearchCampanhas({
     this.id,
     this.nome,
     this.idadeInicio,
@@ -62,8 +62,8 @@ class ObtenerCampanha {
   String uf;
   String descricao;
 
-  factory ObtenerCampanha.fromJson(Map<String, dynamic> json) =>
-      ObtenerCampanha(
+  factory SearchCampanhas.fromJson(Map<String, dynamic> json) =>
+      SearchCampanhas(
         id: json["id"],
         nome: json["nome"],
         idadeInicio: json["idade_inicio"],
