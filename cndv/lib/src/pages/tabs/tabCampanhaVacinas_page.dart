@@ -257,12 +257,15 @@ class _ListPageState extends State<ListPage> {
   }
 
   Future _openDialogFilterCampaign() async {
-    SearchCampanhasParameters paramenters = await Navigator.of(context).push(
+    SearchCampanhasParameters resultFromSearchFilters = await Navigator.of(context).push(
         new MaterialPageRoute<SearchCampanhasParameters>(builder: (BuildContext context) {
           return new DialogSearchCampanha();
         }, fullscreenDialog: true));
 
     // After Dialog Search Campanha results come back we update our List of Campanhas Widget
-    setState((){});
+    setState((){
+      idade_inicio = resultFromSearchFilters.idade_inicio.toInt();
+      idade_final = resultFromSearchFilters.idade_final.toInt();
+    });
   }
 }

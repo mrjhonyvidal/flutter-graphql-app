@@ -10,14 +10,32 @@ class DialogSearchCampanha extends StatefulWidget {
 
 class _DialogSearchCampanhaState extends State<DialogSearchCampanha> {
 
-  final _formKey = GlobalKey<FormState>();
-  int _selectedVacina = 1;
+  /// GraphQL Callback
+  VoidCallback refetchQuery;
 
-  List stateList = ["Selecione","AC","AL","AM","AP","BA","CE","DF","ES","GO","MA","MG","MS","MT","PA","PB","PE","PI","PR","RJ","RN","RO","RR","RS","SC","SE","SP","TO"];
+  /// Forms Inputs
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController idadeInicioFieldController = TextEditingController();
+  TextEditingController idadeFinalFieldController = TextEditingController();
+
+  int _selectedVacina = 1;
+  List stateList = ["Selecione","AC","AL","AM","AP","BA","CE","DF",
+    "ES","GO","MA","MG","MS","MT","PA",
+    "PB","PE","PI","PR","RJ","RN","RO",
+    "RR","RS","SC","SE","SP","TO"];
+
   var _myState = 'Selecione';
   var _municipioSelected = 'Selecione';
   List<DropdownMenuItem<int>> tiposVacinas = [];
-  VoidCallback refetchQuery;
+
+  bool _canSave = false;
+  SearchCampanhasParameters _searchCampanhaParamModel = new SearchCampanhasParameters.empty();
+
+
+  void _setCanSave(bool save) {
+    if (save != _canSave)
+      setState(() => _canSave = save);
+  }
 
   List<DropdownMenuItem<String>> getMunicipiosDropdown(List municipios) {
     List<DropdownMenuItem<String>> listOfMunicipios = new List();
@@ -127,20 +145,11 @@ class _DialogSearchCampanhaState extends State<DialogSearchCampanha> {
     ));
   }
 
-  bool _canSave = false;
-  SearchCampanhasParameters _data = new SearchCampanhasParameters.empty();
-
-  void _setCanSave(bool save) {
-    if (save != _canSave)
-      setState(() => _canSave = save);
-  }
-
   @override
   Widget build(BuildContext context) {
 
     /// Initialize dropdown information
     loadTipoVacinas();
-
     final ThemeData theme = Theme.of(context);
 
     return new Scaffold(
@@ -150,7 +159,7 @@ class _DialogSearchCampanhaState extends State<DialogSearchCampanha> {
           actions: <Widget> [
             new FlatButton(
                 child: new Text('Buscar', style: theme.textTheme.body1.copyWith(color: _canSave ? Colors.white : new Color.fromRGBO(255, 255, 255, 0.5))),
-                onPressed: _canSave ? () { Navigator.of(context).pop(_data); } : null
+                onPressed: _canSave ? () { _sendSearchFilterParametersToCampanhasPage(context); } : null
             )
           ]
       ),
@@ -170,6 +179,7 @@ class _DialogSearchCampanhaState extends State<DialogSearchCampanha> {
               }, isExpanded: true,
             ),
             new TextField(
+              controller: idadeInicioFieldController,
               decoration: const InputDecoration(
                 labelText: "Idade Inicio",
               ),
@@ -177,8 +187,12 @@ class _DialogSearchCampanhaState extends State<DialogSearchCampanha> {
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.digitsOnly
               ],
+              onChanged: (_) {
+                _setCanSave(true);
+              },
             ),
             new TextField(
+              controller: idadeFinalFieldController,
               decoration: const InputDecoration(
                 labelText: "Idade Final",
               ),
@@ -288,6 +302,13 @@ class _DialogSearchCampanhaState extends State<DialogSearchCampanha> {
           ]);
     }
   }
+
+  void _sendSearchFilterParametersToCampanhasPage( BuildContext context) {
+    _searchCampanhaParamModel.idade_inicio = (idadeInicioFieldController.text != "") ? int.parse(idadeInicioFieldController.text) : _searchCampanhaParamModel.idade_inicio;
+    _searchCampanhaParamModel.idade_final = (idadeFinalFieldController.text != "") ? int.parse(idadeFinalFieldController.text) : _searchCampanhaParamModel.idade_final;
+    Navigator.pop(context, _searchCampanhaParamModel);
+  }
+
 }
 
 class SearchCampanhasParameters {
@@ -305,10 +326,10 @@ class SearchCampanhasParameters {
       this.uf);
 
   SearchCampanhasParameters.empty() {
-    tipo = "";
+    tipo = null;
     idade_inicio = 0;
     idade_final= 199;
-    cidade = "";
-    uf = "";
+    cidade = null;
+    uf = null;
   }
 }
