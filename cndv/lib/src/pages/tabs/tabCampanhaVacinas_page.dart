@@ -1,5 +1,4 @@
 import 'package:cndv/src/models/campanhas_models.dart';
-import 'package:cndv/src/models/cidadao_dados_pessoais_models.dart';
 import 'package:cndv/src/pages/campanhas/campanha_detalhe_page.dart';
 import 'package:cndv/src/pages/campanhas/dialog_search_campanha.dart';
 import 'package:cndv/src/providers/CidadaoProvider.dart';
@@ -7,7 +6,6 @@ import 'package:cndv/src/storage/cndv_secure_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cndv/src/services/graphql/queries/campanhas.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 
@@ -40,56 +38,35 @@ class ListPage extends StatefulWidget {
 class _ListPageState extends State<ListPage> {
 
   VoidCallback refetchQuery;
-  Future<dynamic> _privateFutureInstance;
   List campanhas;
   int idade_inicio;
   int idade_final;
   String tipo;
   String uf;
   String cidade;
-  int cidadaosAge;
-  String cidadaoUF;
-  String cidadaoCidade;
+  int _cidadaosAge;
+  String _cidadaoUF;
+  String _cidadaoCidade;
 
   @override
   void initState() {
-    //lessons = getLessons();
     super.initState();
-  }
 
-  calculateAge(DateTime birthDate) {
-    DateTime currentDate = DateTime.now();
-    int age = currentDate.year - birthDate.year;
-    int monthCurrentDate = currentDate.month;
-    int monthBirthDate = birthDate.month;
-    if(monthBirthDate > monthCurrentDate){
-      age--;
-    }else if(monthCurrentDate == monthBirthDate){
-      int dayCurrentDate = currentDate.day;
-      int dayBirthDate = birthDate.day;
-      if (dayBirthDate > dayCurrentDate) {
-        age--;
-      }
-    }
-    return age;
+    final cndvAuthSecureProvider =
+    Provider.of<CNDVAuthSecureStorage>(context, listen: false);
+    CidadaoProvider cidadaoProvider = CidadaoProvider(cndvAuthSecureProvider.usuarioAcesso.cpf);
+
+    cidadaoProvider.getDadosPessoais().then((result) {
+      setState((){
+        _cidadaosAge = calculateAge(DateTime.parse(result['obtenerDadosPessoais']['dt_nascimento']));
+        _cidadaoUF = result['obtenerDadosPessoais']['uf'];
+        _cidadaoCidade = result['obtenerDadosPessoais']['cidade'];
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-
-    final cndvAuthSecureProvider =
-    Provider.of<CNDVAuthSecureStorage>(context, listen: true);
-
-    //// TODO FIX why is being called so many times, alternatives
-    CidadaoProvider cidadaoProvider = CidadaoProvider(cndvAuthSecureProvider.usuarioAcesso.cpf);
-
-    cidadaoProvider.getDadosPessoais().then((result) {
-      setState(() {
-        cidadaosAge = calculateAge(DateTime.parse(result['obtenerDadosPessoais']['dt_nascimento']));
-        cidadaoUF = result['obtenerDadosPessoais']['cidade'];
-        cidadaoCidade = result['obtenerDadosPessoais']['uf'];
-      });
-    });
 
     ListTile makeListTile(SearchCampanhas campanha) => ListTile(
       contentPadding:
@@ -152,12 +129,9 @@ class _ListPageState extends State<ListPage> {
         options: QueryOptions(
             document: gql(Campanhas.getSearchCampanhas),
             variables: { 'input': {
-             "idade_inicio": (idade_inicio != null) ? idade_inicio : cidadaosAge,
-              "uf": (uf != null) ? uf : cidadaoUF,
-             "cidade": (cidade != null) ? cidade : cidadaoCidade
-              /*"idade_inicio": 30,
-              "uf": 'SP',
-              "cidade": "BARUERI"*/
+             "idade_inicio": (idade_inicio != null) ? idade_inicio : _cidadaosAge,
+              "uf": (uf != null) ? uf : _cidadaoUF,
+             "cidade": (cidade != null) ? cidade : _cidadaoCidade
             }}
           ),
           builder: (QueryResult result,
@@ -179,6 +153,7 @@ class _ListPageState extends State<ListPage> {
                 final List<dynamic> completeCampanhas = result.data['searchCampanhas'] as List<dynamic>;
 
                 if (completeCampanhas != null && completeCampanhas.length > 0) {
+
                   List campanhasList = completeCampanhas.map((campanha) => new SearchCampanhas(
                     id: campanha['id'],
                     nome: campanha['nome'],
@@ -206,7 +181,7 @@ class _ListPageState extends State<ListPage> {
                           child: Column(children: <Widget>[
                             Icon(Icons.calendar_today_outlined),
                             SizedBox(height: 10),
-                            Text('Nenhuma campanha ativa no momento.',
+                            Text('Nenhuma campanha ativa no momento para a sua faixa etária e localização.',
                                 style: TextStyle(
                                     fontSize: 18, color: Colors.black54)),
                           ])));
@@ -264,6 +239,23 @@ class _ListPageState extends State<ListPage> {
     );
   }
 
+  calculateAge(DateTime birthDate) {
+    DateTime currentDate = DateTime.now();
+    int age = currentDate.year - birthDate.year;
+    int monthCurrentDate = currentDate.month;
+    int monthBirthDate = birthDate.month;
+    if(monthBirthDate > monthCurrentDate){
+      age--;
+    }else if(monthCurrentDate == monthBirthDate){
+      int dayCurrentDate = currentDate.day;
+      int dayBirthDate = birthDate.day;
+      if (dayBirthDate > dayCurrentDate) {
+        age--;
+      }
+    }
+    return age;
+  }
+
   Future _openDialogFilterCampaign() async {
     SearchCampanhasParameters paramenters = await Navigator.of(context).push(
         new MaterialPageRoute<SearchCampanhasParameters>(builder: (BuildContext context) {
@@ -271,8 +263,6 @@ class _ListPageState extends State<ListPage> {
         }, fullscreenDialog: true));
 
     // After Dialog Search Campanha results come back we update our List of Campanhas Widget
-    setState((){
-
-    });
+    setState((){});
   }
 }

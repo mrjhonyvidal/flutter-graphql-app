@@ -251,8 +251,6 @@ class _EditarDadosPessoais extends State<EditarDadosPessoais> {
   }
 
   Widget _inputTipoSanguineo(){
-    print(_selectedTipoSanguineo);
-    print(cidadao.idTipoSanguineo);
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
