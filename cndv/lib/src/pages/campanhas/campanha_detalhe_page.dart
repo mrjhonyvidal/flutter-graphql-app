@@ -49,14 +49,6 @@ class CampanhaDetalhe extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Expanded(flex: 1, child: levelIndicator),
-            /*Expanded(
-                flex: 6,
-                child: Padding(
-                    padding: EdgeInsets.only(left: 10.0),
-                    child: Text(
-                      campanha.cidade,
-                      style: TextStyle(color: Colors.white),
-                    ))),*/
             Expanded(flex: 2, child: faixaEtaria),
           ],
         ),
@@ -96,6 +88,20 @@ class CampanhaDetalhe extends StatelessWidget {
       ],
     );
 
+    final cidadeInfo = Row(
+      children: <Widget>[
+        Expanded(
+            flex: 2,
+            child: Padding(
+                padding: EdgeInsets.only(left: 0.0),
+                child: Text(
+                  campanha.cidade + ', ' + campanha.uf,
+                  style: TextStyle(color: Colors.blueAccent),
+                ))),
+        SizedBox( height: 50 ),
+      ],
+    );
+
     final bottomContentText = Text(
       campanha.descricao,
       style: TextStyle(fontSize: 18.0, color: Colors.black),
@@ -123,7 +129,10 @@ class CampanhaDetalhe extends StatelessWidget {
         padding: EdgeInsets.all(40.0),
         child: Center(
               child: Column(
-                children: <Widget>[bottomContentText, readButton],
+                children: <Widget>[
+                  cidadeInfo,
+                  bottomContentText,
+                  readButton],
               ),
             ),
           ),

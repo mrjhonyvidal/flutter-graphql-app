@@ -18,7 +18,6 @@ class _DialogSearchCampanhaState extends State<DialogSearchCampanha> {
   TextEditingController idadeInicioFieldController = TextEditingController();
   TextEditingController idadeFinalFieldController = TextEditingController();
 
-  int _selectedVacina = 1;
   List stateList = ["Selecione","AC","AL","AM","AP","BA","CE","DF",
     "ES","GO","MA","MG","MS","MT","PA",
     "PB","PE","PI","PR","RJ","RN","RO",
@@ -26,6 +25,7 @@ class _DialogSearchCampanhaState extends State<DialogSearchCampanha> {
 
   var _myState = 'Selecione';
   var _municipioSelected = 'Selecione';
+  var _selectedVacina = 0;
   List<DropdownMenuItem<int>> tiposVacinas = [];
 
   bool _canSave = false;
@@ -67,6 +67,10 @@ class _DialogSearchCampanhaState extends State<DialogSearchCampanha> {
 
   void loadTipoVacinas() {
     tiposVacinas = [];
+    tiposVacinas.add(new DropdownMenuItem(
+      child: new Text('Selecione todas as vacinas'),
+      value: 0,
+    ));
     tiposVacinas.add(new DropdownMenuItem(
       child: new Text('BCG ID'),
       value: 1,
@@ -168,6 +172,9 @@ class _DialogSearchCampanhaState extends State<DialogSearchCampanha> {
         child: new ListView(
           padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
           children: <Widget>[
+            Text(
+              'Selecione abaixo alguns filtros que você gostaria de  aplicar a busca de campanhas, não é preciso selecionar todos.',
+            ),
             new DropdownButton(
               hint: Text('Selecione tipo de vacina'),
               items: tiposVacinas,
@@ -175,6 +182,7 @@ class _DialogSearchCampanhaState extends State<DialogSearchCampanha> {
               onChanged: (value) {
                 setState(() {
                   _selectedVacina = value;
+                  _canSave = true;
                 });
               }, isExpanded: true,
             ),
@@ -227,6 +235,7 @@ class _DialogSearchCampanhaState extends State<DialogSearchCampanha> {
                   /// Avoid: There should be exactly one item with [DropdownButton]'
                   _municipioSelected = 'Selecione';
                   _myState = opt;
+                  _canSave = true;
                 });
               },
               isExpanded: true,
@@ -275,6 +284,7 @@ class _DialogSearchCampanhaState extends State<DialogSearchCampanha> {
                       onChanged: (opt) {
                         setState(() {
                           _municipioSelected = opt;
+                          _canSave = true;
                         });
                       },
                       isExpanded: true,
@@ -306,13 +316,16 @@ class _DialogSearchCampanhaState extends State<DialogSearchCampanha> {
   void _sendSearchFilterParametersToCampanhasPage( BuildContext context) {
     _searchCampanhaParamModel.idade_inicio = (idadeInicioFieldController.text != "") ? int.parse(idadeInicioFieldController.text) : _searchCampanhaParamModel.idade_inicio;
     _searchCampanhaParamModel.idade_final = (idadeFinalFieldController.text != "") ? int.parse(idadeFinalFieldController.text) : _searchCampanhaParamModel.idade_final;
+    _searchCampanhaParamModel.uf = (_myState != "Selecione") ? _myState : null;
+    _searchCampanhaParamModel.cidade = (_municipioSelected != "Selecione") ? _municipioSelected : null;
+    _searchCampanhaParamModel.tipo = (_selectedVacina != 0) ? _selectedVacina : null;
     Navigator.pop(context, _searchCampanhaParamModel);
   }
 
 }
 
 class SearchCampanhasParameters {
-  String tipo;
+  int tipo;
   int idade_inicio;
   int idade_final;
   String cidade;

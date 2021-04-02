@@ -41,7 +41,7 @@ class _ListPageState extends State<ListPage> {
   List campanhas;
   int idade_inicio;
   int idade_final;
-  String tipo;
+  int tipo;
   String uf;
   String cidade;
   int _cidadaosAge;
@@ -130,8 +130,10 @@ class _ListPageState extends State<ListPage> {
             document: gql(Campanhas.getSearchCampanhas),
             variables: { 'input': {
              "idade_inicio": (idade_inicio != null) ? idade_inicio : _cidadaosAge,
-              "uf": (uf != null) ? uf : _cidadaoUF,
-             "cidade": (cidade != null) ? cidade : _cidadaoCidade
+             "idade_final": (idade_final != 199) ? idade_final : 199,
+             "uf": (uf != null) ? uf : _cidadaoUF,
+             "cidade": (cidade != null) ? cidade : _cidadaoCidade,
+             "tipo": (tipo != null) ? tipo : null
             }}
           ),
           builder: (QueryResult result,
@@ -266,6 +268,9 @@ class _ListPageState extends State<ListPage> {
     setState((){
       idade_inicio = resultFromSearchFilters.idade_inicio.toInt();
       idade_final = resultFromSearchFilters.idade_final.toInt();
+      tipo = resultFromSearchFilters.tipo;
+      cidade = resultFromSearchFilters.cidade;
+      uf = resultFromSearchFilters.uf;
     });
   }
 }
