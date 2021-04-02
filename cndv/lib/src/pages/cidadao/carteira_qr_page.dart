@@ -17,7 +17,7 @@ class CarteiraQR extends StatelessWidget {
               child: Text('Escanei o código abaixo para mostrar seus dados pessoais e seu controle de vacinas.', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
             ),
             QrImage(
-              data: "Seu cadastro de vacinas está ok! Siga incentivando e apoiando #VacinaSIM. Muito obrigado!",
+              data: "Seu cadastro de vacinas está ok! Siga incentivando e apoiando #VacinaSim. Muito obrigado!",
               size: 250,
             ),
           ])),

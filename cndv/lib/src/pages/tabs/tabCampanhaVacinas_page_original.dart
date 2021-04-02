@@ -45,11 +45,7 @@ class _TabCampanhaVacinas extends State<TabCampanhaVacinas> {
                       {VoidCallback refetch, FetchMore fetchMore}) {
                     refetchQuery = refetch;
                     if (result.hasException) {
-                      return Text(
-                        result.exception.toString(),
-                        style: TextStyle(
-                            color: Colors.black54, fontWeight: FontWeight.w600),
-                      );
+                      return Text('Verifique por favor sua conexão de internet');
                     }
                     if (result.isLoading) {
                       return Center(child: CircularProgressIndicator());

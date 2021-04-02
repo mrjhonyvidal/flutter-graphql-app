@@ -54,12 +54,7 @@ class _TabCarteiraMedica extends State<TabCarteiraMedica> {
                               {VoidCallback refetch, FetchMore fetchMore}) {
                             refetchQuery = refetch;
                             if (result.hasException) {
-                              return Text(
-                                result.exception.toString(),
-                                style: TextStyle(
-                                    color: Colors.black54,
-                                    fontWeight: FontWeight.w600),
-                              );
+                              return Text('O histórico não se encontra disponível, verifique por favor sua conexão de internet');
                             }
 
                             if (result.isLoading) {
