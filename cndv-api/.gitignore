@@ -1,0 +1,7 @@
+node_modules
+.idea
+env/
+env/qa.env
+newrelic_agent.log
+service-account.json
+.idea/

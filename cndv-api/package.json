@@ -1,0 +1,25 @@
+{
+  "name": "cndv-api",
+  "version": "1.0.0",
+  "description": "API for CNDV",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon . --port 4500"
+  },
+  "repository": "git@github.com:gpfgv/cndv-api.git",
+  "author": "Jhony Vidal <mrjhonyvidal@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "apollo-server": "^2.21.0",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^8.2.0",
+    "google-auth-library": "^7.0.2",
+    "googleapis": "^67.1.1",
+    "graphql": "^15.5.0",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.2.5",
+    "newrelic": "^7.1.2",
+    "nodemon": "^2.0.7"
+  }
+}
